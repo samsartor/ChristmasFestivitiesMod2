@@ -18,19 +18,22 @@ public class Festivities
 	@Instance("Festivities")
 	public static Festivities instance;
 
-	private static Item magicCandy;
+	public static Item magicCandy;
+	public static Item candyCane;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		System.out.println("Loading Items");
-		magicCandy = new Item(2601).setMaxStackSize(16).setUnlocalizedName("magicCandy").setTextureName("festivities:magicCandy").setCreativeTab(CreativeTabs.tabMisc);
+		magicCandy = new Item(2601).setUnlocalizedName("magicCandy").setTextureName("festivities:magicCandy").setCreativeTab(CreativeTabs.tabMisc);
 		GameRegistry.registerItem(magicCandy, "magicCandy");
+		candyCane = new Item(2602).setUnlocalizedName("candyCane").setTextureName("festivities:candyCane").setCreativeTab(CreativeTabs.tabFood);
+		GameRegistry.registerItem(candyCane, "candyCane");
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
 		LanguageRegistry.addName(magicCandy, "Magic Candy");
+		LanguageRegistry.addName(candyCane, "Candy Cane");
 	}
 }
