@@ -12,11 +12,17 @@ import net.minecraft.world.World;
 public class BlockCandyLog extends Block
 {    
     @SideOnly(Side.CLIENT)
-	private Icon side;
+	private Icon dlSide;
     @SideOnly(Side.CLIENT)
-	private Icon rside;
+	private Icon urSide;
     @SideOnly(Side.CLIENT)
-	private Icon end;
+	private Icon drSide;
+    @SideOnly(Side.CLIENT)
+	private Icon ulSide;
+    @SideOnly(Side.CLIENT)
+	private Icon rEnd;
+    @SideOnly(Side.CLIENT)
+	private Icon lEnd;
 	
 	public BlockCandyLog(int par1)
 	{
@@ -24,22 +30,39 @@ public class BlockCandyLog extends Block
 	}
 
     @SideOnly(Side.CLIENT)
-	protected Icon getSideIcon(int l, boolean f)
+	protected Icon getSideIcon(int l, int d)
 	{
-    	if (f)
+    	if (d == -2)
     	{
-    		return this.rside;
+    		return this.urSide;
     	}
-    	else
+    	if (d == -1)
     	{
-    		return this.rside;
+    		return this.drSide;
     	}
+    	if (d == 1)
+    	{
+    		return this.dlSide;
+    	}
+    	if (d == 2)
+    	{
+    		return this.ulSide;
+    	}
+    	return null;
 	}   
 	
     @SideOnly(Side.CLIENT)
-    protected Icon getEndIcon(int l)
+    protected Icon getEndIcon(int l, int d)
     {
-        return this.end;
+    	if (d == -1)
+    	{
+            return this.rEnd;
+    	}
+    	if (d == 1)
+    	{
+    		 return this.lEnd;
+    	}
+    	return null;
     }
     
     /**
@@ -47,7 +70,7 @@ public class BlockCandyLog extends Block
      */
     public int getRenderType()
     {
-        return 31;
+        return 0;
     }
 
     /**
@@ -90,25 +113,63 @@ public class BlockCandyLog extends Block
         {
         	if (s == 0 || s== 1)
         	{
-        		return this.getEndIcon(l);
+        		return this.getEndIcon(l, 1);
         	}
-    		return this.getSideIcon(l, s == 2 || s == 4);
+    		return this.getSideIcon(l, 1);
         }
         if (k == 4)
         {
-        	if (s == 4 || s== 5)
+        	if (s == 4)
         	{
-        		return this.getEndIcon(l);
+        		return this.getEndIcon(l, -1);
         	}
-    		return this.getSideIcon(l, s == 0 || s == 3);
+        	if (s == 5)
+        	{
+        		return this.getEndIcon(l, 1);
+        	}
+        	if (s == 0)
+        	{
+        		return this.getSideIcon(l, -2);
+        	}
+        	if (s == 1)
+        	{
+        		return this.getSideIcon(l, 1);
+        	}
+        	if (s == 2)
+        	{
+        		return this.getSideIcon(l, 2);
+        	}
+        	if (s == 3)
+        	{
+        		return this.getSideIcon(l, 1);
+        	}
         }        
         if (k == 8)
         {
-        	if (s == 2 || s== 3)
+        	if (s == 2)
         	{
-        		return this.getEndIcon(l);
+        		return this.getEndIcon(l, 1);
         	}
-    		return this.getSideIcon(l, s == 0 || s == 5);
+        	if (s == 3)
+        	{
+        		return this.getEndIcon(l, -1);
+        	}
+        	if (s == 0)
+        	{
+        		return this.getSideIcon(l, 2);
+        	}
+        	if (s == 1)
+        	{
+        		return this.getSideIcon(l, -2);
+        	}
+        	if (s == 4)
+        	{
+        		return this.getSideIcon(l, 2);
+        	}
+        	if (s == 5)
+        	{
+        		return this.getSideIcon(l, 1);
+        	}
         }
         return null;
     }
@@ -116,8 +177,11 @@ public class BlockCandyLog extends Block
     @SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister reg)
     {
-		this.side = reg.registerIcon(this.getTextureName() + "_side");
-		this.rside = reg.registerIcon(this.getTextureName() + "_rside");
-		this.end = reg.registerIcon(this.getTextureName() + "_top");
+		this.dlSide = reg.registerIcon(this.getTextureName() + "_DLside");
+		this.ulSide = reg.registerIcon(this.getTextureName() + "_ULside");
+		this.drSide = reg.registerIcon(this.getTextureName() + "_DRside");
+		this.urSide = reg.registerIcon(this.getTextureName() + "_URside");
+		this.rEnd = reg.registerIcon(this.getTextureName() + "_Rend");
+		this.lEnd = reg.registerIcon(this.getTextureName() + "_Lend");
     }
 }
