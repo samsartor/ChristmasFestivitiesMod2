@@ -14,6 +14,8 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import eekysam.festivities.block.BlockCandyLog;
+import eekysam.festivities.block.BlockSnowGlobe;
+import eekysam.festivities.tile.TileEntitySnowGlobe;
 
 @Mod(modid = "festivities", name = "festivities", version = "0.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -25,6 +27,7 @@ public class Festivities
 	public static Item magicCandy;
 	public static Item candyCane;
 	public static Block candyLog;
+	public static Block snowGlobe;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -35,6 +38,9 @@ public class Festivities
 		GameRegistry.registerItem(candyCane, "candyCane");
 		candyLog = new BlockCandyLog(2401).setCreativeTab(CreativeTabs.tabBlock).setUnlocalizedName("candyLog").setTextureName("festivities:candyLog");
 		GameRegistry.registerBlock(candyLog, "candyLog");
+		snowGlobe = new BlockSnowGlobe(2402, Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowGlobe");
+		GameRegistry.registerBlock(snowGlobe, "snowGlobe");
+		GameRegistry.registerTileEntity(TileEntitySnowGlobe.class, "snowGlobe");
 	}
 
 	@EventHandler
