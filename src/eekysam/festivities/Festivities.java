@@ -8,14 +8,15 @@ import net.minecraft.item.Item;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import eekysam.festivities.block.BlockCandyLog;
-import eekysam.festivities.block.BlockSnowGlobe;
-import eekysam.festivities.tile.TileEntitySnowGlobe;
+import eekysam.festivities.block.BlockSnowglobe;
+import eekysam.festivities.tile.TileEntitySnowglobe;
 
 @Mod(modid = "festivities", name = "festivities", version = "0.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -23,11 +24,14 @@ public class Festivities
 {
 	@Instance("Festivities")
 	public static Festivities instance;
-	
+
 	public static Item magicCandy;
 	public static Item candyCane;
 	public static Block candyLog;
-	public static Block snowGlobe;
+	public static Block snowglobe;
+
+	@SidedProxy(modId = "festivities", clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
+	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -38,14 +42,15 @@ public class Festivities
 		GameRegistry.registerItem(candyCane, "candyCane");
 		candyLog = new BlockCandyLog(2401).setCreativeTab(CreativeTabs.tabBlock).setUnlocalizedName("candyLog").setTextureName("festivities:candyLog");
 		GameRegistry.registerBlock(candyLog, "candyLog");
-		snowGlobe = new BlockSnowGlobe(2402, Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowGlobe");
-		GameRegistry.registerBlock(snowGlobe, "snowGlobe");
-		GameRegistry.registerTileEntity(TileEntitySnowGlobe.class, "snowGlobe");
+		snowglobe = new BlockSnowglobe(2402, Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowglobe");
+		GameRegistry.registerBlock(snowglobe, "snowglobe");
+		GameRegistry.registerTileEntity(TileEntitySnowglobe.class, "snowglobe");
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
+		this.proxy.registerRenderers();
 		LanguageRegistry.addName(magicCandy, "Magic Candy");
 		LanguageRegistry.addName(candyCane, "Candy Cane");
 		LanguageRegistry.addName(candyLog, "Candy Log");
