@@ -12,6 +12,6 @@ public class TileEntitySnowglobe extends TileEntity
 	{
 		this.blockType = block;
 		this.worldObj = world;
-		this.type = this.worldObj.rand.nextInt(16);
+		this.type = this.worldObj.rand.nextInt(SnowglobeScene.list.size());
 	}
 }

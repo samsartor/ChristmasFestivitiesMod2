@@ -3,6 +3,7 @@ package eekysam.festivities.client.render.tileEntity;
 import org.lwjgl.opengl.GL11;
 
 import eekysam.festivities.Festivities;
+import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -26,14 +27,8 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
         int l2 = l / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)l1, (float)l2); 
         
-        if (globe.type > 8)
-        {
-        	this.bindTexture(new ResourceLocation("festivities","textures/snowglobe/scene_candyWorld.png"));
-        }
-        else
-        {
-        	this.bindTexture(new ResourceLocation("festivities","textures/snowglobe/scene_snowWorld.png"));
-        }
+    	this.bindTexture(SnowglobeScene.list.get(globe.type).getResource());
+        	
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		t.startDrawingQuads();
