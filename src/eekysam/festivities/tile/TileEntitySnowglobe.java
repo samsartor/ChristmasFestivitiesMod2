@@ -1,6 +1,9 @@
 package eekysam.festivities.tile;
 
 import net.minecraft.block.BlockContainer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -19,12 +22,14 @@ public class TileEntitySnowglobe extends TileEntity
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
+		tag.setShort("scene", (short) this.type);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
+		this.type = tag.getShort("scene");
 	}
 	
 	public Packet getDescriptionPacket() 
