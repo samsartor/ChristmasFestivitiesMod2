@@ -1,5 +1,6 @@
 package eekysam.festivities.block;
 
+import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -29,7 +30,7 @@ public class BlockSnowglobe extends BlockContainer
 		if (world.isRemote)
 		{
 			TileEntitySnowglobe t = (TileEntitySnowglobe) world.getBlockTileEntity(par2, par3, par4);
-			t.type = 1;
+			t.type = world.rand.nextInt(SnowglobeScene.list.size());
 			t.onChange();
 		}
 		return true;
