@@ -15,7 +15,7 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 {
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float k)
 	{
-		Tessellator t = Tessellator.instance;
+		Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 		
@@ -31,7 +31,7 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
         	
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
-		t.startDrawingQuads();
+		tess.startDrawingQuads();
 		//t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
 		
 		float X = (1) / 16.0F;
@@ -47,14 +47,14 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 			float Y = (i * 2 + 2) / 16.0F;
 			float u = (14 * i) / 98.0F;
 			
-			t.addVertexWithUV(X, Y, Z, u, v);
-			t.addVertexWithUV(X + W, Y, Z, u + U, v);
-			t.addVertexWithUV(X + W, Y, Z + H, u + U, v + V);
-			t.addVertexWithUV(X, Y, Z + H, u, v + V);
+			tess.addVertexWithUV(X, Y, Z, u, v);
+			tess.addVertexWithUV(X + W, Y, Z, u + U, v);
+			tess.addVertexWithUV(X + W, Y, Z + H, u + U, v + V);
+			tess.addVertexWithUV(X, Y, Z + H, u, v + V);
 		}
 		
-		t.draw();
-		t.startDrawingQuads();
+		tess.draw();
+		tess.startDrawingQuads();
 		//t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
 		
 		float Y = (2) / 16.0F;
@@ -70,14 +70,14 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 			Z = (i * 2 + 2) / 16.0F;
 			float u = (14 * i) / 98.0F;
 			
-			t.addVertexWithUV(X, Y + H, Z, u, v);
-			t.addVertexWithUV(X + W, Y + H, Z, u + U, v);
-			t.addVertexWithUV(X + W, Y, Z, u + U, v + V);
-			t.addVertexWithUV(X, Y, Z, u, v + V);
+			tess.addVertexWithUV(X, Y + H, Z, u, v);
+			tess.addVertexWithUV(X + W, Y + H, Z, u + U, v);
+			tess.addVertexWithUV(X + W, Y, Z, u + U, v + V);
+			tess.addVertexWithUV(X, Y, Z, u, v + V);
 		}
 		
-		t.draw();
-		t.startDrawingQuads();
+		tess.draw();
+		tess.startDrawingQuads();
 		//t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
 		
 		Y = (2) / 16.0F;
@@ -93,16 +93,16 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 			X = (i * 2 + 2) / 16.0F;
 			float u = (14 * i) / 98.0F;
 			
-			t.addVertexWithUV(X, Y + H, Z + W, u, v);
-			t.addVertexWithUV(X, Y + H, Z, u + U, v);
-			t.addVertexWithUV(X, Y, Z, u + U, v + V);
-			t.addVertexWithUV(X, Y, Z + W, u, v + V);
+			tess.addVertexWithUV(X, Y + H, Z + W, u, v);
+			tess.addVertexWithUV(X, Y + H, Z, u + U, v);
+			tess.addVertexWithUV(X, Y, Z, u + U, v + V);
+			tess.addVertexWithUV(X, Y, Z + W, u, v + V);
 		}
 		
-		t.draw();
+		tess.draw();
 		GL11.glEnable(GL11.GL_LIGHTING);
 		this.bindTexture(new ResourceLocation("festivities","textures/snowglobe/globe.png"));
-		t.startDrawingQuads();
+		tess.startDrawingQuads();
 		//t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
 		
 		X = (0) / 16.0F;
@@ -117,20 +117,20 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 		U = (16) / 64.0F;
 		V = (16) / 32.0F;
 		
-		t.addVertexWithUV(X + L, Y, Z + W, u, v);
-		t.addVertexWithUV(X + L, Y, Z, u + U, v);
-		t.addVertexWithUV(X, Y, Z, u + U, v + V);
-		t.addVertexWithUV(X, Y, Z + W, u, v + V);
+		tess.addVertexWithUV(X + L, Y, Z + W, u, v);
+		tess.addVertexWithUV(X + L, Y, Z, u + U, v);
+		tess.addVertexWithUV(X, Y, Z, u + U, v + V);
+		tess.addVertexWithUV(X, Y, Z + W, u, v + V);
 		
 		u = (0) / 64.0F;
 		v = (0) / 32.0F;
 		U = (16) / 64.0F;
 		V = (16) / 32.0F;
 		
-		t.addVertexWithUV(X + L, Y + H, Z + W, u, v);
-		t.addVertexWithUV(X + L, Y + H, Z, u + U, v);
-		t.addVertexWithUV(X, Y + H, Z, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z + W, u, v + V);
+		tess.addVertexWithUV(X + L, Y + H, Z + W, u, v);
+		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v);
+		tess.addVertexWithUV(X, Y + H, Z, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
 		
 		int met = tile.worldObj.getBlockMetadata(globe.xCoord, globe.yCoord, globe.zCoord);
 		
@@ -142,28 +142,28 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 		V = (3) / 32.0F;
 		
 		u = (met == 2 ? u0 : u1);
-		t.addVertexWithUV(X, Y, Z, u, v);
-		t.addVertexWithUV(X + L, Y, Z, u + U, v);
-		t.addVertexWithUV(X + L, Y + H, Z, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z, u, v + V);
+		tess.addVertexWithUV(X, Y, Z, u, v);
+		tess.addVertexWithUV(X + L, Y, Z, u + U, v);
+		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
 		
 		u = (met == 3 ? u0 : u1);
-		t.addVertexWithUV(X, Y, Z + W, u, v);
-		t.addVertexWithUV(X + L, Y, Z + W, u + U, v);
-		t.addVertexWithUV(X + L, Y + H, Z + W, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z + W, u, v + V);
+		tess.addVertexWithUV(X, Y, Z + W, u, v);
+		tess.addVertexWithUV(X + L, Y, Z + W, u + U, v);
+		tess.addVertexWithUV(X + L, Y + H, Z + W, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
 		
 		u = (met == 4 ? u0 : u1);
-		t.addVertexWithUV(X, Y, Z, u, v);
-		t.addVertexWithUV(X, Y, Z + L, u + U, v);
-		t.addVertexWithUV(X, Y + H, Z + L, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z, u, v + V);
+		tess.addVertexWithUV(X, Y, Z, u, v);
+		tess.addVertexWithUV(X, Y, Z + L, u + U, v);
+		tess.addVertexWithUV(X, Y + H, Z + L, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
 		
 		u = (met == 5 ? u0 : u1);
-		t.addVertexWithUV(X + W, Y, Z, u, v);
-		t.addVertexWithUV(X + W, Y, Z + L, u + U, v);
-		t.addVertexWithUV(X + W, Y + H, Z + L, u + U, v + V);
-		t.addVertexWithUV(X + W, Y + H, Z, u, v + V);
+		tess.addVertexWithUV(X + W, Y, Z, u, v);
+		tess.addVertexWithUV(X + W, Y, Z + L, u + U, v);
+		tess.addVertexWithUV(X + W, Y + H, Z + L, u + U, v + V);
+		tess.addVertexWithUV(X + W, Y + H, Z, u, v + V);
 		
 		X = (1) / 16.0F;
 		Y = (2) / 16.0F;
@@ -177,37 +177,37 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 		U = (14) / 64.0F;
 		V = (14) / 32.0F;
 		
-		t.addVertexWithUV(X + L, Y + H, Z + W, u, v);
-		t.addVertexWithUV(X + L, Y + H, Z, u + U, v);
-		t.addVertexWithUV(X, Y + H, Z, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z + W, u, v + V);
+		tess.addVertexWithUV(X + L, Y + H, Z + W, u, v);
+		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v);
+		tess.addVertexWithUV(X, Y + H, Z, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
 		
 		u = (32) / 64.0F;
 		v = (0) / 32.0F;
 		U = (14) / 64.0F;
 		V = (13) / 32.0F;
 		
-		t.addVertexWithUV(X, Y, Z, u, v);
-		t.addVertexWithUV(X + L, Y, Z, u + U, v);
-		t.addVertexWithUV(X + L, Y + H, Z, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z, u, v + V);
+		tess.addVertexWithUV(X, Y, Z, u, v);
+		tess.addVertexWithUV(X + L, Y, Z, u + U, v);
+		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
 		
-		t.addVertexWithUV(X, Y, Z, u, v);
-		t.addVertexWithUV(X, Y, Z + L, u + U, v);
-		t.addVertexWithUV(X, Y + H, Z + L, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z, u, v + V);
+		tess.addVertexWithUV(X, Y, Z, u, v);
+		tess.addVertexWithUV(X, Y, Z + L, u + U, v);
+		tess.addVertexWithUV(X, Y + H, Z + L, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
 		
-		t.addVertexWithUV(X + W, Y, Z, u, v);
-		t.addVertexWithUV(X + W, Y, Z + L, u + U, v);
-		t.addVertexWithUV(X + W, Y + H, Z + L, u + U, v + V);
-		t.addVertexWithUV(X + W, Y + H, Z, u, v + V);
+		tess.addVertexWithUV(X + W, Y, Z, u, v);
+		tess.addVertexWithUV(X + W, Y, Z + L, u + U, v);
+		tess.addVertexWithUV(X + W, Y + H, Z + L, u + U, v + V);
+		tess.addVertexWithUV(X + W, Y + H, Z, u, v + V);
 		
-		t.addVertexWithUV(X, Y, Z + W, u, v);
-		t.addVertexWithUV(X + L, Y, Z + W, u + U, v);
-		t.addVertexWithUV(X + L, Y + H, Z + W, u + U, v + V);
-		t.addVertexWithUV(X, Y + H, Z + W, u, v + V);
+		tess.addVertexWithUV(X, Y, Z + W, u, v);
+		tess.addVertexWithUV(X + L, Y, Z + W, u + U, v);
+		tess.addVertexWithUV(X + L, Y + H, Z + W, u + U, v + V);
+		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
 		
-		t.draw();
+		tess.draw();
 		GL11.glPopMatrix();
 	}
 }
