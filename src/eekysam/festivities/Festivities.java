@@ -17,11 +17,20 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.tile.TileEntitySnowglobe;
+import eekysam.festivities.network.PacketHandler;
 
-@Mod(modid = "festivities", name = "festivities", version = "0.0.0")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@Mod(modid = Festivities.ID, name = Festivities.NAME, version = "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD)
+@NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = { Festivities.CHANNEL }, packetHandler = PacketHandler.class)
 public class Festivities
 {
+	public static final String ID = "festivities";
+	public static final String NAME = "festivities";
+	public static final String CHANNEL = "festivities";
+
+	public static final int MAJOR = 0;
+	public static final int MINOR = 0;
+	public static final int BUILD = 0;
+
 	@Instance("Festivities")
 	public static Festivities instance;
 
@@ -30,17 +39,17 @@ public class Festivities
 	public static Block candyLog;
 	public static Block snowglobe;
 
-	@SidedProxy(modId = "festivities", clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
+	@SidedProxy(modId = Festivities.ID, clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
 	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		magicCandy = new Item(2601).setUnlocalizedName("magicCandy").setTextureName("festivities:magicCandy").setCreativeTab(CreativeTabs.tabMisc);
+		magicCandy = new Item(2601).setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(CreativeTabs.tabMisc);
 		GameRegistry.registerItem(magicCandy, "magicCandy");
-		candyCane = new Item(2602).setUnlocalizedName("candyCane").setTextureName("festivities:candyCane").setCreativeTab(CreativeTabs.tabFood);
+		candyCane = new Item(2602).setUnlocalizedName("candyCane").setTextureName(Festivities.ID + ":candyCane").setCreativeTab(CreativeTabs.tabFood);
 		GameRegistry.registerItem(candyCane, "candyCane");
-		candyLog = new BlockCandyLog(2401).setCreativeTab(CreativeTabs.tabBlock).setUnlocalizedName("candyLog").setTextureName("festivities:candyLog");
+		candyLog = new BlockCandyLog(2401).setCreativeTab(CreativeTabs.tabBlock).setUnlocalizedName("candyLog").setTextureName(Festivities.ID + ":candyLog");
 		GameRegistry.registerBlock(candyLog, "candyLog");
 		snowglobe = new BlockSnowglobe(2402, Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowglobe");
 		GameRegistry.registerBlock(snowglobe, "snowglobe");

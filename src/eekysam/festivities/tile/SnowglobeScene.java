@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.util.ResourceLocation;
 import eekysam.festivities.EnumTheme;
+import eekysam.festivities.Festivities;
 
 public class SnowglobeScene
 {
@@ -30,6 +31,6 @@ public class SnowglobeScene
 	
 	public ResourceLocation getResource()
 	{
-		return new ResourceLocation("festivities","textures/snowglobe/" + this.getTexture());
+		return new ResourceLocation(Festivities.ID,"textures/snowglobe/" + this.getTexture());
 	}
 }

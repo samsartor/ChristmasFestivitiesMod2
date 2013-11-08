@@ -101,7 +101,7 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 		
 		tess.draw();
 		GL11.glEnable(GL11.GL_LIGHTING);
-		this.bindTexture(new ResourceLocation("festivities","textures/snowglobe/globe.png"));
+		this.bindTexture(new ResourceLocation(Festivities.ID,"textures/snowglobe/globe.png"));
 		tess.startDrawingQuads();
 		//t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
 		
