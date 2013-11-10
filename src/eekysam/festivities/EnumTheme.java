@@ -29,5 +29,6 @@ public enum EnumTheme
 	Deer,
 	Penguins,
 	CottonCandy,
+	Tree,
 	Magic;
 }
