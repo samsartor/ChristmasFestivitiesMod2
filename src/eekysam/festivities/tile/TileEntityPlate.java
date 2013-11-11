@@ -105,7 +105,7 @@ public class TileEntityPlate extends TileEntity
 		{
 			return false;
 		}
-		if (this.getTotalCookies() > this.maxCookie)
+		if (this.getTotalCookies() >= this.maxCookie)
 		{
 			return false;
 		}
@@ -166,6 +166,33 @@ public class TileEntityPlate extends TileEntity
 		return sum;
 	}
 	
+	public NBTTagCompound writeContents()
+	{
+		NBTTagCompound tag = new NBTTagCompound();
+		for (int i = 0; i < this.contents.length; i++)
+		{
+			tag.setShort(PlateFoods.values()[i].name(), (short)this.contents[i]);
+		}
+		return tag;
+	}
+	
+	public void readContents(NBTTagCompound tag)
+	{
+		Random rand = new Random();
+		for (int i = 0; i < this.contents.length; i++)
+		{
+			PlateFoods f = PlateFoods.values()[i];
+			int num = tag.getShort(f.name());
+			for (int j = 0; j < num; j++)
+			{
+				if (!this.addItem(f, rand))
+				{
+					this.contents[i]++;
+				}
+			}
+		}
+	}
+	
 	public void onChange()
 	{
 		NBTTagCompound compound = new NBTTagCompound();
@@ -178,12 +205,16 @@ public class TileEntityPlate extends TileEntity
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
+		NBTTagCompound cont = this.writeContents();
+		tag.setCompoundTag("contents", cont);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
+		NBTTagCompound cont = tag.getCompoundTag("contents");
+		this.readContents(cont);
 	}
 
 	@Override
