@@ -1,29 +1,51 @@
 package eekysam.utils.draw;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.Tessellator;
 
 abstract class BoxDraw
 {
-	private int domainW = 16;
-	private int domainH = 16;
-	private int domainL = 16;
+	protected int domainW = 16;
+	protected int domainH = 16;
+	protected int domainL = 16;
 	
-	private float xpos;
-	private float ypos;
-	private float zpos;
+	protected float xpos;
+	protected float ypos;
+	protected float zpos;
+	protected int ixpos;
+	protected int iypos;
+	protected int izpos;
 	
-	private float width;
-	private float height;
-	private float length;
+	protected float width;
+	protected float height;
+	protected float length;
+	protected int iwidth;
+	protected int iheight;
+	protected int ilength;
 	
-	private int textureWidth;
-	private int textureHeight;
+	protected int textureWidth;
+	protected int textureHeight;
 	
-	private float textureU;
-	private float textureV;
+	protected float textureU;
+	protected float textureV;
+	protected int itextureU;
+	protected int itextureV;
+	
+	protected IRenderer parent;
+	
+	public Tessellator tess;
+	
+	public BoxDraw(IRenderer parent)
+	{
+		this.parent = parent;
+		this.tess = Tessellator.instance;
+	}
 	
 	public void setPos(int x, int y, int z)
 	{
+		this.ixpos = x;
+		this.iypos = y;
+		this.izpos = z;
 		this.xpos = x / (float) this.domainW;
 		this.ypos = y / (float) this.domainH;
 		this.zpos = z / (float) this.domainL;
@@ -37,6 +59,9 @@ abstract class BoxDraw
 	
 	public void cube(int width, int height, int length)
 	{
+		this.iwidth = width;
+		this.iheight = height;
+		this.ilength = length;
 		this.width = width / (float) this.domainW;
 		this.height = height / (float) this.domainH;
 		this.length = length / (float) this.domainL;
@@ -51,13 +76,13 @@ abstract class BoxDraw
 	
 	public void setTexture(String id, String texture, int width, int height)
 	{
-		this.bindTexture(new ResourceLocation(id, texture));
+		this.parent.bindTexture(new ResourceLocation(id, texture));
 	}
-	
-	public abstract void bindTexture(ResourceLocation loc);
 	
 	public void selectUV(int u, int v)
 	{
+		this.itextureU = u;
+		this.itextureV = v;
 		this.textureU = u / (float) textureWidth;
 		this.textureV = v / (float) textureHeight;
 	}
