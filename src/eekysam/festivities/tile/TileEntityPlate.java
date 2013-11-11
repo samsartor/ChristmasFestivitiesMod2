@@ -18,7 +18,7 @@ public class TileEntityPlate extends TileEntity
 	public int[] contents = new int[PlateFoods.values().length];
 	public List<PlateDrawFoods> onPlate = new ArrayList<PlateDrawFoods>();
 	public static int maxCookie = 20;
-	
+
 	public static enum PlateFoods
 	{
 		Figgy(false),
@@ -30,15 +30,15 @@ public class TileEntityPlate extends TileEntity
 		ChocCookie(true),
 		SprinkCookie(true),
 		CandyCookie(true);
-		
+
 		public boolean isCookie;
-		
+
 		PlateFoods(boolean cookie)
 		{
 			this.isCookie = cookie;
 		}
 	}
-	
+
 	public static enum PlateDrawFoods
 	{
 		Figgy(false),
@@ -49,15 +49,15 @@ public class TileEntityPlate extends TileEntity
 		ChocCookie(true),
 		SprinkCookie(true),
 		CandyCookie(true);
-		
+
 		public boolean isCookie;
-		
+
 		PlateDrawFoods(boolean cookie)
 		{
 			this.isCookie = cookie;
 		}
 	}
-	
+
 	public boolean addItem(PlateFoods food, Random rand)
 	{
 		if (this.canAdd(food))
@@ -89,7 +89,7 @@ public class TileEntityPlate extends TileEntity
 		}
 		return false;
 	}
-	
+
 	public boolean canAdd(PlateFoods food)
 	{
 		boolean flag = true;
@@ -118,13 +118,13 @@ public class TileEntityPlate extends TileEntity
 		}
 		return true;
 	}
-	
+
 	public void clear()
 	{
 		this.contents = new int[PlateFoods.values().length];
 		this.onPlate.clear();
 	}
-	
+
 	public int getTotalCookies()
 	{
 		int sum = 0;
@@ -139,7 +139,7 @@ public class TileEntityPlate extends TileEntity
 		}
 		return sum;
 	}
-	
+
 	public int getTotal()
 	{
 		int sum = 0;
@@ -150,7 +150,7 @@ public class TileEntityPlate extends TileEntity
 		}
 		return sum;
 	}
-	
+
 	public int getTotalNotCookies()
 	{
 		int sum = 0;
@@ -165,17 +165,17 @@ public class TileEntityPlate extends TileEntity
 		}
 		return sum;
 	}
-	
+
 	public NBTTagCompound writeContents()
 	{
 		NBTTagCompound tag = new NBTTagCompound();
 		for (int i = 0; i < this.contents.length; i++)
 		{
-			tag.setShort(PlateFoods.values()[i].name(), (short)this.contents[i]);
+			tag.setShort(PlateFoods.values()[i].name(), (short) this.contents[i]);
 		}
 		return tag;
 	}
-	
+
 	public void readContents(NBTTagCompound tag)
 	{
 		Random rand = new Random();
@@ -192,7 +192,7 @@ public class TileEntityPlate extends TileEntity
 			}
 		}
 	}
-	
+
 	public void onChange()
 	{
 		NBTTagCompound compound = new NBTTagCompound();
