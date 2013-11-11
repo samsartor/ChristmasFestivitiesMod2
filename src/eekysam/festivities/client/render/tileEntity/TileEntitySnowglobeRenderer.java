@@ -5,13 +5,15 @@ import org.lwjgl.opengl.GL11;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
+import eekysam.utils.draw.BoxDrawBasic;
+import eekysam.utils.draw.IRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
+public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer implements IRenderer
 {
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float k)
 	{
@@ -139,113 +141,40 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer
 			tess.draw();
 		}
 		
-		this.bindTexture(new ResourceLocation(Festivities.ID, "textures/snowglobe/globe.png"));
+		BoxDrawBasic draw = new BoxDrawBasic(this);
+		draw.setTexture(Festivities.ID, "textures/snowglobe/globe.png", 64, 32);
 		tess.startDrawingQuads();
 		// t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
 
-		X = (0) / 16.0F;
-		Y = (0) / 16.0F;
-		Z = (0) / 16.0F;
-		W = (16) / 16.0F;
-		L = (16) / 16.0F;
-		H = (3) / 16.0F;
-
-		u = (16) / 64.0F;
-		v = (0) / 32.0F;
-		U = (16) / 64.0F;
-		V = (16) / 32.0F;
-
-		tess.addVertexWithUV(X + L, Y, Z + W, u, v);
-		tess.addVertexWithUV(X + L, Y, Z, u + U, v);
-		tess.addVertexWithUV(X, Y, Z, u + U, v + V);
-		tess.addVertexWithUV(X, Y, Z + W, u, v + V);
-
-		u = (0) / 64.0F;
-		v = (0) / 32.0F;
-		U = (16) / 64.0F;
-		V = (16) / 32.0F;
-
-		tess.addVertexWithUV(X + L, Y + H, Z + W, u, v);
-		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v);
-		tess.addVertexWithUV(X, Y + H, Z, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
+		draw.cube(0, 0, 0, 16, 3, 16);
+		draw.selectUV(16, 0);
+		draw.YDown();
+		draw.selectUV(0, 0);
+		draw.YUp();
 
 		int met = tile.worldObj.getBlockMetadata(globe.xCoord, globe.yCoord, globe.zCoord);
 
-		float u0 = (0) / 64.0F;
-		float u1 = (16) / 64.0F;
+		draw.selectUV((met == 2 ? 0 : 16), 16);
+		draw.ZDown();
+		draw.selectUV((met == 3 ? 0 : 16), 16);
+		draw.ZUp();
+		draw.selectUV((met == 4 ? 0 : 16), 16);
+		draw.XDown();
+		draw.selectUV((met == 5 ? 0 : 16), 16);
+		draw.XUp();
 
-		v = (16) / 32.0F;
-		U = (16) / 64.0F;
-		V = (3) / 32.0F;
-
-		u = (met == 2 ? u0 : u1);
-		tess.addVertexWithUV(X, Y, Z, u, v);
-		tess.addVertexWithUV(X + L, Y, Z, u + U, v);
-		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
-
-		u = (met == 3 ? u0 : u1);
-		tess.addVertexWithUV(X, Y, Z + W, u, v);
-		tess.addVertexWithUV(X + L, Y, Z + W, u + U, v);
-		tess.addVertexWithUV(X + L, Y + H, Z + W, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
-
-		u = (met == 4 ? u0 : u1);
-		tess.addVertexWithUV(X, Y, Z, u, v);
-		tess.addVertexWithUV(X, Y, Z + L, u + U, v);
-		tess.addVertexWithUV(X, Y + H, Z + L, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
-
-		u = (met == 5 ? u0 : u1);
-		tess.addVertexWithUV(X + W, Y, Z, u, v);
-		tess.addVertexWithUV(X + W, Y, Z + L, u + U, v);
-		tess.addVertexWithUV(X + W, Y + H, Z + L, u + U, v + V);
-		tess.addVertexWithUV(X + W, Y + H, Z, u, v + V);
-
-		X = (1) / 16.0F;
-		Y = (2) / 16.0F;
-		Z = (1) / 16.0F;
-		W = (14) / 16.0F;
-		L = (14) / 16.0F;
-		H = (13) / 16.0F;
-
-		u = (46) / 64.0F;
-		v = (0) / 32.0F;
-		U = (14) / 64.0F;
-		V = (14) / 32.0F;
-
-		tess.addVertexWithUV(X + L, Y + H, Z + W, u, v);
-		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v);
-		tess.addVertexWithUV(X, Y + H, Z, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
-
-		u = (32) / 64.0F;
-		v = (0) / 32.0F;
-		U = (14) / 64.0F;
-		V = (13) / 32.0F;
-
-		tess.addVertexWithUV(X, Y, Z, u, v);
-		tess.addVertexWithUV(X + L, Y, Z, u + U, v);
-		tess.addVertexWithUV(X + L, Y + H, Z, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
-
-		tess.addVertexWithUV(X, Y, Z, u, v);
-		tess.addVertexWithUV(X, Y, Z + L, u + U, v);
-		tess.addVertexWithUV(X, Y + H, Z + L, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z, u, v + V);
-
-		tess.addVertexWithUV(X + W, Y, Z, u, v);
-		tess.addVertexWithUV(X + W, Y, Z + L, u + U, v);
-		tess.addVertexWithUV(X + W, Y + H, Z + L, u + U, v + V);
-		tess.addVertexWithUV(X + W, Y + H, Z, u, v + V);
-
-		tess.addVertexWithUV(X, Y, Z + W, u, v);
-		tess.addVertexWithUV(X + L, Y, Z + W, u + U, v);
-		tess.addVertexWithUV(X + L, Y + H, Z + W, u + U, v + V);
-		tess.addVertexWithUV(X, Y + H, Z + W, u, v + V);
+		draw.cube(1, 2, 1, 14, 13, 14);
+		draw.selectUV(46, 0);
+		draw.YUp();
+		draw.selectUV(32, 0);
+		draw.drawSidesSameTexture();
 
 		tess.draw();
 		GL11.glPopMatrix();
+	}
+	
+	public void rendererBindTexture(ResourceLocation loc)
+	{
+		this.bindTexture(loc);
 	}
 }

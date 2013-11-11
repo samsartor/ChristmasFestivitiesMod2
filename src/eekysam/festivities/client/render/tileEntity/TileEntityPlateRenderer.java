@@ -8,8 +8,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import eekysam.utils.draw.BoxDrawBasic;
+import eekysam.utils.draw.IRenderer;
 
-public class TileEntityPlateRenderer extends TileEntitySpecialRenderer
+public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implements IRenderer
 {
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
 	{
@@ -25,73 +27,64 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer
 		Tessellator t = Tessellator.instance;
 	}
 	
-	public void renderFiggy(float x, float y, float z)
+	public void renderFiggy(int x, int y, int z)
 	{
+		BoxDrawBasic draw = new BoxDrawBasic(this);
 		Tessellator t = Tessellator.instance;
-		this.bindTexture(new ResourceLocation(Festivities.ID, "textures/tile/plate_figgy.png"));
+		draw.setTexture(Festivities.ID, "textures/tile/plate_figgy.png", 32, 16);
 		t.startDrawingQuads();
+		
+		draw.setPos(x, y, z);
 		
 		t.draw();
 	}
 	
-	public void renderPie(float x, float y, float z, String texture)
+	public void renderPie(int x, int y, int z, String texture)
 	{
+		BoxDrawBasic draw = new BoxDrawBasic(this);
 		Tessellator t = Tessellator.instance;
-		this.bindTexture(new ResourceLocation(Festivities.ID, "textures/tile/plate_" + texture + ".png"));
+		draw.setTexture(Festivities.ID, "textures/tile/plate_" + texture + ".png", 32, 16);
 		t.startDrawingQuads();
 		
+		draw.setPos(x, y, z);
+		draw.cube(8, 4, 8);
+		draw.selectUV(0, 12);
+		draw.drawSidesGroupedTexture();
+		draw.selectUV(0, 4);
+		draw.YUp();
+		draw.selectUV(8, 4);
+		draw.YDown();
+		
+		draw.setPos(x + 1, y + 4, z + 1);
+		draw.cube(6, 1, 6);
+		draw.faceIn();
+		draw.selectUV(0, 3);
+		draw.drawSidesGroupedTexture();
+		draw.selectUV(16, 6);
+		draw.YDown();
+
 		t.draw();
 	}
 	
-	public void renderCookie(float x, float y, float z, int type, int texture)
+	public void renderCookie(int x, int y, int z, int type, int texture)
 	{
+		BoxDrawBasic draw = new BoxDrawBasic(this);
 		Tessellator t = Tessellator.instance;
-		this.bindTexture(new ResourceLocation(Festivities.ID, "textures/tile/plate_cookie.png"));
+		draw.setTexture(Festivities.ID, "textures/tile/plate_cookie.png", 16, 16);
 		t.startDrawingQuads();
-		
-		float X = 3 / 16.0F;
-		float Y = 1 / 16.0F;
-		float Z = 3 / 16.0F;
-		float u = (type * 3) / 16.0F;
-		float v = (texture * 3) / 16.0F;
-		float U = 3 / 16.0F;
-		float V = 3 / 16.0F;
-		
-		t.addVertexWithUV(x + X, y + Y, z + Z, u, v);
-		t.addVertexWithUV(x + X, y + Y, z, u + U, v);
-		t.addVertexWithUV(x, y + Y, z, u + U, v + V);
-		t.addVertexWithUV(x, y + Y, z + Z, u, v + V);
-		
-		v = 13 / 16.0F;
-		
-		t.addVertexWithUV(x + X, y, z + Z, u, v);
-		t.addVertexWithUV(x + X, y, z, u + U, v);
-		t.addVertexWithUV(x, y, z, u + U, v + V);
-		t.addVertexWithUV(x, y, z + Z, u, v + V);
-		
-		v = 12 / 16.0F;
-		V = 1 / 16.0F;
-		
-		t.addVertexWithUV(x, y, z, u, v);
-		t.addVertexWithUV(x + X, y, z, u + U, v);
-		t.addVertexWithUV(x + X, y + Y, z, u + U, v + V);
-		t.addVertexWithUV(x, y + Y, z, u, v + V);
-
-		t.addVertexWithUV(x, y, z + Z, u, v);
-		t.addVertexWithUV(x + X, y, z + Z, u + U, v);
-		t.addVertexWithUV(x + X, y + Y, z + Z, u + U, v + V);
-		t.addVertexWithUV(x, y + Y, z + Z, u, v + V);
-
-		t.addVertexWithUV(x, y, z, u, v);
-		t.addVertexWithUV(x, y, z + Z, u + U, v);
-		t.addVertexWithUV(x, y + Y, z + Z, u + U, v + V);
-		t.addVertexWithUV(x, y + Y, z, u, v + V);
-
-		t.addVertexWithUV(x + X, y, z, u, v);
-		t.addVertexWithUV(x + X, y, z + Z, u + U, v);
-		t.addVertexWithUV(x + X, y + Y, z + Z, u + U, v + V);
-		t.addVertexWithUV(x + X, y + Y, z, u, v + V);
-		
+		draw.setPos(x, y, z);
+		draw.selectUV(type * 3, texture * 3);
+		draw.cube(3, 1, 3);
+		draw.YUp();
+		draw.selectV(13);
+		draw.YDown();
+		draw.selectV(12);
+		draw.drawSidesSameTexture();
 		t.draw();
+	}
+
+	public void rendererBindTexture(ResourceLocation loc)
+	{
+		this.bindTexture(loc);
 	}
 }

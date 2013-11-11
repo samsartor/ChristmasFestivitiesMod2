@@ -2,7 +2,7 @@ package eekysam.utils.draw;
 
 import net.minecraft.util.ResourceLocation;
 
-interface IRenderer
+public interface IRenderer
 {
-	public void bindTexture(ResourceLocation loc);
+	public void rendererBindTexture(ResourceLocation loc);
 }

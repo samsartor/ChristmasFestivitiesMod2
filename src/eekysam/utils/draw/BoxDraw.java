@@ -3,7 +3,7 @@ package eekysam.utils.draw;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.renderer.Tessellator;
 
-abstract class BoxDraw
+public abstract class BoxDraw
 {
 	protected int domainW = 16;
 	protected int domainH = 16;
@@ -33,12 +33,24 @@ abstract class BoxDraw
 	
 	protected IRenderer parent;
 	
+	protected boolean inside = false;
+	
 	public Tessellator tess;
 	
 	public BoxDraw(IRenderer parent)
 	{
 		this.parent = parent;
 		this.tess = Tessellator.instance;
+	}
+	
+	public void faceOut()
+	{
+		this.inside = false;
+	}
+	
+	public void faceIn()
+	{
+		this.inside = true;
 	}
 	
 	public void setPos(int x, int y, int z)
@@ -76,7 +88,21 @@ abstract class BoxDraw
 	
 	public void setTexture(String id, String texture, int width, int height)
 	{
-		this.parent.bindTexture(new ResourceLocation(id, texture));
+		this.textureWidth = width;
+		this.textureHeight = height;
+		this.parent.rendererBindTexture(new ResourceLocation(id, texture));
+	}
+	
+	public void selectV(int v)
+	{
+		this.itextureV = v;
+		this.textureV = v / (float) textureHeight;
+	}
+	
+	public void selectU(int u)
+	{
+		this.itextureU = u;
+		this.textureU = u / (float) textureWidth;
 	}
 	
 	public void selectUV(int u, int v)
