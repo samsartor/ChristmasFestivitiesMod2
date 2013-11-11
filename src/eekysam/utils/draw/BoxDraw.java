@@ -1,4 +1,8 @@
-abstract class Sketcher
+package eekysam.utils.draw;
+
+import net.minecraft.util.ResourceLocation;
+
+abstract class BoxDraw
 {
 	private int domainW = 16;
 	private int domainH = 16;
