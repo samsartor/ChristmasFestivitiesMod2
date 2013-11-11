@@ -162,12 +162,22 @@ public abstract class BoxDraw
 		this.YDown();
 		this.textureU -= 2 * (this.width / (float) textureWidth);
 		this.textureV += this.height / (float) textureHeight;
-		this.XUp();
+		this.drawSidesGroupedTexture();
+	}	
+	
+	public void drawAllLeftJustTextureShape(boolean topfirst)
+	{
+		if (topfirst)
+			this.YUp();
+		else
+			this.YDown();
 		this.textureU += this.width / (float) textureWidth;
-		this.ZUp();
-		this.textureU += this.length / (float) textureWidth;
-		this.XDown();
-		this.textureU += this.width / (float) textureWidth;
-		this.ZDown();
+		if (!topfirst)
+			this.YUp();
+		else
+			this.YDown();
+		this.textureU -= this.width / (float) textureWidth;
+		this.textureV += this.height / (float) textureHeight;
+		this.drawSidesGroupedTexture();
 	}
 }

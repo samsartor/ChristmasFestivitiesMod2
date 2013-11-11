@@ -31,10 +31,39 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 	{
 		BoxDrawBasic draw = new BoxDrawBasic(this);
 		Tessellator t = Tessellator.instance;
-		draw.setTexture(Festivities.ID, "textures/tile/plate_figgy.png", 32, 16);
+		draw.setTexture(Festivities.ID, "textures/tile/plate_figgy.png", 24, 11);
 		t.startDrawingQuads();
 		
 		draw.setPos(x, y, z);
+		draw.cube(6, 5, 6);
+		draw.selectUV(0, 0);
+		draw.drawAllLeftJustTextureShape(true);
+		
+		draw.setPos(x + 3, y + 6, z + 3);
+		draw.cube(1, 1, 1);
+		draw.selectUV(12, 4);
+		draw.drawAllNormalTextureShape();
+		
+		draw.setPos(x + 4, y + 5, z + 3);
+		draw.drawAllNormalTextureShape();
+		
+		draw.setPos(x + 3, y + 5, z + 4);
+		draw.drawAllNormalTextureShape();
+		
+		float u = (16) / 24.0F;
+		float v = (3) / 11.0F;
+		float U = (3) / 24.0F;
+		float V = (3) / 11.0F;
+		float leafx = (3 + x) / 16.0F;
+		float leafy = (6 + y) / 16.0F;
+		float leafz = (3 + z) / 16.0F;
+		float X = (3) / 16.0F;
+		float Z = (3) / 16.0F;
+		
+		t.addVertexWithUV(leafx, leafy, leafz, u, v + V);
+		t.addVertexWithUV(leafx + X, leafy, leafz, u, v);
+		t.addVertexWithUV(leafx + X, leafy, leafz + Z, u + U, v);
+		t.addVertexWithUV(leafx, leafy, leafz + Z, u + U, v + V);
 		
 		t.draw();
 	}
@@ -48,12 +77,8 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 		
 		draw.setPos(x, y, z);
 		draw.cube(8, 4, 8);
-		draw.selectUV(0, 12);
-		draw.drawSidesGroupedTexture();
 		draw.selectUV(0, 4);
-		draw.YUp();
-		draw.selectUV(8, 4);
-		draw.YDown();
+		draw.drawAllLeftJustTextureShape(false);
 		
 		draw.setPos(x + 1, y + 4, z + 1);
 		draw.cube(6, 1, 6);
