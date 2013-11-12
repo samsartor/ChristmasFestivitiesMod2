@@ -5,8 +5,10 @@ import org.lwjgl.opengl.GL11;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
+import eekysam.utils.EnumDirection;
 import eekysam.utils.draw.BoxDrawBasic;
 import eekysam.utils.draw.IRenderer;
+import eekysam.utils.draw.PlaneDrawBasic;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -29,90 +31,38 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		int l2 = l / 65536;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) l1, (float) l2);
 
-		float X;
-		float Y;
-		float Z;
-		float W;
-		float L;
-		float H;
-		float u;
-		float v;
-		float U;
-		float V;
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
 		if (globe.type >= 0 && globe.type < SnowglobeScene.list.size())
 		{
-			this.bindTexture(SnowglobeScene.list.get(globe.type).getResource());
+			PlaneDrawBasic plane = new PlaneDrawBasic(this);
+			plane.setDoubleSided();
+			ResourceLocation loc = SnowglobeScene.list.get(globe.type).getResource();
+			plane.setTexture(loc.getResourceDomain(), loc.getResourcePath(), 98, 40);
 			GL11.glDisable(GL11.GL_LIGHTING);
-
-			X = (1) / 16.0F;
-			Z = (1) / 16.0F;
-			W = (14) / 16.0F;
-			H = (14) / 16.0F;
-			v = (26) / 40.0F;
-			U = (14) / 98.0F;
-			V = (14) / 40.0F;
 			
 			tess.startDrawingQuads();
-			// t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
-
+			
 			for (int i = 0; i < 7; i++)
 			{
-				Y = (i * 2 + 2) / 16.0F;
-				u = (14 * i) / 98.0F;
-
-				tess.addVertexWithUV(X, Y, Z, u, v);
-				tess.addVertexWithUV(X + W, Y, Z, u + U, v);
-				tess.addVertexWithUV(X + W, Y, Z + H, u + U, v + V);
-				tess.addVertexWithUV(X, Y, Z + H, u, v + V);
+				plane.plane(EnumDirection.YUp, 14, 14, 1, i * 2 + 2, 1);
+				plane.selectUV(14 * i, 26);
+				plane.draw();
 			}
 
-			tess.draw();
-			tess.startDrawingQuads();
-			// t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
-
-			Y = (2) / 16.0F;
-			X = (1) / 16.0F;
-			W = (14) / 16.0F;
-			H = (13) / 16.0F;
-			v = (0) / 40.0F;
-			U = (14) / 98.0F;
-			V = (13) / 40.0F;
-
 			for (int i = 0; i < 7; i++)
 			{
-				Z = (i * 2 + 2) / 16.0F;
-				u = (14 * i) / 98.0F;
-
-				tess.addVertexWithUV(X, Y + H, Z, u, v);
-				tess.addVertexWithUV(X + W, Y + H, Z, u + U, v);
-				tess.addVertexWithUV(X + W, Y, Z, u + U, v + V);
-				tess.addVertexWithUV(X, Y, Z, u, v + V);
+				plane.plane(EnumDirection.ZUp, 14, 13, 1, 2, 14 - i * 2);
+				plane.selectUV(14 * i, 0);
+				plane.draw();
 			}
 
-			tess.draw();
-			tess.startDrawingQuads();
-			// t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
-
-			Y = (2) / 16.0F;
-			Z = (1) / 16.0F;
-			W = (14) / 16.0F;
-			H = (13) / 16.0F;
-			v = (13) / 40.0F;
-			U = (14) / 98.0F;
-			V = (13) / 40.0F;
-
 			for (int i = 0; i < 7; i++)
 			{
-				X = (i * 2 + 2) / 16.0F;
-				u = (14 * i) / 98.0F;
-
-				tess.addVertexWithUV(X, Y + H, Z + W, u, v);
-				tess.addVertexWithUV(X, Y + H, Z, u + U, v);
-				tess.addVertexWithUV(X, Y, Z, u + U, v + V);
-				tess.addVertexWithUV(X, Y, Z + W, u, v + V);
+				plane.plane(EnumDirection.XUp, 14, 13, i * 2 + 2, 2, 1);
+				plane.selectUV(14 * i, 13);
+				plane.draw();
 			}
 
 			tess.draw();
@@ -120,23 +70,13 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		}
 		else
 		{
-			this.bindTexture(new ResourceLocation(Festivities.ID, "textures/snowglobe/base.png"));
+			PlaneDrawBasic plane = new PlaneDrawBasic(this);
+			plane.setTexture(Festivities.ID, "textures/snowglobe/base.png", 14, 14);
 			tess.startDrawingQuads();
 			
-			X = (1) / 16.0F;
-			Y = (2) / 16.0F;
-			Z = (1) / 16.0F;
-			W = (14) / 16.0F;
-			H = (14) / 16.0F;
-			v = (0) / 40.0F;
-			u = (0) / 40.0F;
-			U = (14) / 14.0F;
-			V = (14) / 14.0F;
-			
-			tess.addVertexWithUV(X + H, Y, Z + W, u, v);
-			tess.addVertexWithUV(X + H, Y, Z, u + U, v);
-			tess.addVertexWithUV(X, Y, Z, u + U, v + V);
-			tess.addVertexWithUV(X, Y, Z + W, u, v + V);
+			plane.plane(EnumDirection.YUp, 14, 14, 1, 2, 1);
+			plane.selectUV(0, 0);
+			plane.draw();
 			
 			tess.draw();
 		}
@@ -144,7 +84,6 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		BoxDrawBasic draw = new BoxDrawBasic(this);
 		draw.setTexture(Festivities.ID, "textures/snowglobe/globe.png", 64, 32);
 		tess.startDrawingQuads();
-		// t.setColorOpaque_F(1.0F * f, 1.0F * f, 1.0F * f);
 
 		draw.cube(0, 0, 0, 16, 3, 16);
 		draw.selectUV(16, 0);
