@@ -16,6 +16,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockSnowglobe;
+import eekysam.festivities.block.BlockTreatPlate;
+import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.festivities.network.PacketHandler;
 
@@ -38,6 +40,7 @@ public class Festivities
 	public static Item candyCane;
 	public static Block candyLog;
 	public static Block snowglobe;
+	public static Block treatplate;
 
 	@SidedProxy(modId = Festivities.ID, clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
 	public static CommonProxy proxy;
@@ -54,6 +57,9 @@ public class Festivities
 		snowglobe = new BlockSnowglobe(2402, Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowglobe");
 		GameRegistry.registerBlock(snowglobe, "snowglobe");
 		GameRegistry.registerTileEntity(TileEntitySnowglobe.class, "snowglobe");
+		treatplate = new BlockTreatPlate(2403, Material.cake).setCreativeTab(CreativeTabs.tabFood).setUnlocalizedName("treatplate");
+		GameRegistry.registerBlock(treatplate, "treatplate");
+		GameRegistry.registerTileEntity(TileEntityPlate.class, "treatplate");
 	}
 
 	@EventHandler
@@ -63,5 +69,7 @@ public class Festivities
 		LanguageRegistry.addName(magicCandy, "Magic Candy");
 		LanguageRegistry.addName(candyCane, "Candy Cane");
 		LanguageRegistry.addName(candyLog, "Candy Log");
+		LanguageRegistry.addName(snowglobe, "Snowglobe");
+		LanguageRegistry.addName(treatplate, "Plate of Treats");
 	}
 }

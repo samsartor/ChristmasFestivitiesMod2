@@ -145,39 +145,53 @@ public abstract class BoxDraw
 	
 	public void drawSidesGroupedTexture()
 	{
+		float u = this.textureU;
+		float v = this.textureV;
 		this.XUp();
-		this.textureU += this.width / (float) textureWidth;
+		this.textureU += this.iwidth / (float) textureWidth;
 		this.ZUp();
-		this.textureU += this.length / (float) textureWidth;
+		this.textureU += this.ilength / (float) textureWidth;
 		this.XDown();
-		this.textureU += this.width / (float) textureWidth;
+		this.textureU += this.iwidth / (float) textureWidth;
 		this.ZDown();
+		this.textureU = u;
+		this.textureV = v;
 	}
 	
 	public void drawAllNormalTextureShape()
 	{
-		this.textureU += this.width / (float) textureWidth;
+		float u = this.textureU;
+		float v = this.textureV;
+		this.textureU += this.iwidth / (float) textureWidth;
 		this.YUp();
-		this.textureU += this.width / (float) textureWidth;
+		this.textureU += this.iwidth / (float) textureWidth;
 		this.YDown();
-		this.textureU -= 2 * (this.width / (float) textureWidth);
-		this.textureV += this.height / (float) textureHeight;
+		this.textureU = u;
+		this.textureV = v;
+		this.textureV += this.ilength / (float) textureHeight;
 		this.drawSidesGroupedTexture();
+		this.textureU = u;
+		this.textureV = v;
 	}	
 	
 	public void drawAllLeftJustTextureShape(boolean topfirst)
 	{
+		float u = this.textureU;
+		float v = this.textureV;
 		if (topfirst)
 			this.YUp();
 		else
 			this.YDown();
-		this.textureU += this.width / (float) textureWidth;
+		this.textureU += this.iwidth / (float) textureWidth;
 		if (!topfirst)
 			this.YUp();
 		else
 			this.YDown();
-		this.textureU -= this.width / (float) textureWidth;
-		this.textureV += this.height / (float) textureHeight;
+		this.textureU = u;
+		this.textureV = v;
+		this.textureV += this.ilength / (float) textureHeight;
 		this.drawSidesGroupedTexture();
+		this.textureU = u;
+		this.textureV = v;
 	}
 }
