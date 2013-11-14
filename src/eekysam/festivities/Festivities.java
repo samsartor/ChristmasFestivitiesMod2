@@ -5,6 +5,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -19,6 +20,7 @@ import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
+import eekysam.festivities.item.ItemMoreCookies;
 import eekysam.festivities.network.PacketHandler;
 
 @Mod(modid = Festivities.ID, name = Festivities.NAME, version = "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD)
@@ -38,6 +40,11 @@ public class Festivities
 
 	public static Item magicCandy;
 	public static Item candyCane;
+	public static Item moreCookies;
+	public static Item berries;
+	public static Item holly;
+	public static Item bluePie;
+	public static Item figgy;
 	public static Block candyLog;
 	public static Block snowglobe;
 	public static Block treatplate;
@@ -60,16 +67,24 @@ public class Festivities
 		treatplate = new BlockTreatPlate(2403, Material.cake).setCreativeTab(CreativeTabs.tabFood).setUnlocalizedName("treatplate");
 		GameRegistry.registerBlock(treatplate, "treatplate");
 		GameRegistry.registerTileEntity(TileEntityPlate.class, "treatplate");
+		moreCookies = new ItemMoreCookies(2603, 2, 0.1F).setUnlocalizedName("morecookies").setCreativeTab(CreativeTabs.tabFood);
+		GameRegistry.registerItem(moreCookies, "morecookies");
+		figgy = new ItemFood(2604, 4, 0.6F, false).setUnlocalizedName("figgy").setTextureName(Festivities.ID + ":figgy").setCreativeTab(CreativeTabs.tabFood);
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
 		this.proxy.registerRenderers();
-		LanguageRegistry.addName(magicCandy, "Magic Candy");
+		LanguageRegistry.addName(magicCandy, "Magic Candy Cane");
 		LanguageRegistry.addName(candyCane, "Candy Cane");
-		LanguageRegistry.addName(candyLog, "Candy Log");
+		LanguageRegistry.addName(candyLog, "Peppermint Log");
 		LanguageRegistry.addName(snowglobe, "Snowglobe");
 		LanguageRegistry.addName(treatplate, "Plate of Treats");
+		LanguageRegistry.instance().addStringLocalization("item.moreCookies.sugar.name", "Sugar Cookie");
+		LanguageRegistry.instance().addStringLocalization("item.moreCookies.choc.name", "Chocolate Cookie");
+		LanguageRegistry.instance().addStringLocalization("item.moreCookies.sprink.name", "Cookie with Sprinkles");
+		LanguageRegistry.instance().addStringLocalization("item.moreCookies.candy.name", "Peppermint Cookie");
+		LanguageRegistry.addName(figgy, "Christmas Pudding");
 	}
 }

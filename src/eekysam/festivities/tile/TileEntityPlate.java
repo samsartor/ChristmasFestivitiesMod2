@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
+import eekysam.festivities.Festivities;
 import eekysam.festivities.network.packet.FestPacket;
 import eekysam.festivities.network.packet.PacketUpdateTile;
 import net.minecraft.item.Item;
@@ -62,9 +63,32 @@ public class TileEntityPlate extends TileEntity
 
 	public PlateFoods getFood(ItemStack item)
 	{
+		int d = item.getItemDamage();
 		if (item.itemID == Item.cookie.itemID)
 		{
-			return PlateFoods.Cookie;
+			return PlateFoods.ChipCookie;
+		}
+		if (item.itemID == Festivities.moreCookies.itemID)
+		{
+			switch (d)
+			{
+				case 0:
+					return PlateFoods.SugarCookie;
+				case 1:
+					return PlateFoods.ChocCookie;
+				case 2:
+					return PlateFoods.SprinkCookie;
+				case 3:
+					return PlateFoods.CandyCookie;
+			}
+		}
+		if (item.itemID == Item.pumpkinPie.itemID)
+		{
+			return PlateFoods.PmkPie;
+		}
+		if (item.itemID == Festivities.figgy.itemID)
+		{
+			return PlateFoods.Figgy;
 		}
 		return null;
 	}
@@ -106,28 +130,35 @@ public class TileEntityPlate extends TileEntity
 		boolean flag = true;
 		if (this.contents[PlateFoods.Figgy.ordinal()] >= 2)
 		{
-			return false;
+			flag &= false;
 		}
 		if (this.contents[PlateFoods.BluPie.ordinal()] >= 1)
 		{
-			return false;
+			flag &= false;
 		}
 		if (this.contents[PlateFoods.PmkPie.ordinal()] >= 1)
 		{
-			return false;
+			flag &= false;
 		}
 		if (this.getTotalCookies() >= this.maxCookie)
 		{
-			return false;
+			flag &= false;
 		}
 		if (food.isCookie)
 		{
 			if (this.getTotalNotCookies() > 0)
 			{
-				return false;
+				flag &= false;
 			}
 		}
-		return true;
+		else
+		{
+			if (this.getTotalCookies() > 0)
+			{
+				flag &= false;
+			}
+		}
+		return flag;
 	}
 
 	public void clear()
@@ -190,6 +221,7 @@ public class TileEntityPlate extends TileEntity
 	public void readContents(NBTTagCompound tag)
 	{
 		Random rand = new Random();
+		this.clear();
 		for (int i = 0; i < this.contents.length; i++)
 		{
 			PlateFoods f = PlateFoods.values()[i];

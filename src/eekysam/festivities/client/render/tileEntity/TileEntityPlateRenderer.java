@@ -134,7 +134,7 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 	public void renderCookie(int x, int y, int z, PlateDrawFoods type, int texture)
 	{
 		int t = -1;
-	        switch (type)
+	    switch (type)
 		{
 		    case ChipCookie:
 		    	t = 0;
