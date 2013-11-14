@@ -7,6 +7,8 @@ import java.util.Random;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import eekysam.festivities.network.packet.FestPacket;
 import eekysam.festivities.network.packet.PacketUpdateTile;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -58,6 +60,15 @@ public class TileEntityPlate extends TileEntity
 		}
 	}
 
+	public PlateFoods getFood(ItemStack item)
+	{
+		if (item.itemID == Item.cookie.itemID)
+		{
+			return PlateFoods.Cookie;
+		}
+		return null;
+	}
+	
 	public boolean addItem(PlateFoods food, Random rand)
 	{
 		if (this.canAdd(food))

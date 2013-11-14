@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.TileEntityPlate;
+import eekysam.festivities.tile.TileEntityPlate.PlateDrawFoods;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -135,19 +136,19 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 		int t = -1;
 	        switch (type)
 		{
-		    case PlateDrawFoods.ChipCookie:
+		    case ChipCookie:
 		    	t = 0;
 		    	break;
-		    case PlateDrawFoods.SugarCookie:
+		    case SugarCookie:
 		    	t = 1;
 		    	break;
-		    case PlateDrawFoods.ChocCookie:
+		    case ChocCookie:
 		    	t = 2;
 		    	break;
-		    case PlateDrawFoods.SprinkCookie:
+		    case SprinkCookie:
 		    	t = 3;
 		    	break;
-		    case PlateDrawFoods.CandyCookie:
+		    case CandyCookie:
 		    	t = 4;
 		    	break;
 		    default:
