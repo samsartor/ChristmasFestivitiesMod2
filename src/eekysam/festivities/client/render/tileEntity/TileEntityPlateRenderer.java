@@ -14,6 +14,10 @@ import eekysam.utils.draw.IRenderer;
 
 public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implements IRenderer
 {
+	public static final short[] cookieXPos = new short[] {6,7,2,4,10,5,8,2,3,5,3,10,9,5,10,10,7,7,1,3};
+	public static final short[] cookieYPos = new short[] {0,0,0,1,0,0,1,0,1,2,0,0,1,1,2,0,2,3,1,2};
+	public static final short[] cookieZPos = new short[] {4,8,7,6,3,1,3,3,3,5,11,7,7,10,5,10,8,6,9,8};
+	
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
 	{
 		GL11.glPushMatrix();
@@ -34,13 +38,32 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 	public void render(TileEntityPlate tile)
 	{
 		Tessellator t = Tessellator.instance;
-		this.renderFiggy(0, 1, 0);
-		this.renderPie(7, 1, 0, "ppk");
-		this.renderCookie(0, 1, 7, 0, 1);
-		this.renderCookie(1, 3, 7, 1, 0);
-		this.renderCookie(2, 7, 9, 2, 2);
-		this.renderCookie(4, 5, 7, 3, 1);
-		this.renderCookie(8, 3, 7, 4, 3);
+		int cookieAt = 0;
+		int figgyAt = 0;
+		int pieAt = 0;
+		for (PlateDrawFoods item : tile.onPlate)
+		{
+			if (item.isCookie)
+			{
+				this.renderCookie(1 + this.cookieXPos[cookieAt], 1 + this.cookieYPos[cookieAt], 1 + this.cookieZPos[cookieAt], item, 0);
+				cookieAt++;
+			}
+			if (item == PlateDrawFoods.Figgy)
+			{
+				this.renderFiggy(1, 1, 1);
+				figgyAt++;
+			}
+			if (item == PlateDrawFoods.BluPie)
+			{
+				this.renderPie(1, 1, 1, "blu");
+				pieAt++;
+			}
+			if (item == PlateDrawFoods.PmkPie)
+			{
+				this.renderPie(1, 1, 1, "ppk");
+				pieAt++;
+			}
+		}
 	}
 	
 	public void renderFiggy(int x, int y, int z)
@@ -107,6 +130,32 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 		t.draw();
 	}
 	
+	public void renderCookie(int x, int y, int z, PlateDrawFoods type, int texture)
+	{
+		int t = -1;
+	        switch (type)
+		{
+		    case PlateDrawFoods.ChipCookie:
+		    	t = 0;
+		    	break;
+		    case PlateDrawFoods.SugarCookie:
+		    	t = 1;
+		    	break;
+		    case PlateDrawFoods.ChocCookie:
+		    	t = 2;
+		    	break;
+		    case PlateDrawFoods.SprinkCookie:
+		    	t = 3;
+		    	break;
+		    case PlateDrawFoods.CandyCookie:
+		    	t = 4;
+		    	break;
+		    default:
+		    	break;
+		}
+		this.renderCookie(x, y, z, t, texture);
+	}
+		
 	public void renderCookie(int x, int y, int z, int type, int texture)
 	{
 		BoxDrawBasic draw = new BoxDrawBasic(this);
