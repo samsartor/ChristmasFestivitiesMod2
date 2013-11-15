@@ -72,6 +72,39 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 				pieAt++;
 			}
 		}
+		
+		BoxDrawBasic draw = new BoxDrawBasic(this);
+		draw.setTexture(Festivities.ID, "textures/tile/dish.png", 64, 32);
+		t.startDrawingQuads();
+		
+		draw.cube(0, 0, 0, 16, 3, 16);
+		draw.selectUV(0, 0);
+		draw.YUp();
+		draw.selectUV(16, 0);
+		draw.YDown();
+		draw.selectUV(32, 0);
+		draw.XUp();
+		draw.selectUV(32, 3);
+		draw.ZUp();
+		draw.selectUV(32, 6);
+		draw.XDown();
+		draw.selectUV(32, 9);
+		draw.ZDown();
+		
+		draw.cube(1, 1, 1, 14, 2, 14);
+		draw.faceIn();
+		draw.selectUV(0, 16);
+		draw.YDown();
+		draw.selectUV(14, 16);
+		draw.XUp();
+		draw.selectUV(14, 18);
+		draw.ZUp();
+		draw.selectUV(14, 20);
+		draw.XDown();
+		draw.selectUV(14, 22);
+		draw.ZDown();
+		
+		t.draw();
 	}
 	
 	public void renderFiggy(int x, int y, int z)
