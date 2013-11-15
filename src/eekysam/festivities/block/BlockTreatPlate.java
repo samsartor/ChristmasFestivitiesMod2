@@ -6,6 +6,7 @@ import eekysam.festivities.tile.TileEntityPlate.PlateFoods;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,6 +19,44 @@ public class BlockTreatPlate extends BlockContainer
 	{
 		super(par1, par2Material);
 	}
+	
+    public void onBlockClicked(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
+    {
+    	TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
+    	if (t != null)
+    	{
+    		ItemStack[] items = t.onClear();
+    		for (int i = 0; i < items.length; i++)
+    		{
+    			if (items[i] != null)
+    			{
+    				par5EntityPlayer.dropPlayerItem(items[i]);
+    			}
+    		}
+    	}
+    }
+    
+    public void breakBlock(World world, int par2, int par3, int par4, int par5, int par6)
+    {
+    	TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
+    	if (t != null)
+    	{
+    		ItemStack[] items = t.onClear();
+    		for (int i = 0; i < items.length; i++)
+    		{
+    			if (items[i] != null)
+    			{
+    				float f = 0.7F;
+                    double dx = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+                    double dy = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.2D + 0.6D;
+                    double dz = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+                    EntityItem entityitem = new EntityItem(world, (double)par2 + dx, (double)par3 + dy, (double)par4 + dz, items[i]);
+                    entityitem.delayBeforeCanPickup = 10;
+                    world.spawnEntityInWorld(entityitem);
+    			}
+    		}
+    	}
+    }
 	
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{

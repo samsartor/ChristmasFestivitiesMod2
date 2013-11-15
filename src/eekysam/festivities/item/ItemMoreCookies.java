@@ -22,6 +22,8 @@ public class ItemMoreCookies extends ItemFood
 	public ItemMoreCookies(int par1, int par2, float par3)
 	{
 		super(par1, par2, par3, false);
+        this.setHasSubtypes(true);
+        this.setMaxDamage(0);
 	}
 
 	@SideOnly(Side.CLIENT)

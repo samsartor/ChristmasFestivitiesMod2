@@ -75,7 +75,7 @@ public class TileEntityPlate extends TileEntity
 		return PlateFoods.getFood(item);
 	}
 	
-	public ItemStack dropOneItem()
+	public ItemStack doDropOneItem()
 	{
 		int j = this.onPlate.size() - 1;
 		if (j >= 0)
@@ -85,6 +85,30 @@ public class TileEntityPlate extends TileEntity
 			return food.getItem();
 		}
 		return null;
+	}
+	
+	public ItemStack dropOneItem()
+	{
+		ItemStack i = this.doDropOneItem();
+		this.onChange();
+		return i;
+	}
+	
+	public ItemStack[] onClear()
+	{
+		ItemStack[] drop = new ItemStack[this.onPlate.size()];
+		int i = 0;
+		while (!this.onPlate.isEmpty())
+		{
+			i++;
+			ItemStack item = this.doDropOneItem();
+			if (i < drop.length)
+			{
+				drop[i] = item;
+			}
+		}
+		this.onChange();
+		return drop;
 	}
 	
 	public boolean addItem(PlateFoods food)
