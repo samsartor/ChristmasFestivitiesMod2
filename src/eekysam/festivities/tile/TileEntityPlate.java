@@ -86,10 +86,19 @@ public class TileEntityPlate extends TileEntity
 		{
 			return PlateFoods.PmkPie;
 		}
+		if (item.itemID == Festivities.bluePie.itemID)
+		{
+			return PlateFoods.BluPie;
+		}
 		if (item.itemID == Festivities.figgy.itemID)
 		{
 			return PlateFoods.Figgy;
 		}
+		return null;
+	}
+	
+	public ItemStack dropOneItem()
+	{
 		return null;
 	}
 	

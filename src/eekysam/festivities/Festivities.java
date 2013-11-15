@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -70,6 +71,13 @@ public class Festivities
 		moreCookies = new ItemMoreCookies(2603, 2, 0.1F).setUnlocalizedName("morecookies").setCreativeTab(CreativeTabs.tabFood);
 		GameRegistry.registerItem(moreCookies, "morecookies");
 		figgy = new ItemFood(2604, 4, 0.6F, false).setUnlocalizedName("figgy").setTextureName(Festivities.ID + ":figgy").setCreativeTab(CreativeTabs.tabFood);
+		GameRegistry.registerItem(figgy, "figgy");
+		holly = new Item(2605).setUnlocalizedName("holly").setTextureName(Festivities.ID + ":holly").setCreativeTab(CreativeTabs.tabMaterials);
+		GameRegistry.registerItem(holly, "holly");
+		berries = new Item(2606).setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(CreativeTabs.tabMaterials);
+		GameRegistry.registerItem(berries, "berries");
+		bluePie = new ItemFood(2607, 8, 0.3F, false).setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(CreativeTabs.tabFood);
+		GameRegistry.registerItem(bluePie, "bluPie");
 	}
 
 	@EventHandler
@@ -81,10 +89,27 @@ public class Festivities
 		LanguageRegistry.addName(candyLog, "Peppermint Log");
 		LanguageRegistry.addName(snowglobe, "Snowglobe");
 		LanguageRegistry.addName(treatplate, "Plate of Treats");
-		LanguageRegistry.instance().addStringLocalization("item.moreCookies.sugar.name", "Sugar Cookie");
-		LanguageRegistry.instance().addStringLocalization("item.moreCookies.choc.name", "Chocolate Cookie");
-		LanguageRegistry.instance().addStringLocalization("item.moreCookies.sprink.name", "Cookie with Sprinkles");
-		LanguageRegistry.instance().addStringLocalization("item.moreCookies.candy.name", "Peppermint Cookie");
+		LanguageRegistry.addName(new ItemStack(this.moreCookies, 1, 0), "Sugar Cookie");
+		LanguageRegistry.addName(new ItemStack(this.moreCookies, 1, 1), "Chocolate Cookie");
+		LanguageRegistry.addName(new ItemStack(this.moreCookies, 1, 2), "Cookie with Sprinkles");
+		LanguageRegistry.addName(new ItemStack(this.moreCookies, 1, 3), "Peppermint Cookie");
 		LanguageRegistry.addName(figgy, "Christmas Pudding");
+		LanguageRegistry.addName(holly, "Holly");
+		LanguageRegistry.addName(berries, "Seasonal Fruits");
+		LanguageRegistry.addName(bluePie, "Blue Berry Pie");
+
+		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
+		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });
+		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 1), new Object[] { "X#X", 'X', new ItemStack(Item.dyePowder, 1, 3), '#', Item.wheat });
+		for (int i = 0; i < 16; i++)
+		{
+			if (i != 0 && i != 3 && i != 15)
+			{
+				GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 2), new Object[] { " S ", "#X#", 'X', Item.sugar, '#', Item.wheat, 'S', new ItemStack(Item.dyePowder, 1, i) });
+				GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 2), new Object[] { "###", "#X#", "###", 'X', new ItemStack(Item.dyePowder, 1, i), '#', new ItemStack(this.moreCookies, 1, 0) });
+			}
+		}
+		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 3), new Object[] { "X#X", 'X', this.candyCane, '#', Item.wheat });
+		GameRegistry.addShapelessRecipe(new ItemStack(this.bluePie), new Object[] {this.berries, Item.sugar, Item.egg});
 	}
 }

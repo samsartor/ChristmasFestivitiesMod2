@@ -29,7 +29,17 @@ public class BlockTreatPlate extends BlockContainer
         }
         if (itemstack == null)
         {
-            return false;
+        	TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
+        	ItemStack i = t.dropOneItem();
+        	if (i == null)
+        	{
+        		return false;
+        	}
+        	else
+        	{
+        		par5EntityPlayer.dropPlayerItem(i);
+        		return true;
+        	}
         }
         else
         {
