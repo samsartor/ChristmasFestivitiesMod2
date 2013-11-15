@@ -51,17 +51,24 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 			}
 			if (item == PlateDrawFoods.Figgy)
 			{
-				this.renderFiggy(1, 1, 1);
+				if (figgyAt == 0)
+				{
+					this.renderFiggy(1, 1, 1);
+				}
+				if (figgyAt == 1)
+				{
+					this.renderFiggy(8, 1, 8);
+				}
 				figgyAt++;
 			}
 			if (item == PlateDrawFoods.BluPie)
 			{
-				this.renderPie(1, 1, 1, "blu");
+				this.renderPie(4, 1, 4, "blu");
 				pieAt++;
 			}
 			if (item == PlateDrawFoods.PmkPie)
 			{
-				this.renderPie(1, 1, 1, "ppk");
+				this.renderPie(4, 1, 4, "ppk");
 				pieAt++;
 			}
 		}

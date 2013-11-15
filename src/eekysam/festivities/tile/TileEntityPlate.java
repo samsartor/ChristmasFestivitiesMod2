@@ -99,6 +99,44 @@ public class TileEntityPlate extends TileEntity
 	
 	public ItemStack dropOneItem()
 	{
+		int j = this.onPlate.size() - 1;
+		if (j >= 0)
+		{
+			PlateDrawFoods food = this.onPlate.get(j);
+			this.onPlate.remove(j);
+			for (int i = 0; i < this.contents.length; i++)
+			{
+				if (this.contents[i] > 0)
+				{
+					PlateFoods k = PlateFoods.values()[i];
+					if (k.name().equals(food.name()) || (k == PlateFoods.Cookie && food.isCookie))
+					{
+						this.contents[i]--;
+						switch (k)
+						{
+							case Figgy:
+								return new ItemStack(Festivities.figgy, 1);
+							case PmkPie:
+								return new ItemStack(Item.pumpkinPie);
+							case BluPie:
+								return new ItemStack(Festivities.bluePie);
+							case Cookie:
+								return new ItemStack(Item.cookie);
+							case SugarCookie:
+								new ItemStack(Festivities.moreCookies, 1, 0);
+							case ChocCookie:
+								new ItemStack(Festivities.moreCookies, 1, 1);
+							case SprinkCookie:
+								new ItemStack(Festivities.moreCookies, 1, 2);
+							case CandyCookie:
+								new ItemStack(Festivities.moreCookies, 1, 3);
+							case ChipCookie:
+								return new ItemStack(Item.cookie);
+						}
+					}
+				}
+			}
+		}
 		return null;
 	}
 	
