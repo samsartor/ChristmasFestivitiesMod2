@@ -194,4 +194,40 @@ public abstract class BoxDraw
 		this.textureU = u;
 		this.textureV = v;
 	}
+	
+	public void reTess()
+	{
+		if (this.tess.isDrawing)
+		{
+			this.tess.draw();
+			this.tess.startDrawingQuads();
+		}
+		else
+		{
+			this.tess.startDrawingQuads();
+		}
+	}
+	
+	public void startTess()
+	{
+		if (!this.tess.isDrawing)
+		{
+			this.tess.startDrawingQuads();
+		}
+	}
+	
+	public void setTess(boolean draw)
+	{
+		if (this.tess.isDrawing != draw)
+		{
+			if (draw)
+			{
+				this.tess.startDrawingQuads();
+			}
+			else
+			{
+				this.tess.draw();
+			}
+		}
+	}
 }

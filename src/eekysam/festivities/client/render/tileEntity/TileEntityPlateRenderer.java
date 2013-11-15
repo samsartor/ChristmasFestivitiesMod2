@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import eekysam.utils.draw.BoxDrawBasic;
+import eekysam.utils.draw.BoxDrawFakeShade;
 import eekysam.utils.draw.IRenderer;
 
 public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implements IRenderer
@@ -73,7 +74,7 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 			}
 		}
 		
-		BoxDrawBasic draw = new BoxDrawBasic(this);
+		BoxDrawBasic draw = new BoxDrawFakeShade(this);
 		draw.setTexture(Festivities.ID, "textures/tile/dish.png", 64, 32);
 		t.startDrawingQuads();
 		
@@ -109,7 +110,7 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 	
 	public void renderFiggy(int x, int y, int z)
 	{
-		BoxDrawBasic draw = new BoxDrawBasic(this);
+		BoxDrawBasic draw = new BoxDrawFakeShade(this);
 		Tessellator t = Tessellator.instance;
 		draw.setTexture(Festivities.ID, "textures/tile/plate_figgy.png", 24, 11);
 		t.startDrawingQuads();
@@ -150,7 +151,7 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 	
 	public void renderPie(int x, int y, int z, String texture)
 	{
-		BoxDrawBasic draw = new BoxDrawBasic(this);
+		BoxDrawBasic draw = new BoxDrawFakeShade(this);
 		Tessellator t = Tessellator.instance;
 		draw.setTexture(Festivities.ID, "textures/tile/plate_pie_" + texture + ".png", 32, 16);
 		t.startDrawingQuads();
@@ -199,7 +200,7 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 		
 	public void renderCookie(int x, int y, int z, int type, int texture)
 	{
-		BoxDrawBasic draw = new BoxDrawBasic(this);
+		BoxDrawBasic draw = new BoxDrawFakeShade(this);
 		Tessellator t = Tessellator.instance;
 		draw.setTexture(Festivities.ID, "textures/tile/plate_cookie.png", 16, 16);
 		t.startDrawingQuads();
