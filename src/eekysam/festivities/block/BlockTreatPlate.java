@@ -47,7 +47,7 @@ public class BlockTreatPlate extends BlockContainer
 			PlateFoods food = t.getFood(itemstack);
 			if (food != null)
 			{
-				if (t.addItem(food, par5EntityPlayer.getRNG()))
+				if (t.addItem(food))
 				{
 					t.onChange();
 	                if (!par5EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)

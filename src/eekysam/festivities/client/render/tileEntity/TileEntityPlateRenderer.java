@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.TileEntityPlate;
-import eekysam.festivities.tile.TileEntityPlate.PlateDrawFoods;
+import eekysam.festivities.tile.TileEntityPlate.PlateFoods;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -42,14 +42,14 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 		int cookieAt = 0;
 		int figgyAt = 0;
 		int pieAt = 0;
-		for (PlateDrawFoods item : tile.onPlate)
+		for (PlateFoods item : tile.onPlate)
 		{
 			if (item.isCookie)
 			{
 				this.renderCookie(1 + this.cookieXPos[cookieAt], 1 + this.cookieYPos[cookieAt], 1 + this.cookieZPos[cookieAt], item, 0);
 				cookieAt++;
 			}
-			if (item == PlateDrawFoods.Figgy)
+			if (item == PlateFoods.Figgy)
 			{
 				if (figgyAt == 0)
 				{
@@ -61,12 +61,12 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 				}
 				figgyAt++;
 			}
-			if (item == PlateDrawFoods.BluPie)
+			if (item == PlateFoods.BluPie)
 			{
 				this.renderPie(4, 1, 4, "blu");
 				pieAt++;
 			}
-			if (item == PlateDrawFoods.PmkPie)
+			if (item == PlateFoods.PmkPie)
 			{
 				this.renderPie(4, 1, 4, "ppk");
 				pieAt++;
@@ -138,7 +138,7 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 		t.draw();
 	}
 	
-	public void renderCookie(int x, int y, int z, PlateDrawFoods type, int texture)
+	public void renderCookie(int x, int y, int z, PlateFoods type, int texture)
 	{
 		int t = -1;
 	    switch (type)
