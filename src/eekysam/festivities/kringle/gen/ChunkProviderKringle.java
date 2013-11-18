@@ -384,21 +384,21 @@ public class ChunkProviderKringle implements IChunkProvider
 	 * will generates all the blocks for the specified chunk from the map seed
 	 * and chunk seed
 	 */
-	public Chunk provideChunk(int par1, int par2)
+	public Chunk provideChunk(int x, int z)
 	{
-		this.rand.setSeed((long) par1 * 341873128712L + (long) par2 * 132897987541L);
+		this.rand.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
 		short[] ids = new short[32768];
 		byte[] meta = new byte[32768];
-		this.generateTerrain(par1, par2, ids);
-		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, par1 * 16, par2 * 16, 16, 16);
-		this.replaceBlocksForBiome(par1, par2, ids, this.biomesForGeneration);
+		this.generateTerrain(x, z, ids);
+		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, x * 16, z * 16, 16, 16);
+		this.replaceBlocksForBiome(x, z, ids, this.biomesForGeneration);
 
-		Chunk chunk = new Chunk(this.worldObj, ids, meta, par1, par2);
-		byte[] abyte1 = chunk.getBiomeArray();
+		Chunk chunk = new Chunk(this.worldObj, ids, meta, x, z);
+		byte[] biomes = chunk.getBiomeArray();
 
-		for (int k = 0; k < abyte1.length; ++k)
+		for (int k = 0; k < biomes.length; ++k)
 		{
-			abyte1[k] = (byte) this.biomesForGeneration[k].biomeID;
+			biomes[k] = (byte) this.biomesForGeneration[k].biomeID;
 		}
 
 		chunk.generateSkylightMap();
@@ -410,65 +410,65 @@ public class ChunkProviderKringle implements IChunkProvider
 	 */
 	public void replaceBlocksForBiome(int x, int z, short[] ids, BiomeGenBase[] biomes)
 	{
-		byte b0 = 63;
-		double d0 = 0.03125D;
-		this.stoneNoise = this.noiseGen4.generateNoiseOctaves(this.stoneNoise, x * 16, z * 16, 0, 16, 16, 1, d0 * 2.0D, d0 * 2.0D, d0 * 2.0D);
+		byte heightMeasure = 63;
+		double noiseParam = 0.03125D;
+		this.stoneNoise = this.noiseGen4.generateNoiseOctaves(this.stoneNoise, x * 16, z * 16, 0, 16, 16, 1, noiseParam * 2.0D, noiseParam * 2.0D, noiseParam * 2.0D);
 
-		for (int k = 0; k < 16; ++k)
+		for (int setX = 0; setX < 16; ++setX)
 		{
-			for (int l = 0; l < 16; ++l)
+			for (int setZ = 0; setZ < 16; ++setZ)
 			{
-				BiomeGenKringle biomegen = (BiomeGenKringle) biomes[l + k * 16];
-				int i1 = (int) (this.stoneNoise[k + l * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
-				int j1 = -1;
+				BiomeGenKringle biomegen = (BiomeGenKringle) biomes[setZ + setX * 16];
+				int randStone = (int) (this.stoneNoise[setX + setZ * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
+				int stoneTrack = -1;
 				short top = (short) biomegen.topBlock;
 				short fill = (short) biomegen.fillerBlock;
 
-				for (int k1 = 127; k1 >= 0; --k1)
+				for (int setY = 127; setY >= 0; --setY)
 				{
-					int l1 = (l * 16 + k) * 128 + k1;
+					int index = (setZ * 16 + setX) * 128 + setY;
 
-					if (k1 <= 0 + this.rand.nextInt(5))
+					if (setY <= 0 + this.rand.nextInt(5))
 					{
-						ids[l1] = (short) Block.bedrock.blockID;
+						ids[index] = (short) Block.bedrock.blockID;
 					}
 					else
 					{
-						short b3 = ids[l1];
+						short blockID = ids[index];
 
-						if (b3 == 0)
+						if (blockID == 0)
 						{
-							j1 = -1;
+							stoneTrack = -1;
 						}
-						else if (b3 == Kringle.getStone())
+						else if (blockID == Kringle.getStone())
 						{
-							if (j1 == -1)
+							if (stoneTrack == -1)
 							{
-								if (i1 <= 0)
+								if (randStone <= 0)
 								{
 									top = 0;
 									fill = (short) Kringle.getStone();
 								}
-								else if (k1 >= b0 - 4 && k1 <= b0 + 1)
+								else if (setY >= heightMeasure - 4 && setY <= heightMeasure + 1)
 								{
 									top = (short) biomegen.topBlock;
 									fill = (short) biomegen.fillerBlock;
 								}
 
-								if (k1 < b0 && top == 0)
+								if (setY < heightMeasure && top == 0)
 								{
 									top = (byte) Block.ice.blockID;
 								}
 
-								j1 = i1;
+								stoneTrack = randStone;
 
-								if (k1 >= b0 - 1)
+								if (setY >= heightMeasure - 1)
 								{
-									ids[l1] = top;
+									ids[index] = top;
 								}
 								else
 								{
-									ids[l1] = fill;
+									ids[index] = fill;
 								}
 							}
 						}
