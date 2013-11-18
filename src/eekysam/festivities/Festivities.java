@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -22,6 +23,7 @@ import eekysam.festivities.block.BlockTreatPlate;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.festivities.item.ItemMoreCookies;
+import eekysam.festivities.kringle.WorldProviderKringle;
 import eekysam.festivities.network.PacketHandler;
 
 @Mod(modid = Festivities.ID, name = Festivities.NAME, version = "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD)
@@ -35,6 +37,9 @@ public class Festivities
 	public static final int MAJOR = 0;
 	public static final int MINOR = 0;
 	public static final int BUILD = 0;
+	
+	
+	public static final int kringleId = 3;
 
 	@Instance("Festivities")
 	public static Festivities instance;
@@ -111,5 +116,8 @@ public class Festivities
 		}
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 3), new Object[] { "X#X", 'X', this.candyCane, '#', Item.wheat });
 		GameRegistry.addShapelessRecipe(new ItemStack(this.bluePie), new Object[] {this.berries, Item.sugar, Item.egg});
+		
+        DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
+        DimensionManager.registerDimension(this.kringleId, this.kringleId);
 	}
 }
