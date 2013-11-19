@@ -1,6 +1,7 @@
 package eekysam.festivities.kringle;
 
 import eekysam.festivities.Festivities;
+import eekysam.festivities.kringle.gen.ChunkProviderKringle;
 import net.minecraft.block.Block;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -16,8 +17,7 @@ public class WorldProviderKringle extends WorldProvider
 
 	public IChunkProvider createChunkGenerator()
 	{
-		// return new ChunkProviderKringle(worldObj, worldObj.getSeed(), true);
-		return null;
+		return new ChunkProviderKringle(worldObj, worldObj.getSeed());
 	}
 
 	public String getDimensionName()
