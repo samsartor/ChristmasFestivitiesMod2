@@ -4,10 +4,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -22,6 +28,7 @@ import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
 import eekysam.festivities.command.CommandKringle;
+import eekysam.festivities.events.EventHooks;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.festivities.item.ItemMoreCookies;
@@ -36,11 +43,16 @@ public class Festivities
 	public static final String ID = "festivities";
 	public static final String NAME = "festivities";
 	public static final String CHANNEL = "festivities";
+	
+	public static final String CHATNAME = "Festivities";
 
 	public static final int MAJOR = 0;
 	public static final int MINOR = 0;
-	public static final int BUILD = 0;
+	public static final int BUILD = 1;
 	
+	public static final boolean TESTVERSION = true;
+	public static final String[] TESTMSG = new String[] {"Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible."};
+	public static final String[] MSG = new String[] {"Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD};
 	
 	public static final int kringleId = 3;
 
@@ -85,7 +97,9 @@ public class Festivities
 		berries = new Item(2606).setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(CreativeTabs.tabMaterials);
 		GameRegistry.registerItem(berries, "berries");
 		bluePie = new ItemFood(2607, 8, 0.3F, false).setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(CreativeTabs.tabFood);
-		GameRegistry.registerItem(bluePie, "bluPie");
+		GameRegistry.registerItem(bluePie, "bluPie");	
+		
+		MinecraftForge.EVENT_BUS.register(new EventHooks());
 	}
 
 	@EventHandler
@@ -130,5 +144,21 @@ public class Festivities
     public void serverStarting(FMLServerStartingEvent event)
     {
     	event.registerServerCommand(new CommandKringle());
+    }
+    
+    public static void SendChat(EntityPlayer player, String msg)
+    {
+    	if (player.worldObj.isRemote)
+    	{
+    		player.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] {CHATNAME, msg}));
+    	}
+    }
+    
+    public static void SendChat(EntityPlayer player, String[] msg)
+    {
+    	for (int i = 0; i < msg.length; i++)
+    	{
+    		SendChat(player, msg[i]);
+    	}
     }
 }

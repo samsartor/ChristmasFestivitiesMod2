@@ -38,7 +38,7 @@ public class WorldGenPeppermintPole extends WorldGenerator implements WorldGenFe
 					int id = world.getBlockId(x, y + i, z);
 					if (id == 0 || Block.blocksList[id].isBlockReplaceable(world, x, y, z))
 					{
-						world.setBlock(x, y + i, z, Festivities.candyLog.blockID, 0, 2);
+						world.setBlock(X, Y + i, Z, Festivities.candyLog.blockID, 0, 2);
 					}
 					else
 					{
