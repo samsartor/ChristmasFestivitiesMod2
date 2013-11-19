@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -20,6 +21,14 @@ import net.minecraftforge.event.terraingen.DeferredBiomeDecorator;
 
 public abstract class BiomeGenKringle extends BiomeGenBase
 {
+	public static BiomeGenKringle kringlePlains;
+	
+	public static void registerBiomes(int base)
+	{
+		kringlePlains = (BiomeGenKringle) new BiomeGenKringlePlains(base + 1).setBiomeName("Plains").setMinMaxHeight(0.1F, 0.3F);
+		GameRegistry.addBiome(kringlePlains);
+	}
+	
 	public int topBlock;
 	public int fillerBlock;
 	
@@ -28,6 +37,7 @@ public abstract class BiomeGenKringle extends BiomeGenBase
         super(id);
         this.setEnableSnow();
         this.setColor(0xFF0511);
+        this.setTemperatureRainfall(0.0F, 0.5F);
         this.spawnableMonsterList.clear();
         this.spawnableCreatureList.clear();
         this.spawnableWaterCreatureList.clear();

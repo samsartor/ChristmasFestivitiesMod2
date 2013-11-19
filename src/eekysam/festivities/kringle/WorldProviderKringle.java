@@ -1,6 +1,7 @@
 package eekysam.festivities.kringle;
 
 import eekysam.festivities.Festivities;
+import eekysam.festivities.kringle.biome.WorldChunkManagerKringle;
 import eekysam.festivities.kringle.gen.ChunkProviderKringle;
 import net.minecraft.block.Block;
 import net.minecraft.world.WorldProvider;
@@ -10,8 +11,7 @@ public class WorldProviderKringle extends WorldProvider
 {
 	public void registerWorldChunkManager()
 	{
-		// this.worldChunkMgr = new
-		// WorldChunkManagerHell(BiomeGenBase.desertHills, 0.8F, 0.1F);
+		this.worldChunkMgr = new WorldChunkManagerKringle();
 		this.dimensionId = Festivities.kringleId;
 	}
 

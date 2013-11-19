@@ -14,16 +14,19 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
+import eekysam.festivities.command.CommandKringle;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.festivities.item.ItemMoreCookies;
 import eekysam.festivities.kringle.WorldProviderKringle;
+import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
 
 @Mod(modid = Festivities.ID, name = Festivities.NAME, version = "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD)
@@ -88,6 +91,8 @@ public class Festivities
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
+		BiomeGenKringle.registerBiomes(130);
+		
 		this.proxy.registerRenderers();
 		LanguageRegistry.addName(magicCandy, "Magic Candy Cane");
 		LanguageRegistry.addName(candyCane, "Candy Cane");
@@ -120,4 +125,10 @@ public class Festivities
         DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
         DimensionManager.registerDimension(this.kringleId, this.kringleId);
 	}
+	
+    @EventHandler
+    public void serverStarting(FMLServerStartingEvent event)
+    {
+    	event.registerServerCommand(new CommandKringle());
+    }
 }

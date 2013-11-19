@@ -387,9 +387,22 @@ public class ChunkProviderKringle implements IChunkProvider
 	public Chunk provideChunk(int x, int z)
 	{
 		this.rand.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
-		short[] ids = new short[32768];
+		short[] oldids = new short[32768];
 		byte[] meta = new byte[32768];
-		this.generateTerrain(x, z, ids);
+		this.generateTerrain(x, z, oldids);
+		short[] ids = new short[32768];
+		for (int i = 0; i < 16; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				for (int k = 0; k < 128; k++)
+				{
+					int idold = i << 11 | j << 7 | k;
+					int id = k << 8 | j << 4 | i;
+					ids[id] = oldids[idold];
+				}
+			}
+		}
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, x * 16, z * 16, 16, 16);
 		this.replaceBlocksForBiome(x, z, ids, this.biomesForGeneration);
 
@@ -426,7 +439,7 @@ public class ChunkProviderKringle implements IChunkProvider
 
 				for (int setY = 127; setY >= 0; --setY)
 				{
-					int index = (setZ * 16 + setX) * 128 + setY;
+					int index = setX + setZ * 16 + setY * 256;
 
 					if (setY <= 0 + this.rand.nextInt(5))
 					{
