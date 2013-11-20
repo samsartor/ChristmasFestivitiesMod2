@@ -42,4 +42,13 @@ public class WorldProviderKringle extends WorldProvider
 		}
 		return false;
 	}
+	
+    /**
+     * Calculates the angle of sun and moon in the sky relative to a specified time (usually worldTime)
+     */
+    public float calculateCelestialAngle(long par1, float par3)
+    {
+        return 0.5F;
+    }
+
 }
