@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.Scanner;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,14 +12,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -40,14 +35,15 @@ import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
 import eekysam.festivities.command.CommandKringle;
+import eekysam.festivities.debugutils.PerlinTest;
 import eekysam.festivities.events.ConnectionHandler;
 import eekysam.festivities.events.EventHooks;
-import eekysam.festivities.tile.TileEntityPlate;
-import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.festivities.item.ItemMoreCookies;
 import eekysam.festivities.kringle.WorldProviderKringle;
 import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
+import eekysam.festivities.tile.TileEntityPlate;
+import eekysam.festivities.tile.TileEntitySnowglobe;
 
 @Mod(modid = Festivities.ID, name = Festivities.NAME, version = "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = { Festivities.CHANNEL }, packetHandler = PacketHandler.class)
@@ -63,6 +59,8 @@ public class Festivities
 	public static final int MINOR = 0;
 	public static final int BUILD = 2;
 
+	public static final boolean DEBUG = true;
+	
 	public static final boolean TESTVERSION = true;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
 	public static final String[] TESTMSGDATED = new String[] {"This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
@@ -122,6 +120,13 @@ public class Festivities
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
+		if (this.DEBUG)
+		{
+			PerlinTest perlinTest = new PerlinTest(12965L, 8, 0.5F);
+			perlinTest.makeWorld();
+			perlinTest.saveImg("test.png", 256, 256);
+		}
+		
 		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
 
 		BiomeGenKringle.registerBiomes(130);

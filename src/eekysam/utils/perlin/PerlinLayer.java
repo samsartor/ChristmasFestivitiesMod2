@@ -14,6 +14,9 @@ public class PerlinLayer implements IPerlinLayer
 	public int layer;
 	public byte corner;
 	
+	public int worldxpos = -1;
+	public int worldypos = -1;
+	
 	protected float[] ownGrid = new float[256];
 	protected float[] grid = new float[256];
 	
@@ -21,6 +24,11 @@ public class PerlinLayer implements IPerlinLayer
 	private boolean builtGrid = false;
 	
 	public PerlinLayer(IPerlinLayer parent, Perlin perlin, int layer, byte corner, long seed) throws Exception
+	{
+		this(parent, perlin, layer, corner, seed, true);
+	}
+	
+	public PerlinLayer(IPerlinLayer parent, Perlin perlin, int layer, byte corner, long seed, boolean build) throws Exception
 	{
 		this.parent = parent;
 		this.perlin = perlin;
@@ -40,16 +48,25 @@ public class PerlinLayer implements IPerlinLayer
 		}
 		this.isLast = this.layer == perlin.numLayers();
 		this.newSeed(seed, corner);
+		this.buildGrid();
 	}
 	
 	public PerlinLayer(PerlinWorld parent, Perlin perlin, int xpos, int ypos, long seed)
 	{
+		this(parent, perlin, xpos, ypos, seed, true);
+	}
+	
+	public PerlinLayer(PerlinWorld parent, Perlin perlin, int xpos, int ypos, long seed, boolean build)
+	{
+		this.worldxpos = xpos;
+		this.worldypos = ypos;
 		this.parent = parent;
 		this.perlin = perlin;
 		this.layer = 1;
 		this.corner = -1;
 		this.isLast = this.layer == perlin.numLayers();
 		this.newSeed(seed, xpos, ypos);
+		this.buildGrid();
 	}
 	
 	public void buildOwnGrid()
@@ -95,48 +112,19 @@ public class PerlinLayer implements IPerlinLayer
 	{
 		if (corner == 0)
 		{
-			return this.grid[x + y * 16];
+			return this.getAnyValue(x, y);
 		}
 		if (corner == 1)
 		{
-			if (x < 15)
-			{
-				return (this.grid[x + y * 16] + this.grid[(x + 1) + y * 16]) / 2;
-			}
-			else
-			{
-				return this.blur(x, y, (byte) 0);
-			}
+			return (this.getAnyValue(x, y) + this.getAnyValue((x + 1), y)) / 2;
 		}
 		if (corner == 2)
 		{
-			if (y < 15)
-			{
-				return (this.grid[x + y * 16] + this.grid[x + (y + 1) * 16]) / 2;
-			}
-			else
-			{
-				return this.blur(x, y, (byte) 0);
-			}
+			return (this.getAnyValue(x, y) + this.getAnyValue(x, (y + 1))) / 2;
 		}
 		if (corner == 3)
 		{
-			if (y < 15 && x < 15)
-			{
-				return (this.grid[x + y * 16] + this.grid[x + (y + 1) * 16] + this.grid[(x + 1) + y * 16] + this.grid[(x + 1) + (y + 1) * 16]) / 4;
-			}
-			else if (x < 15)
-			{
-				return this.blur(x, y, (byte) 1);
-			}
-			else if (y < 15)
-			{
-				return this.blur(x, y, (byte) 2);
-			}
-			else
-			{
-				return this.blur(x, y, (byte) 0);
-			}
+			return (this.getAnyValue(x, y) + this.getAnyValue(x, (y + 1)) + this.getAnyValue((x + 1), y) + this.getAnyValue((x + 1), (y + 1))) / 4;
 		}
 		return 0;
 	}
@@ -177,13 +165,20 @@ public class PerlinLayer implements IPerlinLayer
 		}
 		try
 		{
-			this.list[corner] = new PerlinLayer(this, this.perlin, this.layer + 1, corner, this.seed);
+			this.list[corner] = new PerlinLayer(this, this.perlin, this.layer + 1, corner, this.seed, true);
 		}
-		catch (Exception e) {}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public float[] getChunk(float u, float v)
 	{
+		if (!this.builtGrid)
+		{
+			this.buildGrid();
+		}
 		if (this.isLast)
 		{
 			return this.grid;
@@ -222,7 +217,7 @@ public class PerlinLayer implements IPerlinLayer
 		}
 		return null;
 	}
-	
+
     public void newSeed(long seed, long par)
     {
         this.seed = seed;
@@ -261,5 +256,134 @@ public class PerlinLayer implements IPerlinLayer
             this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
             this.seed += pars[i];
         }
+    }
+    
+    public float getAnyValue(int x, int y)
+    {
+    	if (x >= 0 && y >= 0 && x < 16 && y < 16)
+    	{
+    		return this.grid[x + y * 16];
+    	}
+    	else
+    	{
+    		return this.getAnyValueLayer(x, y, this.layer);
+    	}
+    }
+    
+    public float getAnyValueLayer(float x, float y, int layer)
+    {
+    	if (x >= 0 && y >= 0 && x < 16 && y < 16)
+    	{
+    		if (this.layer == layer)
+    		{
+    			return this.grid[(int) x + (int) y * 16];
+    		}
+    		else
+    		{
+    			return this.getValueUnderLayer(x / 16.0F, y / 16.0F, layer);
+    		}
+    	}
+    	else
+    	{
+    		if (this.parent instanceof PerlinLayer)
+    		{
+    			PerlinLayer p = (PerlinLayer) this.parent;
+    			switch (this.corner)
+    			{
+    				case 0:
+    					break;
+    				case 1:
+    					x += 16;
+    					break;
+    				case 2:
+    					y += 16;
+    					break;
+    				case 3:
+    					x += 16;
+    					y += 16;
+    					break;
+    			}
+    			x /= 2;
+    			y /= 2;
+    			return p.getAnyValueLayer(x, y, layer);
+    		}
+    		else
+    		{
+    			PerlinWorld w = (PerlinWorld) this.parent;
+    			int wx = this.worldxpos;
+    			int wy = this.worldypos;
+    			if (x < 0)
+    			{
+    				wx -= 1;
+    				x += 16;
+    			}
+    			else if (x >= 16)
+    			{
+    				wx += 1;
+    				x -= 16;
+    			}
+    			else if (y < 0)
+    			{
+    				wy -= 1;
+    				y += 16;
+    			}
+    			else if (y >= 16)
+    			{
+    				wy += 1;
+    				y -= 16;
+    			}
+    			PerlinLayer s = w.makeLayer(wx, wy, true);
+        		if (this.layer == layer)
+        		{
+        			return s.getAnyValueLayer(x, y, layer);
+        		}
+        		else
+        		{
+	    			return s.getValueUnderLayer(x / 16.0F, y / 16.0F, layer);
+        		}
+    		}
+    	}
+    }
+    
+    public float getAnyValueLayerF(float u, float v, int layer)
+    {
+    	return this.getAnyValueLayer(u * 16, v * 16, layer);
+    }
+    
+    public float getValueUnderLayer(float u, float v, int layer)
+    {
+		if (u < 0.5F && v < 0.5F)
+		{
+			if (this.list[0] == null)
+			{
+				this.makeGrid((byte) 0);
+			}
+			return this.list[0].getAnyValueLayerF(u * 2, v * 2, layer);
+		}
+		if (u >= 0.5F && v < 0.5F)
+		{
+			if (this.list[1] == null)
+			{
+				this.makeGrid((byte) 1);
+			}
+			return this.list[1].getAnyValueLayerF((u - 0.5F) * 2, v * 2, layer);
+		}
+		if (u < 0.5F && v >= 0.5F)
+		{
+			if (this.list[2] == null)
+			{
+				this.makeGrid((byte) 2);
+			}
+			return this.list[2].getAnyValueLayerF(u * 2, (v - 0.5F) * 2, layer);
+		}
+		if (u >= 0.5F && v >= 0.5F)
+		{
+			if (this.list[3] == null)
+			{
+				this.makeGrid((byte) 3);
+			}
+			return this.list[3].getAnyValueLayerF((u - 0.5F) * 2, (v - 0.5F) * 2, layer);
+		}
+		return 0;
     }
 }

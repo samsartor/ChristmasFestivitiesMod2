@@ -46,4 +46,35 @@ public abstract class Perlin
 		this.loadChunk(chunkx, chunky);
 		return this.chunk[(x % 16) + (y % 16) * 16];
 	}
+	
+	public float[] getGrid(float[] array, int x, int y, int width, int height)
+	{
+		if (array == null || array.length < width * height)
+		{
+			array = new float[width * height];
+		}
+		int chkx = x / 16;
+		int chky = y / 16;
+		int numx = ((x + width) / 16) - chkx + 1;
+		int numy = ((y + height) / 16) - chky + 1;
+		for (int i = 0; i < numx; i++)
+		{
+			int chkxind = (chkx + i) * 16;
+			for (int j = 0; j < numy; j++)
+			{
+				float[] chunk = this.world.getChunk(chkx + i, chky + j);
+				int chkyind = (chky + j) * 16;
+				for (int k = 0; k < 256; k++)
+				{
+					int xind = chkxind + k % 16 - x;
+					int yind = chkyind + k / 16 - y;
+					if (xind >= 0 && xind < width && yind >= 0 && yind < height)
+					{
+						array[xind + yind * height] = chunk[k];
+					}
+				}
+			}
+		}
+		return array;
+	}
 }
