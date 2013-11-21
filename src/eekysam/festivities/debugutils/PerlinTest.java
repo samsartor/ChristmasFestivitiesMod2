@@ -54,7 +54,7 @@ public class PerlinTest extends Perlin
 		    for (int j = 0; j < h; j++)
 		    {
 		    	float v = grid[i + j * w];
-		    	v /= 4;
+		    	v /= 2;
 		    	if (v > 1.0F)
 		    	{
 		    		v = 1.0F;
@@ -75,4 +75,9 @@ public class PerlinTest extends Perlin
 		catch (IOException e) {}
 	}
 
+	@Override
+	public void onBuild()
+	{
+		
+	}
 }

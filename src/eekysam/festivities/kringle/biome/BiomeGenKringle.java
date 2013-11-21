@@ -1,6 +1,7 @@
 package eekysam.festivities.kringle.biome;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -22,19 +23,32 @@ import net.minecraftforge.event.terraingen.DeferredBiomeDecorator;
 public abstract class BiomeGenKringle extends BiomeGenBase
 {
 	public static BiomeGenKringle kringlePlains;
+	public static BiomeGenKringle kringleIce;
+	public static BiomeGenKringle kringleMountains;
+	
+	public float candy;
+	public float plant;
+	
+	public static List<BiomeGenKringle> kringleBiomes = new ArrayList<BiomeGenKringle>();
 	
 	public static void registerBiomes(int base)
 	{
-		kringlePlains = (BiomeGenKringle) new BiomeGenKringlePlains(base + 1).setBiomeName("Plains").setMinMaxHeight(0.1F, 0.3F);
+		kringlePlains = (BiomeGenKringle) new BiomeGenKringlePlains(base + 1, 0.6F, 0.2F).setBiomeName("Plains").setMinMaxHeight(0.1F, 0.3F);
 		GameRegistry.addBiome(kringlePlains);
+		kringleIce = (BiomeGenKringle) new BiomeGenKringleIce(base + 2, 0.1F, 0.2F).setBiomeName("Ice").setMinMaxHeight(0.05F, 0.1F);
+		GameRegistry.addBiome(kringleIce);
+		kringleMountains = (BiomeGenKringle) new BiomeGenKringleMountains(base + 3, 0.6F, 0.8F).setBiomeName("Mountains").setMinMaxHeight(0.3F, 0.9F);
+		GameRegistry.addBiome(kringleMountains);
 	}
 	
 	public int topBlock;
 	public int fillerBlock;
 	
-	public BiomeGenKringle(int id)
+	public BiomeGenKringle(int id, float candy, float plant)
 	{
         super(id);
+        this.candy = candy;
+        this.plant = plant;
         this.setEnableSnow();
         this.setColor(0xFF0511);
         this.setTemperatureRainfall(0.0F, 0.5F);
@@ -45,6 +59,8 @@ public abstract class BiomeGenKringle extends BiomeGenBase
         
         this.topBlock = Block.blockSnow.blockID;
         this.fillerBlock = Block.blockSnow.blockID;
+        
+        this.kringleBiomes.add(this);
 	}
 	
 	public KringleDecorator getDecorator()
@@ -126,5 +142,26 @@ public abstract class BiomeGenKringle extends BiomeGenBase
     public BiomeGenBase setBiomeName(String name)
     {
     	return super.setBiomeName("Kringle_" + name);
+    }
+    
+    public static BiomeGenKringle getBiome(float plant, float candy)
+    {
+    	plant /= 2;
+    	candy /= 2;
+    	float dist = 999.9F;
+    	BiomeGenKringle biome = null;
+    	for (int i = 0; i < kringleBiomes.size(); i++)
+    	{
+    		BiomeGenKringle b = kringleBiomes.get(i);
+    		float ca = b.candy - candy;
+    		float pl = b.plant - plant;
+    		float d = ca * ca + pl * pl;
+    		if (d < dist)
+    		{
+    			dist = d;
+    			biome = b;
+    		}
+    	}
+    	return biome;
     }
 }

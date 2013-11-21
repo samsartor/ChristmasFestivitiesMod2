@@ -11,7 +11,9 @@ public class WorldProviderKringle extends WorldProvider
 {
 	public void registerWorldChunkManager()
 	{
-		this.worldChunkMgr = new WorldChunkManagerKringle();
+		WorldChunkManagerKringle k = new WorldChunkManagerKringle();
+		k.makeNoise(this.getSeed());
+		this.worldChunkMgr = k;
 		this.dimensionId = Festivities.kringleId;
 	}
 

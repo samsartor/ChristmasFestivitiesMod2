@@ -57,9 +57,9 @@ public class Festivities
 
 	public static final int MAJOR = 0;
 	public static final int MINOR = 0;
-	public static final int BUILD = 2;
+	public static final int BUILD = 3;
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	
 	public static final boolean TESTVERSION = true;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };

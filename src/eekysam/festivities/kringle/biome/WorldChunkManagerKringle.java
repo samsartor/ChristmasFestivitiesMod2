@@ -10,20 +10,23 @@ import net.minecraft.world.biome.WorldChunkManager;
 
 //TODO Make system for multiple biomes
 public class WorldChunkManagerKringle extends WorldChunkManager
-{
-    private BiomeGenBase biomeToUse;
+{    
+    protected BiomePerlin plantNoise;
+    protected BiomePerlin candyNoise;
     
     private float kringleTemp = 0.0F;
     private float kringleHumid = 0.5F;
 
     public WorldChunkManagerKringle()
     {
-        this.biomeToUse = BiomeGenKringle.kringlePlains;
+
     }
 
-    public BiomeGenBase getBiomeGenAt(int par1, int par2)
+    public BiomeGenBase getBiomeGenAt(int x, int y)
     {
-        return this.biomeToUse;
+    	float plant = this.plantNoise.getValue(x, y);
+    	float candy = this.candyNoise.getValue(x, y);
+        return BiomeGenKringle.getBiome(plant, candy);
     }
 
     public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
@@ -33,7 +36,16 @@ public class WorldChunkManagerKringle extends WorldChunkManager
             par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
         }
 
-        Arrays.fill(par1ArrayOfBiomeGenBase, 0, par4 * par5, this.biomeToUse);
+        float[] plant = this.plantNoise.getGrid(null, par2, par3, par4, par5);
+    	float[] candy = this.candyNoise.getGrid(null, par2, par3, par4, par5);
+    	
+    	int l = par4 * par5;
+    	
+    	for (int i = 0; i < l; i++)
+    	{
+    		par1ArrayOfBiomeGenBase[i] = BiomeGenKringle.getBiome(plant[i], candy[i]);
+    	}
+
         return par1ArrayOfBiomeGenBase;
     }
 
@@ -66,7 +78,19 @@ public class WorldChunkManagerKringle extends WorldChunkManager
             par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
         }
 
-        Arrays.fill(par1ArrayOfBiomeGenBase, 0, par4 * par5, this.biomeToUse);
+        float[] plant = this.plantNoise.getGrid(null, par2, par3, par4, par5);
+    	float[] candy = this.candyNoise.getGrid(null, par2, par3, par4, par5);
+    	
+    	int l = par4 * par5;
+    	
+    	for (int i = 0; i < par4; i++)
+    	{
+        	for (int j = 0; j < par5; j++)
+        	{
+        		par1ArrayOfBiomeGenBase[i * par5 + j] = BiomeGenKringle.getBiome(plant[i + j * par4], candy[i + j * par4]);
+        	}
+    	}
+
         return par1ArrayOfBiomeGenBase;
     }
 
@@ -77,11 +101,19 @@ public class WorldChunkManagerKringle extends WorldChunkManager
 
     public ChunkPosition findBiomePosition(int par1, int par2, int par3, List par4List, Random par5Random)
     {
-        return par4List.contains(this.biomeToUse) ? new ChunkPosition(par1 - par3 + par5Random.nextInt(par3 * 2 + 1), 0, par2 - par3 + par5Random.nextInt(par3 * 2 + 1)) : null;
+        return null;
     }
 
     public boolean areBiomesViable(int par1, int par2, int par3, List par4List)
     {
-        return par4List.contains(this.biomeToUse);
+        return true;
+    }
+    
+    public void makeNoise(long seed)
+    {
+    	this.candyNoise = new BiomePerlin(seed, 1, 8, 0.5F);
+    	this.candyNoise.makeWorld();
+    	this.plantNoise = new BiomePerlin(seed, 2, 8, 0.5F);
+    	this.plantNoise.makeWorld();
     }
 }

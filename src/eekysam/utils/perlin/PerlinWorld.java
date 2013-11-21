@@ -26,6 +26,13 @@ public class PerlinWorld implements IPerlinLayer
 		}
 	}
 	
+	public void clear()
+	{
+		layers.clear();
+		xpos.clear();
+		ypos.clear();
+	}
+	
 	public float[] getChunk(int chunkx, int chunky)
 	{
 		int xind = chunkx / layersize;
