@@ -15,9 +15,7 @@ public abstract class Perlin
 	{
 		return original;
 	}
-	
-	public abstract void onBuild();
-	
+		
 	public abstract int numLayers();
 	
 	public void makeWorld()
@@ -38,7 +36,6 @@ public abstract class Perlin
 			this.loadedx = chunkx;
 			this.loadedy = chunky;
 			this.chunk = this.world.getChunk(chunkx, chunky);
-			this.onBuild();
 		}
 	}
 	
@@ -66,7 +63,6 @@ public abstract class Perlin
 			for (int j = 0; j < numy; j++)
 			{
 				float[] chunk = this.world.getChunk(chkx + i, chky + j);
-				this.onBuild();
 				int chkyind = (chky + j) * 16;
 				for (int k = 0; k < 256; k++)
 				{

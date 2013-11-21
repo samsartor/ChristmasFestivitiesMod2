@@ -1,5 +1,7 @@
 package eekysam.festivities.kringle;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.kringle.biome.WorldChunkManagerKringle;
 import eekysam.festivities.kringle.gen.ChunkProviderKringle;
@@ -52,5 +54,10 @@ public class WorldProviderKringle extends WorldProvider
     {
         return 0.5F;
     }
-
+    
+	@SideOnly(Side.CLIENT)
+	public float getStarBrightness(float par1)
+	{
+		return 1.0F;
+	}
 }

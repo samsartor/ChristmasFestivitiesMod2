@@ -4,7 +4,6 @@ import eekysam.utils.perlin.Perlin;
 
 public class BiomePerlin extends Perlin
 {
-	public int counter = 0;
 	public long seed;
 	public int num;
 	public float mult;
@@ -50,14 +49,4 @@ public class BiomePerlin extends Perlin
 		return this.num;
 	}
 
-	@Override
-	public void onBuild()
-	{
-		this.counter++;
-		if (this.counter > 32)
-		{
-			this.counter = 0;
-			this.world.clear();
-		}
-	}
 }

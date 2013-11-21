@@ -44,6 +44,7 @@ import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
+import eekysam.utils.Toolbox;
 
 @Mod(modid = Festivities.ID, name = Festivities.NAME, version = "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = { Festivities.CHANNEL }, packetHandler = PacketHandler.class)
@@ -60,13 +61,13 @@ public class Festivities
 	public static final int BUILD = 3;
 
 	public static final boolean DEBUG = false;
-	
+
 	public static final boolean TESTVERSION = true;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
-	public static final String[] TESTMSGDATED = new String[] {"This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
+	public static final String[] TESTMSGDATED = new String[] { "This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
 	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD };
 	public static final String[] MSGDATED = new String[] {};
-	
+
 	public static final int kringleId = 3;
 
 	@Instance("Festivities")
@@ -90,7 +91,7 @@ public class Festivities
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		instance = this;
-		
+
 		magicCandy = new Item(2601).setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(CreativeTabs.tabMisc);
 		GameRegistry.registerItem(magicCandy, "magicCandy");
 		candyCane = new Item(2602).setUnlocalizedName("candyCane").setTextureName(Festivities.ID + ":candyCane").setCreativeTab(CreativeTabs.tabFood);
@@ -126,7 +127,7 @@ public class Festivities
 			perlinTest.makeWorld();
 			perlinTest.saveImg("test.png", 256, 256);
 		}
-		
+
 		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
 
 		BiomeGenKringle.registerBiomes(130);
@@ -233,53 +234,88 @@ public class Festivities
 	public String[] getUpdateWarning()
 	{
 		String[] msg = null;
-		try 
+		try
 		{
-		   URL url = new URL("https://dl.dropboxusercontent.com/u/22114490/Christmas%20Festivities%20Mod%202/jars/version.txt");
-		   Scanner s = new Scanner(url.openStream());
-		   String line = s.nextLine();
-		   String[] nums = line.split("\\.");
-		   boolean dated = false;
-		   for (int i = 0; i < nums.length; i++)
-		   {
-			   int n = Integer.parseInt(nums[i]);
-			   System.out.println(n);
-			   if (i == 0 && n > 2)
-			   {
-				   dated = true;
-				   break;
-			   }
-			   if (i == 1 && n > this.MAJOR)
-			   {
-				   dated = true;
-				   break;
-			   }
-			   if (i == 2 && n > this.MINOR)
-			   {
-				   dated = true;
-				   break;
-			   }
-			   if (i == 3 && n > this.BUILD)
-			   {
-				   dated = true;
-				   break;
-			   }
-		   }
-		   if (dated)
-		   {
-			   msg = new String[] {"Christmas Festivities Mod 2 is out of date", "Current Version: " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "Newest Version: " + line};
-		   }
-		   s.close();
+			URL url = new URL("https://dl.dropboxusercontent.com/u/22114490/Christmas%20Festivities%20Mod%202/jars/version.txt");
+			Scanner s = new Scanner(url.openStream());
+			String line = s.nextLine();
+
+			if (this.isOutOfDate(line))
+			{
+				msg = new String[] { "Christmas Festivities Mod 2 is out of date", "Current Version: " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "Newest Version: " + line };
+				String[] info = new String[0];
+				while (s.hasNextLine())
+				{
+					line = s.nextLine();
+					if (line.startsWith("?"))
+					{
+						String[] add = this.getUpdateInfo(line);
+						if (add != null)
+						{
+							info = Toolbox.mergeStringArrays(info, add);
+						}
+					}
+				}
+				if (info.length != 0)
+				{
+					msg = Toolbox.mergeStringArrays(msg, new String[] {"", "You are missing out on:"});
+					msg = Toolbox.mergeStringArrays(msg, info);
+				}
+			}
+			s.close();
 		}
-		catch(IOException ex) 
+		catch (IOException ex)
 		{
 		}
 		return msg;
 	}
-	
-    @SideOnly(Side.CLIENT)
-    public float getStarBrightness(float par1)
-    {
-        return 1.0F;
-    }
+
+	public String[] getUpdateInfo(String line)
+	{
+		String[] ln = line.split(" ");
+		String v = ln[0];
+		v = v.replaceFirst("\\?", "");
+		v = v.trim();
+		String msg = "";
+		if (this.isOutOfDate(v))
+		{
+			for (int i = 1; i < ln.length; i++)
+			{
+				if (i > 1)
+				{
+					msg += " ";
+				}
+				msg += ln[i];
+			}
+			return new String[] {msg};
+		}
+		return null;
+	}
+
+	public boolean isOutOfDate(String version)
+	{
+		String[] nums = version.split("\\.");
+		for (int i = 0; i < nums.length; i++)
+		{
+			int n = Integer.parseInt(nums[i]);
+			System.out.println(n);
+			if (i == 0 && n > 2)
+			{
+				return true;
+			}
+			if (i == 1 && n > this.MAJOR)
+			{
+				return true;
+			}
+			if (i == 2 && n > this.MINOR)
+			{
+				return true;
+			}
+			if (i == 3 && n > this.BUILD)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
