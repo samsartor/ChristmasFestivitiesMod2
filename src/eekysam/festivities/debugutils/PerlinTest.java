@@ -74,10 +74,4 @@ public class PerlinTest extends Perlin
 		} 
 		catch (IOException e) {}
 	}
-
-	@Override
-	public void onBuild()
-	{
-		
-	}
 }

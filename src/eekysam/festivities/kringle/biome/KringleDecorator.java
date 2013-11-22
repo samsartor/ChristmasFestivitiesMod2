@@ -16,6 +16,7 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import eekysam.festivities.kringle.Kringle;
+import eekysam.festivities.kringle.gen.feature.WorldGenChristmasTree;
 import eekysam.festivities.kringle.gen.feature.WorldGenIce;
 import eekysam.festivities.kringle.gen.feature.WorldGenPeppermintPole;
 
@@ -23,6 +24,9 @@ public class KringleDecorator extends BiomeDecorator
 {
 	public int peppermintPolesPerChunk;
 	public WorldGenerator peppermintPoleGen;
+	
+	public int christmasTreesPerChunk;
+	public WorldGenerator christmasTreeGen;
 	
 	public KringleDecorator(BiomeGenBase biome)
 	{
@@ -34,8 +38,11 @@ public class KringleDecorator extends BiomeDecorator
 		this.diamondGen = new WorldGenMinable(Block.oreDiamond.blockID, 4, Kringle.getStone());
 		
 		this.peppermintPoleGen = new WorldGenPeppermintPole(5, 9, 10);
+		this.christmasTreeGen = new WorldGenChristmasTree(18, 8, 5, 3, 20);
 		
 		this.peppermintPolesPerChunk = 4;
+		
+		this.christmasTreesPerChunk = 0;
 	}
 	
 	public void reset()
@@ -110,6 +117,15 @@ public class KringleDecorator extends BiomeDecorator
             y = this.randomGenerator.nextInt(128);
             z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
             this.peppermintPoleGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
+        }
+        
+        doGen = TerrainGen.decorate(currentWorld, randomGenerator, chunk_X, chunk_Z, CUSTOM);
+        for (int i = 0; doGen && i < this.christmasTreesPerChunk; ++i)
+        {
+            x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
+            y = this.randomGenerator.nextInt(128);
+            z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
+            this.christmasTreeGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
         }
 
 		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(currentWorld, randomGenerator, chunk_X, chunk_Z));

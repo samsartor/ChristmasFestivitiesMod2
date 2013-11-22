@@ -56,7 +56,7 @@ public class WorldGenPeppermintPole extends WorldGenerator implements WorldGenFe
 		for (int i = 0; i < 2; i++)
 		{
 			int id = world.getBlockId(x, y + i, z);
-			flag &= (id == 0 || Block.blocksList[id].isBlockReplaceable(world, x, y, z));
+			flag &= (id == 0 || Block.blocksList[id].isBlockReplaceable(world, x, y + i, z));
 		}
 		flag &= world.doesBlockHaveSolidTopSurface(x, y - 1, z);
 		return flag;

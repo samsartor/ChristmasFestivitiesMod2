@@ -17,7 +17,8 @@ public class BiomeGenKringleMountains extends BiomeGenKringle
 		this.fillerBlock = Block.dirt.blockID;
 		
 		this.getDecorator().peppermintPolesPerChunk = 6;
-		this.getDecorator().treesPerChunk = 5;
+		this.getDecorator().treesPerChunk = 3;
+		this.getDecorator().christmasTreesPerChunk = 4;
 	}
 	
     public WorldGenerator getRandomWorldGenForTrees(Random par1Random)
