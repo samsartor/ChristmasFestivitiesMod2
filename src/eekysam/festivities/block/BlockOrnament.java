@@ -5,14 +5,18 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
+import eekysam.festivities.tileEntity.TileEntityRenderEntity;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BlockOrnament extends Block
+public class BlockOrnament extends BlockContainer
 {
 	private boolean clear;
 	public static boolean canSit = false;
@@ -25,15 +29,21 @@ public class BlockOrnament extends Block
         this.clear = clear;
     }
 	
+    public boolean isClear()
+	{
+		return clear;
+	}
+	
     public boolean isOpaqueCube()
     {
         return false;
     }
     
-    public int getRenderType()
-    {
-    	return 0;
-    }
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
+	{
+		return false;
+	}
     
     public boolean renderAsNormalBlock()
     {
@@ -178,4 +188,10 @@ public class BlockOrnament extends Block
             this.dropBlockAsItem_do(world, x, y, z, itemstack);
         }
     }
+
+	@Override
+	public TileEntity createNewTileEntity(World world)
+	{
+		return new TileEntityRenderEntity(1);
+	}
 }

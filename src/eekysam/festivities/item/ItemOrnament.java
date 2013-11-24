@@ -22,8 +22,8 @@ public class ItemOrnament extends Item
 {
 	private int spawnID;
 	private boolean clear;
-	
-    public static final String[] ornamentColorNames = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};
+
+	public static final String[] ornamentColorNames = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};
     public static final String[] ornamentNames = new String[] {"Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "Silver", "Gray", "Pink", "Lime", "Yellow", "Light Blue", "Magenta", "Orange", "White"};
     public static final int[] ornamentColors = new int[] {1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 11250603, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320};
     @SideOnly(Side.CLIENT)
@@ -44,6 +44,11 @@ public class ItemOrnament extends Item
 	        this.setMaxDamage(0);
 		}
         this.setCreativeTab(CreativeTabs.tabDecorations);
+	}
+    
+    public boolean isClear()
+	{
+		return clear;
 	}
     
     public String getItemDisplayName(ItemStack stack)
