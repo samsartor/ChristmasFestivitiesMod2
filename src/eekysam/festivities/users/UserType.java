@@ -8,8 +8,9 @@ public class UserType
 	public static List<UserType> list = new ArrayList<UserType>();
 	
 	public static UserType sam = new UserType().setMembers("eekysam").setMsg("Welcome Back Sam!");
-	public static UserType bonez = new UserType().setMembers("BoneZa5").setMsg("Nice to see that you have stopped slacking off");
+	public static UserType bonez = new UserType().setMembers("BoneZa5").setMsg("Nice to see that you have stopped slacking off :P JK LOL");
 	public static UserType lily = new UserType().setMembers("catinabukkit").setMsg("What do you think?");
+	public static UserType zeklo = new UserType().setMembers("zeklo").setMsg("Thx So Much! Have Fun! :)");
 	public static UserType contributer  = new UserType().setMembers().setMsg("Thank You!");
 	public static UserType youtuber = new UserType().setMembers("captainsparklez").setMsg("Thank You for Playing the Christmas Festivities Mod!");
 	

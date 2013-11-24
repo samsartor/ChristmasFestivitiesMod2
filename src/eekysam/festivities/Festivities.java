@@ -39,6 +39,7 @@ import eekysam.festivities.debugutils.PerlinTest;
 import eekysam.festivities.events.ConnectionHandler;
 import eekysam.festivities.events.EventHooks;
 import eekysam.festivities.item.ItemMoreCookies;
+import eekysam.festivities.item.ItemOrnament;
 import eekysam.festivities.kringle.WorldProviderKringle;
 import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
@@ -58,7 +59,7 @@ public class Festivities
 
 	public static final int MAJOR = 0;
 	public static final int MINOR = 0;
-	public static final int BUILD = 3;
+	public static final int BUILD = 4;
 
 	public static final boolean DEBUG = false;
 
@@ -80,6 +81,8 @@ public class Festivities
 	public static Item holly;
 	public static Item bluePie;
 	public static Item figgy;
+	public static Item coloredOrnament;
+	public static Item clearOrnament;
 	public static Block candyLog;
 	public static Block snowglobe;
 	public static Block treatplate;
@@ -114,6 +117,10 @@ public class Festivities
 		GameRegistry.registerItem(berries, "berries");
 		bluePie = new ItemFood(2607, 8, 0.3F, false).setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(CreativeTabs.tabFood);
 		GameRegistry.registerItem(bluePie, "bluPie");
+		clearOrnament = new ItemOrnament(2608, null, true).setUnlocalizedName("ornament");
+		GameRegistry.registerItem(clearOrnament, "clearOrnament");
+		coloredOrnament = new ItemOrnament(2609, null, false).setUnlocalizedName("ornament");
+		GameRegistry.registerItem(coloredOrnament, "coloredOrnament");
 
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
 	}
