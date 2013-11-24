@@ -36,7 +36,7 @@ public class ItemOrnament extends Item
     public ItemOrnament(int par1, Block block, boolean clear)
 	{
 		super(par1);
-		//this.spawnID = block.blockID;
+		this.spawnID = block.blockID;
 		this.clear = clear;
 		if (!clear)
 		{
