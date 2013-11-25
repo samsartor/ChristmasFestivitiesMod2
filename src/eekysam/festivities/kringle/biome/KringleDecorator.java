@@ -6,7 +6,11 @@ import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.Ev
 import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.COAL;
 import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.DIAMOND;
 import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.GOLD;
+
+import java.util.Random;
+
 import net.minecraft.block.Block;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -130,6 +134,24 @@ public class KringleDecorator extends BiomeDecorator
 
 		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(currentWorld, randomGenerator, chunk_X, chunk_Z));
 	}
+	
+    public void decorate(World par1World, Random par2Random, int par3, int par4)
+    {
+        if (this.currentWorld != null)
+        {
+            
+        }
+        else
+        {
+            this.currentWorld = par1World;
+            this.randomGenerator = par2Random;
+            this.chunk_X = par3;
+            this.chunk_Z = par4;
+            this.decorate();
+            this.currentWorld = null;
+            this.randomGenerator = null;
+        }
+    }
 
 	/**
 	 * Generates ores in the current chunk

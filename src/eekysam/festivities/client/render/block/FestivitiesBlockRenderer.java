@@ -31,7 +31,7 @@ public class FestivitiesBlockRenderer
         poshash = poshash * poshash * 42317861L + poshash * 11L;
         int dir = (int)(poshash >> 16 & 3L);
         
-		draw.cube(3, 0, 3, 10, 10, 10);
+		draw.cube(3, 3, 3, 10, 10, 10);
 		
 		if (clear)
 		{

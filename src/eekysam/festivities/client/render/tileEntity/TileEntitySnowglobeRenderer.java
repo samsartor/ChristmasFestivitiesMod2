@@ -17,20 +17,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer implements IRenderer
 {
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float k)
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f)
 	{
 		Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 
 		TileEntitySnowglobe globe = (TileEntitySnowglobe) tile;
-
-		float f = globe.blockType.getBlockBrightness(globe.worldObj, globe.xCoord, globe.yCoord, globe.zCoord);
-		int l = globe.worldObj.getLightBrightnessForSkyBlocks(globe.xCoord, globe.yCoord, globe.zCoord, 0);
-		int l1 = l % 65536;
-		int l2 = l / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) l1, (float) l2);
-
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		

@@ -35,7 +35,6 @@ import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockOrnament;
 import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
-import eekysam.festivities.tileEntity.TileEntityRenderEntity;
 import eekysam.festivities.command.CommandKringle;
 import eekysam.festivities.debugutils.PerlinTest;
 import eekysam.festivities.events.ConnectionHandler;
@@ -102,8 +101,6 @@ public class Festivities
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		instance = this;
-		
-		GameRegistry.registerTileEntity(TileEntityRenderEntity.class, "renderEntity");
 
 		magicCandy = new Item(nextItemID()).setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(CreativeTabs.tabMisc);
 		GameRegistry.registerItem(magicCandy, "magicCandy");

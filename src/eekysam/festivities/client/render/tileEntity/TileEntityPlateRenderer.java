@@ -24,13 +24,7 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
-		
-		//float f = tileentity.blockType.getBlockBrightness(tileentity.worldObj, tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
-		int l = tileentity.worldObj.getLightBrightnessForSkyBlocks(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, 0);
-		int l1 = l % 65536;
-		int l2 = l / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) l1, (float) l2);
-		
+
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		this.render((TileEntityPlate) tileentity);
