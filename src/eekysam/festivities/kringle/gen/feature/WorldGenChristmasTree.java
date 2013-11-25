@@ -84,25 +84,26 @@ public class WorldGenChristmasTree extends WorldGenerator implements WorldGenFes
 				int w = (int) ((treeHeight - i + trunk) * inslope);
 				int wa = w + 1;
 				int ws = w * w;
+				int was = wa * wa;
 				for (int j = -wa; j <= wa; j++)
 				{
 					for (int k = -wa; k <= wa; k++)
 					{
-						if (Math.abs(k) < wa && Math.abs(j) < wa)
+						if (ws > j * j + k * k)
 						{
-							if (ws > j * j + k * k + random.nextFloat() * 3.0F)
+							if (j != 0 || k != 0)
 							{
-								if (j != 0 || k != 0)
-								{
-									world.setBlock(x + j, y + i, z + k, Block.leaves.blockID, 5, 2);
-								}
+								world.setBlock(x + j, y + i, z + k, Block.leaves.blockID, 5, 2);
 							}
 						}
-						else
+						else if (was > j * j + k * k)
 						{
-							if (random.nextFloat() < 0.1F)
+							if ((j != 0 && j != -1 && j != 1) || (k != 0 && k != -1 && k != 1))
 							{
-								world.setBlock(x + j, y + i, z + k, Festivities.coloredOrnamentBlock.blockID, random.nextInt(16), 2);
+								if (random.nextFloat() < 0.1F)
+								{
+									world.setBlock(x + j, y + i, z + k, Festivities.coloredOrnamentBlock.blockID, random.nextInt(16), 2);
+								}
 							}
 						}
 					}

@@ -44,6 +44,7 @@ import eekysam.festivities.item.ItemOrnament;
 import eekysam.festivities.kringle.WorldProviderKringle;
 import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
+import eekysam.festivities.tile.TileEntityOrnament;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.utils.Toolbox;
@@ -145,6 +146,8 @@ public class Festivities
 		
 		coloredOrnament = new ItemOrnament(nextItemID(), coloredOrnamentBlock, false).setUnlocalizedName("ornament");
 		GameRegistry.registerItem(coloredOrnament, "coloredOrnament");
+		
+		GameRegistry.registerTileEntity(TileEntityOrnament.class, "ornament");
 
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
 	}
