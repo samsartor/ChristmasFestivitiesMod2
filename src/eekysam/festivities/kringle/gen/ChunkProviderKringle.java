@@ -138,76 +138,76 @@ public class ChunkProviderKringle implements IChunkProvider
 	 */
 	public void generateTerrain(int par1, int par2, short[] ids)
 	{
-		byte b0 = 4;
-		byte b1 = 16;
-		byte b2 = 63;
-		int k = b0 + 1;
-		byte b3 = 17;
-		int l = b0 + 1;
-		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, par1 * 4 - 2, par2 * 4 - 2, k + 5, l + 5);
-		this.noiseArray = this.initializeNoiseField(this.noiseArray, par1 * b0, 0, par2 * b0, k, b3, l);
+        byte b0 = 4;
+        byte b1 = 16;
+        byte b2 = 63;
+        int k = b0 + 1;
+        byte b3 = 17;
+        int l = b0 + 1;
+        this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, par1 * 4 - 2, par2 * 4 - 2, k + 5, l + 5);
+        this.noiseArray = this.initializeNoiseField(this.noiseArray, par1 * b0, 0, par2 * b0, k, b3, l);
 
-		for (int i1 = 0; i1 < b0; ++i1)
-		{
-			for (int j1 = 0; j1 < b0; ++j1)
-			{
-				for (int k1 = 0; k1 < b1; ++k1)
-				{
-					double d0 = 0.125D;
-					double d1 = this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 0];
-					double d2 = this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 0];
-					double d3 = this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 0];
-					double d4 = this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 0];
-					double d5 = (this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 1] - d1) * d0;
-					double d6 = (this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 1] - d2) * d0;
-					double d7 = (this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 1] - d3) * d0;
-					double d8 = (this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 1] - d4) * d0;
+        for (int i1 = 0; i1 < b0; ++i1)
+        {
+            for (int j1 = 0; j1 < b0; ++j1)
+            {
+                for (int k1 = 0; k1 < b1; ++k1)
+                {
+                    double d0 = 0.125D;
+                    double d1 = this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 0];
+                    double d2 = this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 0];
+                    double d3 = this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 0];
+                    double d4 = this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 0];
+                    double d5 = (this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 1] - d1) * d0;
+                    double d6 = (this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 1] - d2) * d0;
+                    double d7 = (this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 1] - d3) * d0;
+                    double d8 = (this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 1] - d4) * d0;
 
-					for (int l1 = 0; l1 < 8; ++l1)
-					{
-						double d9 = 0.25D;
-						double d10 = d1;
-						double d11 = d2;
-						double d12 = (d3 - d1) * d9;
-						double d13 = (d4 - d2) * d9;
+                    for (int l1 = 0; l1 < 8; ++l1)
+                    {
+                        double d9 = 0.25D;
+                        double d10 = d1;
+                        double d11 = d2;
+                        double d12 = (d3 - d1) * d9;
+                        double d13 = (d4 - d2) * d9;
 
-						for (int i2 = 0; i2 < 4; ++i2)
-						{
-							int j2 = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
-							short short1 = 128;
-							j2 -= short1;
-							double d14 = 0.25D;
-							double d15 = (d11 - d10) * d14;
-							double d16 = d10 - d15;
+                        for (int i2 = 0; i2 < 4; ++i2)
+                        {
+                            int j2 = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
+                            short short1 = 128;
+                            j2 -= short1;
+                            double d14 = 0.25D;
+                            double d15 = (d11 - d10) * d14;
+                            double d16 = d10 - d15;
 
-							for (int k2 = 0; k2 < 4; ++k2)
-							{
-								if ((d16 += d15) > 0.0D)
-								{
-									ids[j2 += short1] = (short) Kringle.getStone();
-								}
-								else if (k1 * 8 + l1 < b2)
-								{
-									ids[j2 += short1] = (short) Block.ice.blockID;
-								}
-								else
-								{
-									ids[j2 += short1] = 0;
-								}
-							}
+                            for (int k2 = 0; k2 < 4; ++k2)
+                            {
+                                if ((d16 += d15) > 0.0D)
+                                {
+                                    ids[j2 += short1] = (short) Kringle.getStone();
+                                }
+                                else if (k1 * 8 + l1 < b2)
+                                {
+                                	ids[j2 += short1] = (short) Block.ice.blockID;
+                                }
+                                else
+                                {
+                                	ids[j2 += short1] = 0;
+                                }
+                            }
 
-							d10 += d12;
-							d11 += d13;
-						}
+                            d10 += d12;
+                            d11 += d13;
+                        }
 
-						d1 += d5;
-						d2 += d6;
-						d3 += d7;
-						d4 += d8;
-					}
-				}
-			}
-		}
+                        d1 += d5;
+                        d2 += d6;
+                        d3 += d7;
+                        d4 += d8;
+                    }
+                }
+            }
+        }
 	}
 
 	/**
@@ -391,11 +391,11 @@ public class ChunkProviderKringle implements IChunkProvider
 		byte[] meta = new byte[32768];
 		this.generateTerrain(x, z, oldids);
 		short[] ids = new short[32768];
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < 16; i++) // x
 		{
-			for (int j = 0; j < 16; j++)
+			for (int j = 0; j < 16; j++) // z
 			{
-				for (int k = 0; k < 128; k++)
+				for (int k = 0; k < 128; k++) // y
 				{
 					int idold = i << 11 | j << 7 | k;
 					int id = k << 8 | j << 4 | i;
@@ -439,7 +439,8 @@ public class ChunkProviderKringle implements IChunkProvider
 
 				for (int setY = 127; setY >= 0; --setY)
 				{
-					int index = setX + setZ * 16 + setY * 256;
+					
+					int index = setY << 8 | setZ << 4 | setX;
 
 					if (setY <= 0 + this.rand.nextInt(5))
 					{
@@ -512,12 +513,21 @@ public class ChunkProviderKringle implements IChunkProvider
 		int l1;
 		int i2;
 
+		if (biomegenbase != BiomeGenBase.desert && biomegenbase != BiomeGenBase.desertHills && !flag && this.rand.nextInt(4) == 0 && TerrainGen.populate(par1IChunkProvider, worldObj, rand, par2, par3, flag, LAKE))
+		{
+			k1 = k + this.rand.nextInt(16) + 8;
+			l1 = this.rand.nextInt(128);
+			i2 = l + this.rand.nextInt(16) + 8;
+			(new WorldGenLakes(Block.waterStill.blockID)).generate(this.worldObj, this.rand, k1, l1, i2);
+		}
+
 		biomegenbase.decorate(this.worldObj, this.rand, k, l);
 		SpawnerAnimals.performWorldGenSpawning(this.worldObj, biomegenbase, k + 8, l + 8, 16, 16, this.rand);
 		k += 8;
 		l += 8;
 
-		for (k1 = 0; k1 < 16; ++k1)
+		boolean doGen = TerrainGen.populate(par1IChunkProvider, worldObj, rand, par2, par3, flag, ICE);
+		for (k1 = 0; doGen && k1 < 16; ++k1)
 		{
 			for (l1 = 0; l1 < 16; ++l1)
 			{
