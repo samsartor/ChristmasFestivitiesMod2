@@ -22,6 +22,7 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import eekysam.festivities.kringle.Kringle;
 import eekysam.festivities.kringle.gen.feature.WorldGenChristmasTree;
 import eekysam.festivities.kringle.gen.feature.WorldGenIce;
+import eekysam.festivities.kringle.gen.feature.WorldGenPeppermintArch;
 import eekysam.festivities.kringle.gen.feature.WorldGenPeppermintPole;
 
 public class KringleDecorator extends BiomeDecorator
@@ -32,6 +33,9 @@ public class KringleDecorator extends BiomeDecorator
 	public int christmasTreesPerChunk;
 	public WorldGenerator christmasTreeGen;
 	
+	public int peppermintArchPerChunk;
+	public WorldGenerator peppermintArchGen;
+	
 	public KringleDecorator(BiomeGenBase biome)
 	{
 		super(biome);
@@ -41,12 +45,13 @@ public class KringleDecorator extends BiomeDecorator
 		this.goldGen = new WorldGenMinable(Block.oreGold.blockID, 10, Kringle.getStone());
 		this.diamondGen = new WorldGenMinable(Block.oreDiamond.blockID, 4, Kringle.getStone());
 		
-		this.peppermintPoleGen = new WorldGenPeppermintPole(5, 9, 10);
-		this.christmasTreeGen = new WorldGenChristmasTree(18, 8, 5, 3, 20);
+		this.peppermintPoleGen = new WorldGenPeppermintPole(5, 9, 5);
+		this.christmasTreeGen = new WorldGenChristmasTree(18, 8, 5, 3, 10);
+		this.peppermintArchGen = new WorldGenPeppermintArch(4, 8, 12, 8, 10);
 		
-		this.peppermintPolesPerChunk = 4;
-		
+		this.peppermintPolesPerChunk = 8;
 		this.christmasTreesPerChunk = 0;
+		this.peppermintArchPerChunk = 1;
 	}
 	
 	public void reset()
@@ -130,6 +135,15 @@ public class KringleDecorator extends BiomeDecorator
             y = this.randomGenerator.nextInt(128);
             z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
             this.christmasTreeGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
+        }
+        
+        doGen = TerrainGen.decorate(currentWorld, randomGenerator, chunk_X, chunk_Z, CUSTOM);
+        for (int i = 0; doGen && i < this.peppermintArchPerChunk; ++i)
+        {
+            x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
+            y = this.randomGenerator.nextInt(128);
+            z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
+            this.peppermintArchGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
         }
 
 		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(currentWorld, randomGenerator, chunk_X, chunk_Z));

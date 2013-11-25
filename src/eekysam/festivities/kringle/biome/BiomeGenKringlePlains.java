@@ -6,6 +6,7 @@ public class BiomeGenKringlePlains extends BiomeGenKringle
 	{
 		super(id, candy, plant);
 
-		this.getDecorator().peppermintPolesPerChunk = 7;
+		this.getDecorator().peppermintPolesPerChunk = 14;
+		this.getDecorator().peppermintArchPerChunk = 4;
 	}
 }
