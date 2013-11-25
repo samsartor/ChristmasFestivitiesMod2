@@ -32,6 +32,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.block.BlockCandyLog;
+import eekysam.festivities.block.BlockFireplace;
 import eekysam.festivities.block.BlockOrnament;
 import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
@@ -44,6 +45,7 @@ import eekysam.festivities.item.ItemOrnament;
 import eekysam.festivities.kringle.WorldProviderKringle;
 import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
+import eekysam.festivities.tile.TileEntityFireplace;
 import eekysam.festivities.tile.TileEntityOrnament;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowglobe;
@@ -59,13 +61,13 @@ public class Festivities
 
 	public static final String CHATNAME = "Festivities";
 
-	public static final int MAJOR = 0;
-	public static final int MINOR = 0;
-	public static final int BUILD = 4;
+	public static final int MAJOR = 1;
+	public static final int MINOR = 1;
+	public static final int BUILD = 1;
 
 	public static final boolean DEBUG = false;
 
-	public static final boolean TESTVERSION = true;
+	public static final boolean TESTVERSION = false;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
 	public static final String[] TESTMSGDATED = new String[] { "This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
 	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD };
@@ -94,6 +96,13 @@ public class Festivities
 	public static Block treatplate;
 	public static Block coloredOrnamentBlock;
 	public static Block clearOrnamentBlock;
+	public static Block fireplace;
+	public static Block iceBrick;//icebrick
+	public static Block icdBrickCarved;//icdbrick_carved
+	public static Block iceBrickCracked;//icebrick_cracked
+	public static Block cobbleIce;//cobbleice
+	
+	public static int blockItemRenderId;
 
 	@SidedProxy(modId = Festivities.ID, clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
 	public static CommonProxy proxy;
@@ -112,11 +121,11 @@ public class Festivities
 		candyLog = new BlockCandyLog(nextBlockID()).setCreativeTab(CreativeTabs.tabBlock).setUnlocalizedName("candyLog").setTextureName(Festivities.ID + ":candyLog");
 		GameRegistry.registerBlock(candyLog, "candyLog");
 		
-		snowglobe = new BlockSnowglobe(nextBlockID(), Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowglobe");
+		snowglobe = new BlockSnowglobe(nextBlockID(), Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowglobe").setTextureName(Festivities.ID + ":snowglobe");
 		GameRegistry.registerBlock(snowglobe, "snowglobe");
 		GameRegistry.registerTileEntity(TileEntitySnowglobe.class, "snowglobe");
 		
-		treatplate = new BlockTreatPlate(nextBlockID(), Material.cake).setCreativeTab(CreativeTabs.tabFood).setUnlocalizedName("treatplate");
+		treatplate = new BlockTreatPlate(nextBlockID(), Material.cake).setCreativeTab(CreativeTabs.tabFood).setUnlocalizedName("treatplate").setTextureName(Festivities.ID + ":treatplate");
 		GameRegistry.registerBlock(treatplate, "treatplate");
 		GameRegistry.registerTileEntity(TileEntityPlate.class, "treatplate");
 		
@@ -148,7 +157,23 @@ public class Festivities
 		GameRegistry.registerItem(coloredOrnament, "coloredOrnament");
 		
 		GameRegistry.registerTileEntity(TileEntityOrnament.class, "ornament");
+		
+		fireplace = new BlockFireplace(nextBlockID(), Material.rock).setUnlocalizedName("fireplace").setTextureName(Festivities.ID + ":fireplace").setLightValue(1.0F).setCreativeTab(CreativeTabs.tabDecorations);
+		GameRegistry.registerBlock(fireplace, "fireplace");
+		GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplace");
+		
+		iceBrick = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":icebrick").setCreativeTab(CreativeTabs.tabBlock);
+		GameRegistry.registerBlock(iceBrick, "iceBrick");
 
+		icdBrickCarved = new Block(nextBlockID(), Material.ice).setUnlocalizedName("icdBrickCarved").setTextureName(Festivities.ID + ":icdbrick_carved").setCreativeTab(CreativeTabs.tabBlock);
+		GameRegistry.registerBlock(icdBrickCarved, "icdBrickCarved");
+
+		iceBrickCracked = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(CreativeTabs.tabBlock);
+		GameRegistry.registerBlock(iceBrickCracked, "iceBrickCracked");
+		
+		cobbleIce = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(CreativeTabs.tabBlock);
+		GameRegistry.registerBlock(cobbleIce, "cobbleIce");
+		
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
 	}
 	
@@ -190,6 +215,12 @@ public class Festivities
 		LanguageRegistry.addName(holly, "Holly");
 		LanguageRegistry.addName(berries, "Seasonal Fruits");
 		LanguageRegistry.addName(bluePie, "Blue Berry Pie");
+		LanguageRegistry.addName(fireplace, "Fireplace");
+		
+		LanguageRegistry.addName(iceBrick, "Ice Brick");
+		LanguageRegistry.addName(icdBrickCarved, "Carved Ice Brick");
+		LanguageRegistry.addName(iceBrickCracked, "Cracked Ice Brick");
+		LanguageRegistry.addName(cobbleIce, "Cobbled Ice");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });

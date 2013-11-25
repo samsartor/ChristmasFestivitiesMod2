@@ -13,7 +13,8 @@ public class KringleTeleporter extends Teleporter
 	
     public void placeInPortal(Entity par1Entity, double par2, double par4, double par6, float par8)
     {
-    	
+    	par1Entity.fallDistance = -1000.0F;
+    	par1Entity.setPosition(5000, 200, 5000);
     }
     
     public boolean placeInExistingPortal(Entity par1Entity, double par2, double par4, double par6, float par8)

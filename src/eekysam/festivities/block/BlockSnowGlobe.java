@@ -1,5 +1,6 @@
 package eekysam.festivities.block;
 
+import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.BlockContainer;
@@ -24,6 +25,11 @@ public class BlockSnowglobe extends BlockContainer
 	{
 		return new TileEntitySnowglobe();
 	}
+	
+    public int getRenderType()
+    {
+        return Festivities.blockItemRenderId;
+    }
 
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{

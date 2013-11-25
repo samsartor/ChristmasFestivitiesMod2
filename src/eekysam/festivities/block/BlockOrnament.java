@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -27,6 +28,18 @@ public class BlockOrnament extends BlockContainer
 	{
         super(par1, Material.circuits);
         this.clear = clear;
+        this.setBlockBounds(3 / 16.0F, 3 / 16.0F, 3 / 16.0F, 13 / 16.0F, 13 / 16.0F, 13 / 16.0F);
+        this.setTextureName(Festivities.ID + ":ornament");
+    }
+	
+    public int getRenderType()
+    {
+        return Festivities.blockItemRenderId;
+    }
+	
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+    {
+        return null;
     }
 	
     public boolean isClear()

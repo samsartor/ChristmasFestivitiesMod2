@@ -1,5 +1,6 @@
 package eekysam.festivities.block;
 
+import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntityPlate.PlateFoods;
@@ -10,6 +11,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -18,8 +20,19 @@ public class BlockTreatPlate extends BlockContainer
 	public BlockTreatPlate(int par1, Material par2Material)
 	{
 		super(par1, par2Material);
+		this.setBlockBounds(0 / 16.0F, 0 / 16.0F, 0 / 16.0F, 16 / 16.0F, 4 / 16.0F, 16 / 16.0F);
 	}
 	
+    public int getRenderType()
+    {
+        return Festivities.blockItemRenderId;
+    }
+    
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+    {
+        return null;
+    }
+    
     public void onBlockClicked(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
     {
     	TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);

@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.Tessellator;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.item.ItemOrnament;
 import eekysam.utils.draw.BoxDrawBasic;
+import eekysam.utils.draw.BoxDrawFakeShade;
 import eekysam.utils.draw.IRenderer;
 
 public class FestivitiesBlockRenderer
@@ -15,6 +16,84 @@ public class FestivitiesBlockRenderer
 			case 1:
 				renderOrnament(render, id, meta, x, y, z);
 				return;
+			case 2:
+				renderFireplace(render, id, meta, x, y, z);
+				return;
+		}
+	}
+	
+	public static void renderFireplace(IRenderer render, int id, int meta, int x, int y, int z)
+	{
+		Tessellator tess = Tessellator.instance;
+		BoxDrawBasic draw = new BoxDrawFakeShade(render);
+		draw.setTexture(Festivities.ID, "textures/tile/fireplace.png", 16, 32);
+		tess.startDrawingQuads();
+		
+		draw.cube(1, 0, 1, 14, 5, 14);
+		draw.selectUV(0, 8);
+		draw.faceIn();
+		draw.drawSidesSameTexture();
+		
+		tess.draw();
+		tess.startDrawingQuads();
+		
+		draw.faceOut();
+		
+		draw.cube(1, 0, 1, 14, 1, 14);
+		draw.selectUV(0, 13);
+		draw.YDown();
+		draw.YUp();
+		
+		tess.draw();
+		tess.startDrawingQuads();
+		
+		draw.setTexture(Festivities.ID, "textures/tile/burnlog.png", 8, 8);
+		
+		drawLog(draw, 5, 2, 4, 2);
+		drawLog(draw, 9, 2, 4, 2);
+		drawLog(draw, 4, 4, 7, 0);
+		
+		tess.draw();
+	}
+	
+	private static void drawLog(BoxDrawBasic draw, int x, int y, int z, int dir)
+	{
+		dir = dir % 3;
+		if (dir == 0)
+		{
+			draw.cube(x, y, z, 8, 2, 2);
+			draw.selectUV(0, 0);
+			draw.YUp();
+			draw.YDown();
+			draw.ZUp();
+			draw.ZDown();
+			draw.selectUV(8, 0);
+			draw.XUp();
+			draw.XDown();
+		}
+		if (dir == 1)
+		{
+			draw.cube(x, y, z, 2, 8, 2);
+			draw.selectUV(0, 0);
+			draw.XUp();
+			draw.XDown();
+			draw.ZUp();
+			draw.ZDown();
+			draw.selectUV(8, 0);
+			draw.YUp();
+			draw.YDown();
+		}
+		if (dir == 2)
+		{
+			draw.cube(x, y, z, 2, 2, 8);
+			draw.selectUV(0, 0);
+			draw.YUp();
+			draw.YDown();
+			draw.XUp();
+			draw.XDown();
+			draw.selectUV(8, 0);
+			draw.ZUp();
+			draw.ZDown();
 		}
 	}
 	
@@ -22,7 +101,7 @@ public class FestivitiesBlockRenderer
 	{
 		Tessellator tess = Tessellator.instance;
 		BoxDrawBasic draw = new BoxDrawBasic(render);
-		draw.setTexture(Festivities.ID, "textures/blocks/ornament.png", 64, 32);
+		draw.setTexture(Festivities.ID, "textures/tile/ornament.png", 64, 32);
 		tess.startDrawingQuads();
 		
 		boolean clear = id == Festivities.clearOrnamentBlock.blockID && id != Festivities.coloredOrnamentBlock.blockID;
