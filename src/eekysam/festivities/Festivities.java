@@ -63,7 +63,7 @@ public class Festivities
 
 	public static final int MAJOR = 1;
 	public static final int MINOR = 1;
-	public static final int BUILD = 1;
+	public static final int BUILD = 2;
 
 	public static final boolean DEBUG = false;
 
@@ -378,17 +378,33 @@ public class Festivities
 			{
 				return true;
 			}
+			if (i == 0 && n < 2)
+			{
+				return false;
+			}
 			if (i == 1 && n > this.MAJOR)
 			{
 				return true;
+			}
+			if (i == 1 && n < this.MAJOR)
+			{
+				return false;
 			}
 			if (i == 2 && n > this.MINOR)
 			{
 				return true;
 			}
+			if (i == 2 && n < this.MINOR)
+			{
+				return false;
+			}
 			if (i == 3 && n > this.BUILD)
 			{
 				return true;
+			}
+			if (i == 3 && n < this.BUILD)
+			{
+				return false;
 			}
 		}
 		return false;
