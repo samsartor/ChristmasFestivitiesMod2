@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -47,6 +48,7 @@ import eekysam.festivities.item.ItemOrnament;
 import eekysam.festivities.kringle.WorldProviderKringle;
 import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
+import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.tile.TileEntityFireplace;
 import eekysam.festivities.tile.TileEntityOrnament;
 import eekysam.festivities.tile.TileEntityPlate;
@@ -62,6 +64,8 @@ public class Festivities
 	public static final String CHANNEL = "festivities";
 
 	public static final String CHATNAME = "Festivities";
+	
+	public static final String PLAYERDATA = "festivities";
 
 	public static final int MAJOR = 1;
 	public static final int MINOR = 1;
@@ -413,5 +417,10 @@ public class Festivities
 			}
 		}
 		return false;
+	}
+	
+	public static PlayerData getPlayerData(EntityPlayerMP player)
+	{
+		return (PlayerData) player.getExtendedProperties(PLAYERDATA);
 	}
 }

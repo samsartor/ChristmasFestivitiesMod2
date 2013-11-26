@@ -51,4 +51,9 @@ public class TileEntitySnowglobe extends TileEntity
 		super.onDataPacket(net, pkt);
 		this.readFromNBT(pkt.data);
 	}
+	
+    public void updateEntity() 
+    {
+    	
+    }
 }

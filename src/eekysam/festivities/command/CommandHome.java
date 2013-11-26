@@ -85,7 +85,7 @@ public class CommandHome extends CommandBase
 			return false;
 		}
 		MinecraftServer mServer = MinecraftServer.getServer();
-		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new Teleporter(mServer.worldServerForDimension(0)));
+		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new KringleTeleporter(mServer.worldServerForDimension(0)));
 		return true;
 	}
 }
