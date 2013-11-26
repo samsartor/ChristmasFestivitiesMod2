@@ -1,5 +1,6 @@
 package eekysam.festivities.command;
 
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -8,7 +9,7 @@ import net.minecraft.world.Teleporter;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.kringle.KringleTeleporter;
 
-public class CommandHome
+public class CommandHome extends CommandBase
 {
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
