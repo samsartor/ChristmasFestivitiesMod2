@@ -4,6 +4,7 @@ import eekysam.festivities.Festivities;
 import eekysam.festivities.player.PlayerData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
@@ -16,7 +17,8 @@ public class KringleTeleporter extends Teleporter
 	
     public void placeInPortal(Entity entity, double x, double y, double z, float par8)
     {
-    	PlayerData dat = Festivities.getPlayerData((EntityPlayerMP) entity);
+    	EntityPlayerMP player = (EntityPlayerMP) entity;
+    	PlayerData dat = Festivities.getPlayerData(player);
     	if (entity.dimension == Festivities.kringleId)
     	{
     		dat.globex = (int) x;
@@ -27,7 +29,15 @@ public class KringleTeleporter extends Teleporter
     	}
     	else
     	{
-    		entity.setPosition(dat.globex, dat.globey, dat.globez);
+    		if (dat.globex == 0 && dat.globey == 0 && dat.globez == 0)
+    		{
+    			ChunkCoordinates spawn = player.worldObj.getSpawnPoint();
+    			entity.setPosition(spawn.posX, spawn.posY, spawn.posZ);
+    		}
+    		else
+    		{
+    			entity.setPosition(dat.globex, dat.globey, dat.globez);
+    		}
     	}
     }
     
