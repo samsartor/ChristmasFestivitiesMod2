@@ -61,7 +61,7 @@ public class TileEntitySnowMachine extends TileEntity {
 		World myWorld = this.worldObj;
 		if (iceCount > 0)
 		{
-			if(myWorld.rand.nextFloat() < 0.01)
+			if(myWorld.rand.nextFloat() < 0.5)
 			{
 				letItSnow();
 			}
@@ -87,7 +87,7 @@ public class TileEntitySnowMachine extends TileEntity {
 			if (id == Block.snow.blockID)
 			{
 				int meta = this.worldObj.getBlockMetadata(x, y, z);
-				if (meta < 15)
+				if (meta < 7)
 				{
 					this.worldObj.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
 					break;
@@ -96,7 +96,7 @@ public class TileEntitySnowMachine extends TileEntity {
 			else
 			{
 				y++;
-				if (this.worldObj.canSnowAt(x, y, z))
+				if (Block.snow.canPlaceBlockAt(this.worldObj, x, y, z))
 				{
 					this.worldObj.setBlock(x, y, z, Block.snow.blockID);
 					break;
