@@ -37,6 +37,7 @@ import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockFireplace;
 import eekysam.festivities.block.BlockOrnament;
 import eekysam.festivities.block.BlockSnowGlobe;
+import eekysam.festivities.block.BlockSnowMachine;
 import eekysam.festivities.block.BlockTreatPlate;
 import eekysam.festivities.command.CommandHome;
 import eekysam.festivities.command.CommandKringle;
@@ -52,6 +53,7 @@ import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.tile.TileEntityFireplace;
 import eekysam.festivities.tile.TileEntityOrnament;
 import eekysam.festivities.tile.TileEntityPlate;
+import eekysam.festivities.tile.TileEntitySnowMachine;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.utils.Toolbox;
 
@@ -106,9 +108,10 @@ public class Festivities
 	public static Block clearOrnamentBlock;
 	public static Block fireplace;
 	public static Block iceBrick;//icebrick
-	public static Block icdBrickCarved;//icdbrick_carved
+	public static Block iceBrickCarved;//icebrick_carved
 	public static Block iceBrickCracked;//icebrick_cracked
 	public static Block cobbleIce;//cobbleice
+	public static Block snowMachine;
 	
 	public static int blockItemRenderId;
 
@@ -173,14 +176,18 @@ public class Festivities
 		iceBrick = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":icebrick").setCreativeTab(Festivities.FestiveTab);
 		GameRegistry.registerBlock(iceBrick, "iceBrick");
 
-		icdBrickCarved = new Block(nextBlockID(), Material.ice).setUnlocalizedName("icdBrickCarved").setTextureName(Festivities.ID + ":icdbrick_carved").setCreativeTab(Festivities.FestiveTab);
-		GameRegistry.registerBlock(icdBrickCarved, "icdBrickCarved");
+		iceBrickCarved = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrickCarved").setTextureName(Festivities.ID + ":iceBrick_carved").setCreativeTab(Festivities.FestiveTab);
+		GameRegistry.registerBlock(iceBrickCarved, "iceBrickCarved");
 
 		iceBrickCracked = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(Festivities.FestiveTab);
 		GameRegistry.registerBlock(iceBrickCracked, "iceBrickCracked");
 		
 		cobbleIce = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.FestiveTab);
 		GameRegistry.registerBlock(cobbleIce, "cobbleIce");
+		
+		snowMachine = new BlockSnowMachine(nextBlockID(), Material.rock).setUnlocalizedName("snowMachine").setCreativeTab(Festivities.FestiveTab);
+		GameRegistry.registerBlock(snowMachine, "snowMachine");
+		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
 		
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
 	}
@@ -226,7 +233,7 @@ public class Festivities
 		LanguageRegistry.addName(fireplace, "Fireplace");
 		
 		LanguageRegistry.addName(iceBrick, "Ice Brick");
-		LanguageRegistry.addName(icdBrickCarved, "Carved Ice Brick");
+		LanguageRegistry.addName(iceBrickCarved, "Carved Ice Brick");
 		LanguageRegistry.addName(iceBrickCracked, "Cracked Ice Brick");
 		LanguageRegistry.addName(cobbleIce, "Cobbled Ice");
 
