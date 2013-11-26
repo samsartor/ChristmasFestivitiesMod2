@@ -36,6 +36,7 @@ import eekysam.festivities.block.BlockFireplace;
 import eekysam.festivities.block.BlockOrnament;
 import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
+import eekysam.festivities.command.CommandHome;
 import eekysam.festivities.command.CommandKringle;
 import eekysam.festivities.debugutils.PerlinTest;
 import eekysam.festivities.events.ConnectionHandler;
@@ -244,6 +245,7 @@ public class Festivities
 	public void serverStarting(FMLServerStartingEvent event)
 	{
 		event.registerServerCommand(new CommandKringle());
+		event.registerServerCommand(new CommandHome());
 	}
 
 	@EventHandler
