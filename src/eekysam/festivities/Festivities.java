@@ -65,7 +65,7 @@ public class Festivities
 
 	public static final int MAJOR = 1;
 	public static final int MINOR = 1;
-	public static final int BUILD = 2;
+	public static final int BUILD = 3;
 
 	public static final boolean DEBUG = false;
 
