@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -35,7 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockFireplace;
 import eekysam.festivities.block.BlockOrnament;
-import eekysam.festivities.block.BlockSnowGlobe;
+import eekysam.festivities.block.BlockSnowglobe;
 import eekysam.festivities.block.BlockTreatPlate;
 import eekysam.festivities.command.CommandHome;
 import eekysam.festivities.command.CommandKringle;
@@ -75,8 +74,6 @@ public class Festivities
 	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD };
 	public static final String[] MSGDATED = new String[] {};
 
-	public static CreativeTabs FestiveTab = new FestivitiesTab(CreativeTabs.getNextID(), "Christmas Festives 2");
-	
 	public static final int kringleId = 3;
 	
 	private int itemId = 2600;
@@ -116,36 +113,36 @@ public class Festivities
 	{
 		instance = this;
 
-		magicCandy = new Item(nextItemID()).setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(Festivities.FestiveTab);
+		magicCandy = new Item(nextItemID()).setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(CreativeTabs.tabMisc);
 		GameRegistry.registerItem(magicCandy, "magicCandy");
 		
-		candyCane = new Item(nextItemID()).setUnlocalizedName("candyCane").setTextureName(Festivities.ID + ":candyCane").setCreativeTab(Festivities.FestiveTab);
+		candyCane = new Item(nextItemID()).setUnlocalizedName("candyCane").setTextureName(Festivities.ID + ":candyCane").setCreativeTab(CreativeTabs.tabFood);
 		GameRegistry.registerItem(candyCane, "candyCane");
 		
-		candyLog = new BlockCandyLog(nextBlockID()).setCreativeTab(Festivities.FestiveTab).setUnlocalizedName("candyLog").setTextureName(Festivities.ID + ":candyLog");
+		candyLog = new BlockCandyLog(nextBlockID()).setCreativeTab(CreativeTabs.tabBlock).setUnlocalizedName("candyLog").setTextureName(Festivities.ID + ":candyLog");
 		GameRegistry.registerBlock(candyLog, "candyLog");
 		
-		snowglobe = new BlockSnowGlobe(nextBlockID(), Material.glass).setCreativeTab(Festivities.FestiveTab).setUnlocalizedName("snowglobe").setTextureName(Festivities.ID + ":snowglobe");
+		snowglobe = new BlockSnowglobe(nextBlockID(), Material.glass).setCreativeTab(CreativeTabs.tabDecorations).setUnlocalizedName("snowglobe").setTextureName(Festivities.ID + ":snowglobe");
 		GameRegistry.registerBlock(snowglobe, "snowglobe");
 		GameRegistry.registerTileEntity(TileEntitySnowglobe.class, "snowglobe");
 		
-		treatplate = new BlockTreatPlate(nextBlockID(), Material.cake).setCreativeTab(Festivities.FestiveTab).setUnlocalizedName("treatplate").setTextureName(Festivities.ID + ":treatplate");
+		treatplate = new BlockTreatPlate(nextBlockID(), Material.cake).setCreativeTab(CreativeTabs.tabFood).setUnlocalizedName("treatplate").setTextureName(Festivities.ID + ":treatplate");
 		GameRegistry.registerBlock(treatplate, "treatplate");
 		GameRegistry.registerTileEntity(TileEntityPlate.class, "treatplate");
 		
-		moreCookies = new ItemMoreCookies(nextItemID(), 2, 0.1F).setUnlocalizedName("morecookies").setCreativeTab(Festivities.FestiveTab);
+		moreCookies = new ItemMoreCookies(nextItemID(), 2, 0.1F).setUnlocalizedName("morecookies").setCreativeTab(CreativeTabs.tabFood);
 		GameRegistry.registerItem(moreCookies, "morecookies");
 		
-		figgy = new ItemFood(nextItemID(), 4, 0.6F, false).setUnlocalizedName("figgy").setTextureName(Festivities.ID + ":figgy").setCreativeTab(Festivities.FestiveTab);
+		figgy = new ItemFood(nextItemID(), 4, 0.6F, false).setUnlocalizedName("figgy").setTextureName(Festivities.ID + ":figgy").setCreativeTab(CreativeTabs.tabFood);
 		GameRegistry.registerItem(figgy, "figgy");
 		
-		holly = new Item(nextItemID()).setUnlocalizedName("holly").setTextureName(Festivities.ID + ":holly").setCreativeTab(Festivities.FestiveTab);
+		holly = new Item(nextItemID()).setUnlocalizedName("holly").setTextureName(Festivities.ID + ":holly").setCreativeTab(CreativeTabs.tabMaterials);
 		GameRegistry.registerItem(holly, "holly");
 		
-		berries = new Item(nextItemID()).setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(Festivities.FestiveTab);
+		berries = new Item(nextItemID()).setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(CreativeTabs.tabMaterials);
 		GameRegistry.registerItem(berries, "berries");
 		
-		bluePie = new ItemFood(nextItemID(), 8, 0.3F, false).setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(Festivities.FestiveTab);
+		bluePie = new ItemFood(nextItemID(), 8, 0.3F, false).setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(CreativeTabs.tabFood);
 		GameRegistry.registerItem(bluePie, "bluPie");
 		
 		clearOrnamentBlock = new BlockOrnament(nextBlockID(), true).setUnlocalizedName("clearOrnamentBlock");
@@ -154,28 +151,28 @@ public class Festivities
 		coloredOrnamentBlock = new BlockOrnament(nextBlockID(), false).setUnlocalizedName("coloredOrnamentBlock");
 		GameRegistry.registerBlock(coloredOrnamentBlock, "coloredOrnamentBlock");
 		
-		clearOrnament = new ItemOrnament(nextItemID(), clearOrnamentBlock, true).setUnlocalizedName("ornament").setCreativeTab(Festivities.FestiveTab);
+		clearOrnament = new ItemOrnament(nextItemID(), clearOrnamentBlock, true).setUnlocalizedName("ornament");
 		GameRegistry.registerItem(clearOrnament, "clearOrnament");
 		
-		coloredOrnament = new ItemOrnament(nextItemID(), coloredOrnamentBlock, false).setUnlocalizedName("ornament").setCreativeTab(Festivities.FestiveTab);
+		coloredOrnament = new ItemOrnament(nextItemID(), coloredOrnamentBlock, false).setUnlocalizedName("ornament");
 		GameRegistry.registerItem(coloredOrnament, "coloredOrnament");
 		
 		GameRegistry.registerTileEntity(TileEntityOrnament.class, "ornament");
 		
-		fireplace = new BlockFireplace(nextBlockID(), Material.rock).setUnlocalizedName("fireplace").setTextureName(Festivities.ID + ":fireplace").setLightValue(1.0F).setCreativeTab(Festivities.FestiveTab);
+		fireplace = new BlockFireplace(nextBlockID(), Material.rock).setUnlocalizedName("fireplace").setTextureName(Festivities.ID + ":fireplace").setLightValue(1.0F).setCreativeTab(CreativeTabs.tabDecorations);
 		GameRegistry.registerBlock(fireplace, "fireplace");
 		GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplace");
 		
-		iceBrick = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":icebrick").setCreativeTab(Festivities.FestiveTab);
+		iceBrick = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":icebrick").setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerBlock(iceBrick, "iceBrick");
 
-		icdBrickCarved = new Block(nextBlockID(), Material.ice).setUnlocalizedName("icdBrickCarved").setTextureName(Festivities.ID + ":icdbrick_carved").setCreativeTab(Festivities.FestiveTab);
+		icdBrickCarved = new Block(nextBlockID(), Material.ice).setUnlocalizedName("icdBrickCarved").setTextureName(Festivities.ID + ":icdbrick_carved").setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerBlock(icdBrickCarved, "icdBrickCarved");
 
-		iceBrickCracked = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(Festivities.FestiveTab);
+		iceBrickCracked = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerBlock(iceBrickCracked, "iceBrickCracked");
 		
-		cobbleIce = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.FestiveTab);
+		cobbleIce = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerBlock(cobbleIce, "cobbleIce");
 		
 		MinecraftForge.EVENT_BUS.register(new EventHooks());

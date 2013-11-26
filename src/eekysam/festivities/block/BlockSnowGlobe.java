@@ -13,9 +13,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSnowGlobe extends BlockContainer
+public class BlockSnowglobe extends BlockContainer
 {
-	public BlockSnowGlobe(int par1, Material par2Material)
+	public BlockSnowglobe(int par1, Material par2Material)
 	{
 		super(par1, par2Material);
 	}
