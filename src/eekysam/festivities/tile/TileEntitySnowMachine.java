@@ -45,7 +45,8 @@ public class TileEntitySnowMachine extends TileEntity {
 			ItemStack myStack = player.inventory.getCurrentItem();
 			if(myStack != null && myStack.itemID == Block.ice.blockID)
 			{
-				iceCount = myStack.stackSize;
+				tickCount = 0;
+				iceCount += myStack.stackSize;
 				if (!player.capabilities.isCreativeMode)
 	            {
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
@@ -57,11 +58,11 @@ public class TileEntitySnowMachine extends TileEntity {
 	
 	public void updateEntity() 
 	{
-		tickCount++;
 		World myWorld = this.worldObj;
-		if (iceCount > 0)
+		if (iceCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
 		{
-			if(myWorld.rand.nextFloat() < 0.5)
+			tickCount++;
+			if(myWorld.rand.nextFloat() < 0.05)
 			{
 				letItSnow();
 			}
