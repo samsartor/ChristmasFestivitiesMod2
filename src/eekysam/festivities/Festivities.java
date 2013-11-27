@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatMessageComponent;
@@ -44,6 +45,7 @@ import eekysam.festivities.command.CommandKringle;
 import eekysam.festivities.debugutils.PerlinTest;
 import eekysam.festivities.events.ConnectionHandler;
 import eekysam.festivities.events.EventHooks;
+import eekysam.festivities.item.ChristmasRecord;
 import eekysam.festivities.item.ItemMoreCookies;
 import eekysam.festivities.item.ItemOrnament;
 import eekysam.festivities.kringle.WorldProviderKringle;
@@ -100,6 +102,7 @@ public class Festivities
 	public static Item figgy;
 	public static Item coloredOrnament;
 	public static Item clearOrnament;
+	public static Item WeWishYouAMerryChristmas;
 	
 	public static Block candyLog;
 	public static Block snowglobe;
@@ -188,6 +191,9 @@ public class Festivities
 		snowMachine = new BlockSnowMachine(nextBlockID(), Material.rock).setUnlocalizedName("snowMachine").setCreativeTab(Festivities.FestiveTab);
 		GameRegistry.registerBlock(snowMachine, "snowMachine");
 		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
+		
+		WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(), "WeWishYouAMerryChristmas").setUnlocalizedName("record");
+		GameRegistry.registerItem(WeWishYouAMerryChristmas, "WeWishYouAMerryChristmas");
 		
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
 	}
