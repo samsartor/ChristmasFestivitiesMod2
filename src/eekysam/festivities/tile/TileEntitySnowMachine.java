@@ -19,6 +19,7 @@ public class TileEntitySnowMachine extends TileEntity {
 
 	private int iceCount;
 	private long tickCount;
+	private float snowDensity;
 	private static final int iceConsumption = 1000;
 	private static final int snowDistance = 16;
 	
@@ -63,8 +64,10 @@ public class TileEntitySnowMachine extends TileEntity {
         {
 			if (iceCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
 			{
-				tickCount++;
-				if(myWorld.rand.nextFloat() < 0.05)
+				snowDensity = (float)++tickCount / (4 * iceConsumption);
+				if (snowDensity > 1)
+					snowDensity = 1;
+				if (myWorld.rand.nextFloat() < 0.05)
 				{
 					letItSnow();
 				}
@@ -74,6 +77,11 @@ public class TileEntitySnowMachine extends TileEntity {
 				}
 			}
         }
+	}
+	
+	public float getSnowDensity()
+	{
+		return snowDensity;
 	}
 	
 	private void letItSnow()
