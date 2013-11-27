@@ -188,7 +188,7 @@ public class Festivities
 		cobbleIce = new Block(nextBlockID(), Material.ice).setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.FestiveTab);
 		GameRegistry.registerBlock(cobbleIce, "cobbleIce");
 		
-		snowMachine = new BlockSnowMachine(nextBlockID(), Material.rock).setUnlocalizedName("snowMachine").setCreativeTab(Festivities.FestiveTab);
+		snowMachine = new BlockSnowMachine(nextBlockID(), Material.rock).setUnlocalizedName("snowMachine").setTextureName(Festivities.ID + ":snowMachine").setCreativeTab(Festivities.FestiveTab);
 		GameRegistry.registerBlock(snowMachine, "snowMachine");
 		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
 		
@@ -242,6 +242,8 @@ public class Festivities
 		LanguageRegistry.addName(iceBrickCarved, "Carved Ice Brick");
 		LanguageRegistry.addName(iceBrickCracked, "Cracked Ice Brick");
 		LanguageRegistry.addName(cobbleIce, "Cobbled Ice");
+		
+		LanguageRegistry.addName(snowMachine, "Snow Machine");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });

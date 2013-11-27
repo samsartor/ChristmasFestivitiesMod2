@@ -20,21 +20,22 @@ import net.minecraft.world.World;
 
 public class TileEntitySnowMachine extends TileEntity
 {
-
-	public int snowCount;
+	private boolean powered;
 	
+	public int snowCount;
+
 	private long tickCount;
 	private float snowDensity;
-	
+
 	public int snowConsumption = 30;
 	public static final int iceSnow = 6;
 	public static final int ballSnow = 1;
 	public static final int blockSnow = 4;
-	
+
 	private static final int snowDistance = 16;
 	private static final float jetangle = 0.15F;
 	private static final float jetvel = 0.2F;
-	
+
 	private boolean isnew = true;
 
 	private float jetx;
@@ -91,6 +92,11 @@ public class TileEntitySnowMachine extends TileEntity
 			this.onChange();
 		}
 	}
+	
+	public boolean isPowered()
+	{
+		return this.powered;
+	}
 
 	public void updateEntity()
 	{
@@ -98,8 +104,9 @@ public class TileEntitySnowMachine extends TileEntity
 
 		snowDensity = 0;
 
-		if (myWorld.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
+		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
 		{
+			this.powered = true;
 			if (snowCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
 			{
 				if (isnew)
@@ -107,19 +114,19 @@ public class TileEntitySnowMachine extends TileEntity
 					isnew = false;
 					jetang = myWorld.rand.nextFloat();
 				}
-				
+
 				snowDensity = (float) ++tickCount / (12 * snowConsumption);
-				
+
 				this.jetx = MathHelper.sin(this.jetang * 6.28F) * this.jetrads;
 				this.jetz = MathHelper.cos(this.jetang * 6.28F) * this.jetrads;
 
-				this.jetang += myWorld.rand.nextFloat() * 0.02F - 0.01F;
+				this.jetrad += myWorld.rand.nextFloat() * 0.02F - 0.01F;
 
-				this.jetrad += (myWorld.rand.nextFloat() * 0.05F * snowDensity - 0.01F) * snowDensity;
+				this.jetang += ((myWorld.rand.nextFloat() * 0.004F + snowDensity * 0.0002F) - 0.0002F);
 
 				if (this.jetrad < 0)
 				{
-					this.jetrad = 0F;
+					this.jetrad = 0;
 				}
 
 				if (this.jetrad > 1)
@@ -129,14 +136,16 @@ public class TileEntitySnowMachine extends TileEntity
 
 				this.jetrads = MathHelper.sqrt_float(this.jetrad);
 
-				this.jetrads *= 0.35F;
-				this.jetrads += 0.65F;
-				
+				this.jetrads *= 0.65F;
+				this.jetrads += 0.35F;
+
 				if (snowDensity > 1)
 				{
 					snowDensity = 1;
 				}
+
 				float sp = snowDensity / 4;
+
 				if (sp > 0.1F)
 				{
 					sp = 0.1F;
@@ -150,6 +159,11 @@ public class TileEntitySnowMachine extends TileEntity
 					snowCount--;
 				}
 			}
+		}
+		else
+		{
+			this.powered = false;
+			tickCount = 0;
 		}
 	}
 
@@ -179,7 +193,14 @@ public class TileEntitySnowMachine extends TileEntity
 					m = MathHelper.sqrt_float(m);
 					if (randy.nextFloat() > m)
 					{
-						this.worldObj.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+						if (meta + 1 == 7)
+						{
+							this.worldObj.setBlock(x, y, z, Block.blockSnow.blockID);
+						}
+						else
+						{
+							this.worldObj.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+						}
 						break;
 					}
 				}

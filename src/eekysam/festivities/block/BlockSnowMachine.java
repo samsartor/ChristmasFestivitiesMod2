@@ -2,6 +2,7 @@ package eekysam.festivities.block;
 
 import java.util.Random;
 
+import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowMachine;
 import net.minecraft.block.Block;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockSnowMachine extends BlockContainer {
@@ -31,6 +33,11 @@ public class BlockSnowMachine extends BlockContainer {
 	{
 		return false;
 	}
+	
+    public int getRenderType()
+    {
+        return Festivities.blockItemRenderId;
+    }
 	
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
@@ -80,5 +87,16 @@ public class BlockSnowMachine extends BlockContainer {
     	{
     		t.spawnFX(random);
     	}
+    }
+
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
+	{
+		return false;
+	}
+	
+    public boolean renderAsNormalBlock()
+    {
+        return false;
     }
 }
