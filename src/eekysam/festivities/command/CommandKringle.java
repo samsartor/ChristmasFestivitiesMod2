@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.ModLoader;
+import net.minecraft.util.ChatMessageComponent;
 
 public class CommandKringle extends CommandBase
 {
@@ -87,6 +88,7 @@ public class CommandKringle extends CommandBase
 		}
 		MinecraftServer mServer = MinecraftServer.getServer();
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
+		icommandsender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Use \\gohome to return to the overworld"}));
 		return true;
 	}
 }

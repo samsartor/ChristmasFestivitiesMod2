@@ -72,8 +72,8 @@ public class Festivities
 	public static final String PLAYERDATA = "festivities";
 
 	public static final int MAJOR = 1;
-	public static final int MINOR = 1;
-	public static final int BUILD = 4;
+	public static final int MINOR = 2;
+	public static final int BUILD = 3;
 
 	public static final boolean DEBUG = false;
 
@@ -100,7 +100,7 @@ public class Festivities
 	public static Item figgy;
 	public static Item coloredOrnament;
 	public static Item clearOrnament;
-	public static Item WeWishYouAMerryChristmas;
+	//public static Item WeWishYouAMerryChristmas;
 	
 	public static Block candyLog;
 	public static Block snowglobe;
@@ -196,8 +196,8 @@ public class Festivities
 		GameRegistry.registerBlock(snowMachine, "snowMachine");
 		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
 		
-		WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(), "WeWishYouAMerryChristmas").setUnlocalizedName("record");
-		GameRegistry.registerItem(WeWishYouAMerryChristmas, "WeWishYouAMerryChristmas");
+		//WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(), "WeWishYouAMerryChristmas").setUnlocalizedName("record");
+		//GameRegistry.registerItem(WeWishYouAMerryChristmas, "WeWishYouAMerryChristmas");
 		
 		this.foodTab.setIcon(candyCane);
 		this.decorTab.setIcon(coloredOrnament);
