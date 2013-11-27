@@ -1,6 +1,11 @@
 package eekysam.festivities.block;
 
+import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
+import eekysam.festivities.client.particle.EntitySnowFX;
 import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.BlockContainer;
@@ -65,4 +70,20 @@ public class BlockSnowGlobe extends BlockContainer
 		int l = determineOrientation(world, x, y, z, entity);
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 	}
+	
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * A randomly called display update to be able to add particles or other items for display
+     */
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
+    	for (int i = 0; i < 4; i++)
+    	{
+    		double X = x + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
+    		double Z = z + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
+    		double Y = y + (15 / 16.0F);
+    		EntitySnowFX.spawn(new EntitySnowFX(world, X, Y, Z).setSize(0.004F));
+    	}
+    }
 }
