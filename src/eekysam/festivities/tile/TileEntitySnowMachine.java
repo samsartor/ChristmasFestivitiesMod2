@@ -21,7 +21,7 @@ public class TileEntitySnowMachine extends TileEntity {
 	private int iceCount;
 	private long tickCount;
 	private float snowDensity;
-	private static final int iceConsumption = 1000;
+	private static final int iceConsumption = 250;
 	private static final int snowDistance = 16;
 	private static final float jetspeed = 0.01F;
 	private static final float jetbend = 0.95F;
@@ -97,7 +97,7 @@ public class TileEntitySnowMachine extends TileEntity {
 				snowDensity = (float)++tickCount / (4 * iceConsumption);
 				if (snowDensity > 1)
 					snowDensity = 1;
-				if (myWorld.rand.nextFloat() < 0.05)
+				if (myWorld.rand.nextFloat() < snowDensity / 2)
 				{
 					letItSnow();
 				}
