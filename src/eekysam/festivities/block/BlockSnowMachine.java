@@ -3,11 +3,13 @@ package eekysam.festivities.block;
 import java.util.Random;
 
 import eekysam.festivities.Festivities;
+import eekysam.festivities.ITipItem;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,8 +18,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSnowMachine extends BlockContainer {
-
+public class BlockSnowMachine extends BlockContainer implements ITipItem
+{
+	public static boolean givetip = true;
+	
 	public BlockSnowMachine(int par1, Material par2Material)
 	{
 		super(par1, par2Material);
@@ -38,6 +42,16 @@ public class BlockSnowMachine extends BlockContainer {
     {
         return Festivities.blockItemRenderId;
     }
+    
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item)
+	{
+		super.onBlockPlacedBy(world, x, y, z, entity, item);
+		if (entity instanceof EntityPlayer && !entity.worldObj.isRemote && givetip)
+		{
+			givetip = false;
+			Festivities.SendChat((EntityPlayer) entity, this.getTip());
+		}
+	}
 	
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
@@ -99,4 +113,9 @@ public class BlockSnowMachine extends BlockContainer {
     {
         return false;
     }
+
+	public String[] getTip()
+	{
+		return new String[] {"Fill with Ice, Snow, or Snowballs", "Activate with redstone signal"};
+	}
 }

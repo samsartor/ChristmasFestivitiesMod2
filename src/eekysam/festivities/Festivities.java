@@ -143,7 +143,7 @@ public class Festivities
 		GameRegistry.registerBlock(snowglobe, "snowglobe");
 		GameRegistry.registerTileEntity(TileEntitySnowglobe.class, "snowglobe");
 		
-		treatplate = new BlockTreatPlate(nextBlockID(), Material.cake).setCreativeTab(Festivities.foodTab).setUnlocalizedName("treatplate").setTextureName(Festivities.ID + ":treatplate");
+		treatplate = new BlockTreatPlate(nextBlockID(), Material.glass).setCreativeTab(Festivities.blockTab).setUnlocalizedName("treatplate").setTextureName(Festivities.ID + ":treatplate");
 		GameRegistry.registerBlock(treatplate, "treatplate");
 		GameRegistry.registerTileEntity(TileEntityPlate.class, "treatplate");
 		

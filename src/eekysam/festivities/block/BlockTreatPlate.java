@@ -1,12 +1,14 @@
 package eekysam.festivities.block;
 
 import eekysam.festivities.Festivities;
+import eekysam.festivities.ITipItem;
 import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntityPlate.PlateFoods;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,8 +17,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockTreatPlate extends BlockContainer
+public class BlockTreatPlate extends BlockContainer implements ITipItem
 {
+	public static boolean givetip = true;
+	
 	public BlockTreatPlate(int par1, Material par2Material)
 	{
 		super(par1, par2Material);
@@ -32,6 +36,16 @@ public class BlockTreatPlate extends BlockContainer
     {
         return null;
     }
+    
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item)
+	{
+		super.onBlockPlacedBy(world, x, y, z, entity, item);
+		if (entity instanceof EntityPlayer && !entity.worldObj.isRemote && givetip)
+		{
+			givetip = false;
+			Festivities.SendChat((EntityPlayer) entity, this.getTip());
+		}
+	}
     
     public void onBlockClicked(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
     {
@@ -130,5 +144,10 @@ public class BlockTreatPlate extends BlockContainer
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
 	{
 		return false;
+	}
+
+	public String[] getTip()
+	{
+		return new String[] {"Right-Click to add the treat you are holding to the plate", "If the treat isn't added, then it might not fit on the plate", "Remove treats from the plate by Right-Clicking while holding nothing"};
 	}
 }
