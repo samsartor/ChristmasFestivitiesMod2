@@ -192,7 +192,7 @@ public class Festivities
 		GameRegistry.registerBlock(snowMachine, "snowMachine");
 		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
 		
-		WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(), "We_Wish_You_A_Merry_Christmas").setUnlocalizedName("record");
+		WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(), "WeWishYouAMerryChristmas").setUnlocalizedName("record");
 		GameRegistry.registerItem(WeWishYouAMerryChristmas, "WeWishYouAMerryChristmas");
 		
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
