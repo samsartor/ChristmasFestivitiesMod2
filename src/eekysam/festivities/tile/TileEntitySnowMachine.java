@@ -169,7 +169,7 @@ public class TileEntitySnowMachine extends TileEntity
 			z = (int) ((randy.nextFloat() + randy.nextFloat() - 1) * snowDistance) + this.zCoord;
 			y = getFirstUncoveredBlockHeight(x, z);
 			int id = this.worldObj.getBlockId(x, y, z);
-			if (id == Block.snow.blockID)
+			if (id == Block.snow.blockID && randy.nextFloat() < 0.1F)
 			{
 				int meta = this.worldObj.getBlockMetadata(x, y, z);
 				if (meta < 7)
