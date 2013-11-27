@@ -108,12 +108,14 @@ public class TileEntitySnowMachine extends TileEntity
 					jetang = myWorld.rand.nextFloat();
 				}
 				
+				snowDensity = (float) ++tickCount / (12 * snowConsumption);
+				
 				this.jetx = MathHelper.sin(this.jetang * 6.28F) * this.jetrads;
 				this.jetz = MathHelper.cos(this.jetang * 6.28F) * this.jetrads;
 
-				this.jetang += myWorld.rand.nextFloat() * 0.04F - 0.02F;
+				this.jetang += myWorld.rand.nextFloat() * 0.02F - 0.01F;
 
-				this.jetrad += myWorld.rand.nextFloat() * 0.04F - 0.02F;
+				this.jetrad += (myWorld.rand.nextFloat() * 0.05F * snowDensity - 0.01F) * snowDensity;
 
 				if (this.jetrad < 0)
 				{
@@ -130,7 +132,6 @@ public class TileEntitySnowMachine extends TileEntity
 				this.jetrads *= 0.35F;
 				this.jetrads += 0.65F;
 				
-				snowDensity = (float) ++tickCount / (12 * snowConsumption);
 				if (snowDensity > 1)
 				{
 					snowDensity = 1;
