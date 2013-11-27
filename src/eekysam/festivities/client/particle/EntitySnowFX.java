@@ -27,6 +27,12 @@ public class EntitySnowFX extends EntityFX
 		return this;
 	}
 	
+	public EntitySnowFX setGrav(float grav)
+	{
+		this.particleGravity = grav;
+		return this;
+	}
+	
 	public EntitySnowFX setMult(float velmult)
 	{
 		this.velmult = velmult;
@@ -45,7 +51,7 @@ public class EntitySnowFX extends EntityFX
         this.setParticleTextureIndex(176 + this.rand.nextInt(8));
         this.setSize(0.01F, 0.01F);
         this.particleGravity = 0.001F;
-        this.particleMaxAge = 120;
+        this.particleMaxAge = 180;
         this.noClip = true;
 	}
 	

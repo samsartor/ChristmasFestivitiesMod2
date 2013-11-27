@@ -14,6 +14,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class TileEntitySnowMachine extends TileEntity {
@@ -23,13 +24,14 @@ public class TileEntitySnowMachine extends TileEntity {
 	private float snowDensity;
 	private static final int iceConsumption = 250;
 	private static final int snowDistance = 16;
-	private static final float jetspeed = 0.01F;
-	private static final float jetbend = 0.95F;
-	private static final float jetangle = 0.2F;
-	private static final float jetvel = 0.1F;
+	private static final float jetangle = 0.15F;
+	private static final float jetvel = 0.2F;
 	
 	private float jetx;
 	private float jetz;
+	private float jetrad;
+	private float jetrads;
+	private float jetang;
 	
 	public TileEntitySnowMachine() {
 		// TODO Auto-generated constructor stub
@@ -69,27 +71,31 @@ public class TileEntitySnowMachine extends TileEntity {
 	{
 		World myWorld = this.worldObj;
 		
-		this.jetx *= jetbend;
-		this.jetz *= jetbend;
+		this.jetx = MathHelper.sin(this.jetang * 6.28F) * this.jetrads;
+		this.jetz = MathHelper.cos(this.jetang * 6.28F) * this.jetrads;
 		
-		if (this.jetx < 1.0F)
+		this.jetang += myWorld.rand.nextFloat() * 0.01F - 0.005F;
+		
+		this.jetrad += myWorld.rand.nextFloat() * 0.01F - 0.005F;
+		
+		if (this.jetrad < 0)
 		{
-			this.jetx += myWorld.rand.nextFloat() * jetspeed;
+			this.jetrad = 0F;
 		}
-		if (this.jetx > 1.0F)
+		
+		if (this.jetrad > 1)
 		{
-			this.jetx -= myWorld.rand.nextFloat() * jetspeed;
+			this.jetrad = 1;
 		}
-		if (this.jetz < 1.0F)
-		{
-			this.jetz += myWorld.rand.nextFloat() * jetspeed;
-		}
-		if (this.jetz > 1.0F)
-		{
-			this.jetz -= myWorld.rand.nextFloat() * jetspeed;
-		}
+		
+		float r = 1 - this.jetrad;
+		this.jetrads = 1 - r * r;
+		
+		this.jetrads /= 2;
+		this.jetrads += 0.5F;
 		
 		snowDensity = 0;
+		
 		if (myWorld.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
         {
 			if (iceCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
@@ -179,7 +185,12 @@ public class TileEntitySnowMachine extends TileEntity {
 	
 	public void spawnFX(Random rand)
 	{
-		int runs = (int) (8 * this.getSnowDensity() + 0.99F);
+		float den = this.getSnowDensity();
+		int runs = 0;
+		if (den != 0.0F)
+		{
+			runs = (int) den * 4 + 6;
+		}
 		for (int i = 0; i < runs; i++)
 		{
     		double X = this.xCoord + rand.nextFloat() * (8 / 16.0F) + (4 / 16.0F);
@@ -187,8 +198,8 @@ public class TileEntitySnowMachine extends TileEntity {
     		double Y = this.yCoord + 0.6F + rand.nextFloat() * 0.4F;
     		float xvel = this.jetx * jetangle;
     		float zvel = this.jetz * jetangle;
-    		float yvel = jetvel * (rand.nextFloat() * 0.2F + 0.9F);
-    		EntitySnowFX.spawn(new EntitySnowFX(this.worldObj, X, Y, Z, xvel, yvel, zvel).setSize(0.01F).setMult(0.995F));
+    		float yvel = jetvel * (rand.nextFloat() * 0.1F + 0.95F);
+    		EntitySnowFX.spawn(new EntitySnowFX(this.worldObj, X, Y, Z, xvel, yvel, zvel).setSize(0.01F).setMult(0.985F).setGrav(0.002F));
 		}
 	}
 }

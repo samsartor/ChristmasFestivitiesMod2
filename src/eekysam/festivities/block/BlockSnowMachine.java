@@ -44,6 +44,9 @@ public class BlockSnowMachine extends BlockContainer {
     public void randomDisplayTick(World world, int x, int y, int z, Random random)
     {
     	TileEntitySnowMachine t = (TileEntitySnowMachine) world.getBlockTileEntity(x, y, z);
-		t.spawnFX(random);
+    	if (t != null)
+    	{
+    		t.spawnFX(random);
+    	}
     }
 }
