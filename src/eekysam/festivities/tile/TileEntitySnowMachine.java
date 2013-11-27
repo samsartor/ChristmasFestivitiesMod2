@@ -59,18 +59,21 @@ public class TileEntitySnowMachine extends TileEntity {
 	public void updateEntity() 
 	{
 		World myWorld = this.worldObj;
-		if (iceCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
-		{
-			tickCount++;
-			if(myWorld.rand.nextFloat() < 0.05)
+		if (myWorld.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
+        {
+			if (iceCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
 			{
-				letItSnow();
+				tickCount++;
+				if(myWorld.rand.nextFloat() < 0.05)
+				{
+					letItSnow();
+				}
+				if(tickCount % iceConsumption == 0)
+				{
+					iceCount--;
+				}
 			}
-			if(tickCount % iceConsumption == 0)
-			{
-				iceCount--;
-			}
-		}
+        }
 	}
 	
 	private void letItSnow()
