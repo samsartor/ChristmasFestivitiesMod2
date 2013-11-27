@@ -3,6 +3,7 @@ package eekysam.festivities.tile;
 import java.util.Random;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
+import eekysam.festivities.client.particle.EntitySnowFX;
 import eekysam.festivities.network.packet.FestPacket;
 import eekysam.festivities.network.packet.PacketUpdateTile;
 import net.minecraft.block.Block;
@@ -22,6 +23,13 @@ public class TileEntitySnowMachine extends TileEntity {
 	private float snowDensity;
 	private static final int iceConsumption = 1000;
 	private static final int snowDistance = 16;
+	private static final float jetspeed = 0.01F;
+	private static final float jetbend = 0.95F;
+	private static final float jetangle = 0.2F;
+	private static final float jetvel = 0.1F;
+	
+	private float jetx;
+	private float jetz;
 	
 	public TileEntitySnowMachine() {
 		// TODO Auto-generated constructor stub
@@ -60,6 +68,28 @@ public class TileEntitySnowMachine extends TileEntity {
 	public void updateEntity() 
 	{
 		World myWorld = this.worldObj;
+		
+		this.jetx *= jetbend;
+		this.jetz *= jetbend;
+		
+		if (this.jetx < 1.0F)
+		{
+			this.jetx += myWorld.rand.nextFloat() * jetspeed;
+		}
+		if (this.jetx > 1.0F)
+		{
+			this.jetx -= myWorld.rand.nextFloat() * jetspeed;
+		}
+		if (this.jetz < 1.0F)
+		{
+			this.jetz += myWorld.rand.nextFloat() * jetspeed;
+		}
+		if (this.jetz > 1.0F)
+		{
+			this.jetz -= myWorld.rand.nextFloat() * jetspeed;
+		}
+		
+		snowDensity = 0;
 		if (myWorld.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
         {
 			if (iceCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
@@ -145,5 +175,20 @@ public class TileEntitySnowMachine extends TileEntity {
 		int y;
 		for (y = 128; this.worldObj.isAirBlock(x, y + 1, z); --y);
 		return y + 1;
+	}
+	
+	public void spawnFX(Random rand)
+	{
+		int runs = (int) (8 * this.getSnowDensity() + 0.99F);
+		for (int i = 0; i < runs; i++)
+		{
+    		double X = this.xCoord + rand.nextFloat() * (8 / 16.0F) + (4 / 16.0F);
+    		double Z = this.zCoord + rand.nextFloat() * (8 / 16.0F) + (4 / 16.0F);
+    		double Y = this.yCoord + 0.6F + rand.nextFloat() * 0.4F;
+    		float xvel = this.jetx * jetangle;
+    		float zvel = this.jetz * jetangle;
+    		float yvel = jetvel * (rand.nextFloat() * 0.2F + 0.9F);
+    		EntitySnowFX.spawn(new EntitySnowFX(this.worldObj, X, Y, Z, xvel, yvel, zvel).setSize(0.01F).setMult(0.995F));
+		}
 	}
 }

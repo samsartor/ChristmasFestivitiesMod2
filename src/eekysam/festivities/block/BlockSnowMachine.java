@@ -1,5 +1,7 @@
 package eekysam.festivities.block;
 
+import java.util.Random;
+
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowMachine;
 import net.minecraft.block.Block;
@@ -39,4 +41,9 @@ public class BlockSnowMachine extends BlockContainer {
     	return true;
     }
 	
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
+    	TileEntitySnowMachine t = (TileEntitySnowMachine) world.getBlockTileEntity(x, y, z);
+		t.spawnFX(random);
+    }
 }

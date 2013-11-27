@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 
 public class EntitySnowFX extends EntityFX
 {
+	public float velmult = 0.98F;
+	
 	public EntitySnowFX(World world, double x, double y, double z, float velx, float vely, float velz)
 	{
 		this(world, x, y, z);
@@ -22,6 +24,12 @@ public class EntitySnowFX extends EntityFX
 	public EntitySnowFX setSize(float size)
 	{
 		this.setSize(size, size);
+		return this;
+	}
+	
+	public EntitySnowFX setMult(float velmult)
+	{
+		this.velmult = velmult;
 		return this;
 	}
 	
@@ -48,9 +56,9 @@ public class EntitySnowFX extends EntityFX
         this.prevPosZ = this.posZ;
         this.motionY -= (double)this.particleGravity;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.98D;
-        this.motionY *= 0.98D;
-        this.motionZ *= 0.98D;
+        this.motionX *= velmult;
+        this.motionY *= velmult;
+        this.motionZ *= velmult;
 
         if (this.particleMaxAge-- <= 0)
         {
@@ -59,7 +67,7 @@ public class EntitySnowFX extends EntityFX
         
         int id = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
         
-        if (id == Festivities.snowglobe.blockID)
+        if (id == Festivities.snowglobe.blockID || id == Festivities.snowMachine.blockID)
         {
         	return;
         }
