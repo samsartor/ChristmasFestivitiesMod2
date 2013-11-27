@@ -69,6 +69,7 @@ public class BlockTreatPlate extends BlockContainer
     			}
     		}
     	}
+    	super.breakBlock(world, par2, par3, par4, par5, par6);
     }
 	
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)

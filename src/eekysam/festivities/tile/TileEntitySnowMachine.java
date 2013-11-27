@@ -26,7 +26,7 @@ public class TileEntitySnowMachine extends TileEntity
 	private long tickCount;
 	private float snowDensity;
 	
-	public int snowConsumption = 50;
+	public int snowConsumption = 30;
 	public static final int iceSnow = 6;
 	public static final int ballSnow = 1;
 	public static final int blockSnow = 4;
@@ -34,6 +34,8 @@ public class TileEntitySnowMachine extends TileEntity
 	private static final int snowDistance = 16;
 	private static final float jetangle = 0.15F;
 	private static final float jetvel = 0.2F;
+	
+	private boolean isnew = true;
 
 	private float jetx;
 	private float jetz;
@@ -100,12 +102,18 @@ public class TileEntitySnowMachine extends TileEntity
 		{
 			if (snowCount > 0 && this.worldObj.isAirBlock(xCoord, yCoord + 1, zCoord))
 			{
+				if (isnew)
+				{
+					isnew = false;
+					jetang = myWorld.rand.nextFloat();
+				}
+				
 				this.jetx = MathHelper.sin(this.jetang * 6.28F) * this.jetrads;
 				this.jetz = MathHelper.cos(this.jetang * 6.28F) * this.jetrads;
 
-				this.jetang += myWorld.rand.nextFloat() * 0.01F - 0.005F;
+				this.jetang += myWorld.rand.nextFloat() * 0.04F - 0.02F;
 
-				this.jetrad += myWorld.rand.nextFloat() * 0.01F - 0.005F;
+				this.jetrad += myWorld.rand.nextFloat() * 0.04F - 0.02F;
 
 				if (this.jetrad < 0)
 				{
@@ -122,7 +130,7 @@ public class TileEntitySnowMachine extends TileEntity
 				this.jetrads *= 0.35F;
 				this.jetrads += 0.65F;
 				
-				snowDensity = (float) ++tickCount / (4 * snowConsumption);
+				snowDensity = (float) ++tickCount / (12 * snowConsumption);
 				if (snowDensity > 1)
 				{
 					snowDensity = 1;
@@ -223,7 +231,7 @@ public class TileEntitySnowMachine extends TileEntity
 		int runs = 0;
 		if (den != 0.0F)
 		{
-			runs = (int) den * 4 + 6;
+			runs = (int) den * 8 + 2;
 		}
 		for (int i = 0; i < runs; i++)
 		{

@@ -52,23 +52,25 @@ public class BlockSnowMachine extends BlockContainer {
     		while (snow > 0)
     		{
     			int size;
-    			if (snow > 64)
+    			if (snow > 16)
     			{
-    				size = 64;
+    				size = 16;
     			}
     			else
     			{
     				size = snow;
     			}
-    			snow -= 64;
+    			snow -= 16;
     			
 				float f = 0.7F;
                 double dx = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
                 double dy = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.2D + 0.6D;
                 double dz = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
                 EntityItem entityitem = new EntityItem(world, (double)par2 + dx, (double)par3 + dy, (double)par4 + dz, new ItemStack(Item.snowball, size));
+                world.spawnEntityInWorld(entityitem);
     		}
     	}
+    	super.breakBlock(world, par2, par3, par4, par5, par6);
     }
 	
     public void randomDisplayTick(World world, int x, int y, int z, Random random)
