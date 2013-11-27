@@ -7,7 +7,9 @@ import eekysam.festivities.tile.TileEntitySnowMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -39,6 +41,34 @@ public class BlockSnowMachine extends BlockContainer {
     	}
     	
     	return true;
+    }
+	
+    public void breakBlock(World world, int par2, int par3, int par4, int par5, int par6)
+    {
+    	TileEntitySnowMachine t = (TileEntitySnowMachine) world.getBlockTileEntity(par2, par3, par4);
+    	if (t != null)
+    	{
+    		int snow = t.snowCount / t.ballSnow;
+    		while (snow > 0)
+    		{
+    			int size;
+    			if (snow > 64)
+    			{
+    				size = 64;
+    			}
+    			else
+    			{
+    				size = snow;
+    			}
+    			snow -= 64;
+    			
+				float f = 0.7F;
+                double dx = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+                double dy = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.2D + 0.6D;
+                double dz = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+                EntityItem entityitem = new EntityItem(world, (double)par2 + dx, (double)par3 + dy, (double)par4 + dz, new ItemStack(Item.snowball, size));
+    		}
+    	}
     }
 	
     public void randomDisplayTick(World world, int x, int y, int z, Random random)
