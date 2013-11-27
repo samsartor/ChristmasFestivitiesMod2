@@ -258,7 +258,21 @@ public class Festivities
 		}
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 3), new Object[] { "X#X", 'X', this.candyCane, '#', Item.wheat });
 		GameRegistry.addShapelessRecipe(new ItemStack(this.bluePie), new Object[] { this.berries, Item.sugar, Item.egg });
-
+		
+		GameRegistry.addRecipe(new ItemStack(this.treatplate, 2), new Object[] { "CCC", 'C', Item.brick});
+		GameRegistry.addRecipe(new ItemStack(this.treatplate, 2), new Object[] { "CCC", 'C', Block.glass});
+		
+		GameRegistry.addRecipe(new ItemStack(this.clearOrnament, 6), new Object[] { " N ", "G G", " G ", 'N', Item.goldNugget, 'G', Block.glass});
+		for (int i = 0; i < 16; i++)
+		{
+			if (i != 0 && i != 3 && i != 15)
+			{
+				GameRegistry.addShapelessRecipe(new ItemStack(this.coloredOrnament, 1, i), new Object[] {new ItemStack(Item.dyePowder, 1, i), this.clearOrnament});
+			}
+		}
+		
+		GameRegistry.addRecipe(new ItemStack(this.snowMachine, 2), new Object[] { "I I", " P ", "SDS", 'I', Item.ingotIron, 'P', Block.pistonBase, 'S', new ItemStack(Block.stoneSingleSlab, 1, 0), 'D', Block.dropper});
+		
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
 	}
