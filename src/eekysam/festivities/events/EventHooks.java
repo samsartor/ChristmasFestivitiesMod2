@@ -1,15 +1,18 @@
 package eekysam.festivities.events;
 
 import eekysam.festivities.Festivities;
+import eekysam.festivities.client.player.PlayerClientData;
 import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 public class EventHooks
 {
@@ -27,21 +30,35 @@ public class EventHooks
 			EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			player.registerExtendedProperties(Festivities.PLAYERDATA, new PlayerData());
 		}
+		if (event.entity instanceof EntityPlayerSP)
+		{
+			EntityPlayerSP player = (EntityPlayerSP) event.entity;
+			player.registerExtendedProperties(Festivities.PLAYERDATA, new PlayerClientData());
+		}
 	}
 	
 	@ForgeSubscribe
-	public float getOffsetFOV(FOVUpdateEvent event)
+	public void getOffsetFOV(FOVUpdateEvent event)
 	{
-		Integer integ = Festivities.instance.playerFovAnimation.get(event.entity.getEntityName());
 		float fov = event.fov;
-		if (integ != null)
+		EntityPlayerSP player = event.entity;
+		PlayerClientData data = (PlayerClientData) player.getExtendedProperties(Festivities.PLAYERDATA);
+		fov -= data.getSnowgobePortal(player.worldObj.getWorldTime()) * 0.6F;
+		event.newfov = fov;
+	}
+	
+	@ForgeSubscribe
+	public void entityUpdateEvent(LivingUpdateEvent event)
+	{
+		EntityLivingBase entity = event.entityLiving;
+		
+		if (entity.ticksExisted % 5 == 0 && entity instanceof EntityPlayer)
 		{
-			int i = (int) integ;
+			EntityPlayer player = (EntityPlayer) entity;
 			
-			float portal = integ / (float) TileEntitySnowglobe.portalTime;
+			PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
 			
-			fov -= portal * 0.6F;
+			data.testTimeOut(player.worldObj.getWorldTime());
 		}
-		return fov;
 	}
 }

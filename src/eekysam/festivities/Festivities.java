@@ -124,9 +124,6 @@ public class Festivities
 	public static FestivitiesTab matTab = new FestivitiesTab(CreativeTabs.getNextID(), "Festive Materials");
 	public static FestivitiesTab miscTab = new FestivitiesTab(CreativeTabs.getNextID(), "Festive Misc");
 	
-	@SideOnly(Side.CLIENT)
-	public HashMap<String, Integer> playerFovAnimation = new HashMap<String, Integer>();
-	
 	@SidedProxy(modId = Festivities.ID, clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
 	public static CommonProxy proxy;
 

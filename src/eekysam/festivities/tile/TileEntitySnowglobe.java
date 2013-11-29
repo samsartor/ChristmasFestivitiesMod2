@@ -1,13 +1,18 @@
 package eekysam.festivities.tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
+import eekysam.festivities.client.player.PlayerClientData;
 import eekysam.festivities.kringle.KringleTeleporter;
 import eekysam.festivities.network.packet.FestPacket;
 import eekysam.festivities.network.packet.PacketUpdateTile;
+import eekysam.festivities.player.PlayerData;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,6 +25,7 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -29,13 +35,10 @@ public class TileEntitySnowglobe extends TileEntity
 	
 	private long ticks;
 	
-	protected int lookTicks = 0;
-	protected String looker = "";
-	protected boolean hasLooker = false;
+	protected boolean isPortal = true;
 	
 	public static final int portalTime = 120;
-	
-	//protected List<EntityPlayer> watchers = new ArrayList<EntityPlayer>();
+	public static final int lookTick = 10;
 	
 	public void onChange()
 	{
@@ -78,91 +81,70 @@ public class TileEntitySnowglobe extends TileEntity
     {
     	this.ticks++;
     	
-    	if (this.hasLooker)
+    	if (this.isPortal)
     	{
-    		this.lookTicks++;
-			if (this.worldObj.isRemote)
-			{
-				Festivities.instance.playerFovAnimation.put(this.looker, this.lookTicks);
-			}
-    	}
-    	else
-    	{
-			if (this.worldObj.isRemote && !this.looker.isEmpty())
-			{
-				Festivities.instance.playerFovAnimation.remove(this.looker);
-				this.looker = "";
-			}
-    	}
-    	
-    	if (ticks % 20 == 0)
-    	{
-    		boolean flag = false;
-    		
-    		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(this.xCoord - 16, this.yCoord - 16, this.zCoord - 16, this.xCoord + 16, this.yCoord + 16, this.zCoord + 16);
-    		List entities = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, box);
-    		
-            for (int i = 0; i < entities.size(); ++i)
-            {
-            	EntityPlayer player = (EntityPlayer) entities.get(i);
-            	
-            	EntityPlayerMP playermp = null;
-            	EntityPlayerSP playersp = null;
-            	
-            	if (this.worldObj.isRemote)
-            	{
-            		playersp = (EntityPlayerSP) player;
-            	}
-            	else
-            	{
-            		playermp = (EntityPlayerMP) player;
-            	}
-        	
-        		
-            	if (this.isLooking(player) && this.canSee(player))
-            	{
-            		if (this.hasLooker)
-            		{
-            			if (this.looker.equals(player.getEntityName()))
-            			{
-            				flag = true;
-            				if (playermp  != null)
-            				{
-	            				if (this.lookTicks > this.portalTime)
-	            				{
-	            					MinecraftServer mServer = MinecraftServer.getServer();
-	            					playermp.mcServer.getConfigurationManager().transferPlayerToDimension(playermp, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
-	            					
-	            					flag = false;
-	            				}
-            				}
-
-            				break;
-            			}
-            		}
-            		else
-            		{
-            			this.looker = player.getEntityName();
-            			this.lookTicks = 0;
-            			this.hasLooker = true;
-            			flag = true;
-            			break;
-            		}
-            	}
-            }
-            
-            if (!flag)
-            {
-            	this.hasLooker = false;
-            	this.lookTicks = 0;
-            }
+	    	if (this.ticks % this.lookTick == 0)
+	    	{
+				boolean flag = false;
+				
+				AxisAlignedBB box = AxisAlignedBB.getBoundingBox(this.xCoord - 16, this.yCoord - 16, this.zCoord - 16, this.xCoord + 16, this.yCoord + 16, this.zCoord + 16);
+				List entities = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, box);
+				
+		        for (int i = 0; i < entities.size(); ++i)
+		        {
+		        	EntityPlayer player = (EntityPlayer) entities.get(i);
+		        	
+		        	EntityPlayerMP playermp = null;
+		        	EntityPlayerSP playersp = null;
+		        	
+		        	if (this.worldObj.isRemote)
+		        	{
+		        		playersp = (EntityPlayerSP) player;
+		        	}
+		        	else
+		        	{
+		        		playermp = (EntityPlayerMP) player;
+		        	}
+		    		
+		        	if (this.isLooking(player) && this.canSee(player))
+		        	{
+		        		long worldtime = this.worldObj.getWorldTime();
+		            	if (this.worldObj.isRemote)
+		            	{
+		            		PlayerClientData data = (PlayerClientData) playersp.getExtendedProperties(Festivities.PLAYERDATA);
+		            		data.testTimeOut(worldtime);
+		            		
+		            		int portaltime = data.incrementSnowglobe(worldtime);
+		            		
+		            		if (portaltime > this.portalTime)
+		            		{
+		            			data.resetSnowglobePortal();
+		            		}
+		            	}
+		            	else
+		            	{
+		            		PlayerData data = (PlayerData) playermp.getExtendedProperties(Festivities.PLAYERDATA);
+		            		data.testTimeOut(worldtime);
+		            		
+		            		int portaltime = data.incrementSnowglobe(worldtime);
+		            		
+		            		if (portaltime > this.portalTime)
+		            		{
+		            			data.resetSnowglobePortal();
+		            			MinecraftServer mServer = MinecraftServer.getServer();
+		            			playermp.mcServer.getConfigurationManager().transferPlayerToDimension(playermp, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
+		            		}
+		            	}
+		        	}
+		    	}
+	    	}
     	}
     }
     
     protected boolean isLooking(EntityPlayer player)
     {
         Vec3 look = player.getLook(1.0F).normalize();
-        Vec3 pos = this.worldObj.getWorldVec3Pool().getVecFromPool(this.xCoord - player.posX + 0.D, this.yCoord - (player.posY + (double)player.getEyeHeight()) + 0.5D, this.zCoord - player.posZ + 0.5D);
+        Vec3 pos = this.worldObj.getWorldVec3Pool().getVecFromPool(this.xCoord - player.posX + 0.5D, this.yCoord - (player.posY + (double)player.getEyeHeight()) + 0.5D, this.zCoord - player.posZ + 0.5D);
         double dist = pos.lengthVector();
         pos = pos.normalize();
         double stare = look.dotProduct(pos);
@@ -173,7 +155,7 @@ public class TileEntitySnowglobe extends TileEntity
     protected boolean canSee(EntityPlayer player)
     {
     	Vec3 look = player.getLook(1.0F).normalize();
-    	return this.worldObj.clip(this.worldObj.getWorldVec3Pool().getVecFromPool(this.xCoord + 0.5F + look.xCoord * -2, this.yCoord + 0.5F + look.yCoord * -2, this.zCoord + 0.5D + look.zCoord * -2), this.worldObj.getWorldVec3Pool().getVecFromPool(player.posX, player.posY + (double)player.getEyeHeight(), player.posZ)) == null;
+    	return this.worldObj.clip(this.worldObj.getWorldVec3Pool().getVecFromPool(this.xCoord + 0.5D + look.xCoord * -2, this.yCoord + 0.5D + look.yCoord * -2, this.zCoord + 0.5D + look.zCoord * -2), this.worldObj.getWorldVec3Pool().getVecFromPool(player.posX, player.posY + (double)player.getEyeHeight(), player.posZ)) == null;
     }
     
     @Deprecated
