@@ -9,6 +9,7 @@ import eekysam.utils.EnumDirection;
 import eekysam.utils.draw.BoxDrawBasic;
 import eekysam.utils.draw.IRenderer;
 import eekysam.utils.draw.PlaneDrawBasic;
+import eekysam.utils.draw.SideDrawFakeShade;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -30,45 +31,48 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		
 		if (globe.type >= 0 && globe.type < SnowglobeScene.list.size())
 		{
-			PlaneDrawBasic plane = new PlaneDrawBasic(this);
-			plane.setDoubleSided();
+			SideDrawFakeShade side = new SideDrawFakeShade(this);
+			side.setDoubleSided();
 			ResourceLocation loc = SnowglobeScene.list.get(globe.type).getResource();
-			plane.setTexture(loc.getResourceDomain(), loc.getResourcePath(), 98, 40);
+			side.setTexture(loc.getResourceDomain(), loc.getResourcePath(), 98, 40);
 			
 			tess.startDrawingQuads();
 			
 			for (int i = 0; i < 7; i++)
 			{
-				plane.plane(EnumDirection.YUp, 14, 14, 1, i * 2 + 2, 1);
-				plane.selectUV(14 * i, 26);
-				plane.draw();
+				side.side(EnumDirection.YUp, 14, 14, 1, i * 2 + 2, 1);
+				side.selectUV(14 * i, 26);
+				side.setFlip(false, true);
+				side.draw();
 			}
 
 			for (int i = 0; i < 7; i++)
 			{
-				plane.plane(EnumDirection.ZUp, 14, 13, 1, 2, 14 - i * 2);
-				plane.selectUV(14 * i, 0);
-				plane.draw();
+				side.side(EnumDirection.ZUp, 14, 13, 1, 2, 14 - i * 2);
+				side.selectUV(14 * i, 0);
+				side.setFlip(false, false);
+				side.draw();
 			}
 
 			for (int i = 0; i < 7; i++)
 			{
-				plane.plane(EnumDirection.XUp, 14, 13, i * 2 + 2, 2, 1);
-				plane.selectUV(14 * i, 13);
-				plane.draw();
+				side.side(EnumDirection.XUp, 14, 13, i * 2 + 2, 2, 1);
+				side.selectUV(14 * i, 13);
+				side.setFlip(false, false);
+				side.draw();
 			}
 
 			tess.draw();
 		}
 		else
 		{
-			PlaneDrawBasic plane = new PlaneDrawBasic(this);
-			plane.setTexture(Festivities.ID, "textures/snowglobe/base.png", 14, 14);
+			SideDrawFakeShade side = new SideDrawFakeShade(this);
+			side.setTexture(Festivities.ID, "textures/snowglobe/base.png", 14, 14);
 			tess.startDrawingQuads();
 			
-			plane.plane(EnumDirection.YUp, 14, 14, 1, 2, 1);
-			plane.selectUV(0, 0);
-			plane.draw();
+			side.side(EnumDirection.YUp, 14, 14, 1, 2, 1);
+			side.selectUV(0, 0);
+			side.draw();
 			
 			tess.draw();
 		}

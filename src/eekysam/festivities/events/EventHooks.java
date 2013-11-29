@@ -43,7 +43,14 @@ public class EventHooks
 		float fov = event.fov;
 		EntityPlayerSP player = event.entity;
 		PlayerClientData data = (PlayerClientData) player.getExtendedProperties(Festivities.PLAYERDATA);
-		fov -= data.getSnowgobePortal(player.worldObj.getWorldTime()) * 0.6F;
+		if (player.dimension == Festivities.kringleId)
+		{
+			fov += data.getSnowgobePortal(player.worldObj.getWorldTime()) * 0.6F;
+		}
+		else
+		{
+			fov -= data.getSnowgobePortal(player.worldObj.getWorldTime()) * 0.6F;
+		}
 		event.newfov = fov;
 	}
 	

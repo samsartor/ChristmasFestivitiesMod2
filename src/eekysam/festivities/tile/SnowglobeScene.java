@@ -12,7 +12,7 @@ public class SnowglobeScene
 	public static List<SnowglobeScene> list = new ArrayList<SnowglobeScene>();
 	public static SnowglobeScene SnowTree = new SnowglobeScene("snowWorld", EnumTheme.Snow, EnumTheme.Candycane, EnumTheme.Plants, EnumTheme.Branches, EnumTheme.Tree, EnumTheme.Leaves);
 	public static SnowglobeScene CandyWorld = new SnowglobeScene("candyWorld", EnumTheme.Candycane, EnumTheme.Candy, EnumTheme.Snow, EnumTheme.Sugar);
-	//public static SnowglobeScene testGrid = new SnowglobeScene("grid");
+	public static SnowglobeScene HillWorld = new SnowglobeScene("hillWorld");
 			
 	public String texture;
 	public EnumTheme[] themes;

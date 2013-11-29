@@ -35,7 +35,7 @@ public class TileEntitySnowglobe extends TileEntity
 	
 	private long ticks;
 	
-	protected boolean isPortal = true;
+	protected boolean isPortal = false;
 	
 	public static final int portalTime = 120;
 	public static final int lookTick = 10;
@@ -132,7 +132,14 @@ public class TileEntitySnowglobe extends TileEntity
 		            		{
 		            			data.resetSnowglobePortal();
 		            			MinecraftServer mServer = MinecraftServer.getServer();
-		            			playermp.mcServer.getConfigurationManager().transferPlayerToDimension(playermp, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
+		            			if (playermp.dimension == Festivities.kringleId)
+		            			{
+		            				playermp.mcServer.getConfigurationManager().transferPlayerToDimension(playermp, 0, new KringleTeleporter(mServer.worldServerForDimension(0)));
+		            			}
+		            			else
+		            			{
+		            				playermp.mcServer.getConfigurationManager().transferPlayerToDimension(playermp, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
+		            			}
 		            		}
 		            	}
 		        	}

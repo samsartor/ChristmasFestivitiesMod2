@@ -31,6 +31,46 @@ public enum EnumDirection
 		return null;
 	}
 	
+	public EnumDirection getUp()
+	{
+		switch (this)
+		{
+			case XUp:
+				return XUp;
+			case XDown:
+				return XUp;
+			case YUp:
+				return YUp;
+			case YDown:
+				return YUp;
+			case ZUp:
+				return ZUp;
+			case ZDown:
+				return ZUp;
+		}
+		return null;
+	}
+	
+	public EnumDirection getDown()
+	{
+		switch (this)
+		{
+			case XUp:
+				return XDown;
+			case XDown:
+				return XDown;
+			case YUp:
+				return YDown;
+			case YDown:
+				return YDown;
+			case ZUp:
+				return ZDown;
+			case ZDown:
+				return ZDown;
+		}
+		return null;
+	}
+	
 	public Vector3f getVector(float mag)
 	{
 		switch (this)
