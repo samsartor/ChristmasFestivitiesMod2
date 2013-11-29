@@ -2,6 +2,7 @@ package eekysam.festivities;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -121,6 +123,9 @@ public class Festivities
 	public static FestivitiesTab blockTab = new FestivitiesTab(CreativeTabs.getNextID(), "Festive Blocks");
 	public static FestivitiesTab matTab = new FestivitiesTab(CreativeTabs.getNextID(), "Festive Materials");
 	public static FestivitiesTab miscTab = new FestivitiesTab(CreativeTabs.getNextID(), "Festive Misc");
+	
+	@SideOnly(Side.CLIENT)
+	public HashMap<String, Integer> playerFovAnimation = new HashMap<String, Integer>();
 	
 	@SidedProxy(modId = Festivities.ID, clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
 	public static CommonProxy proxy;

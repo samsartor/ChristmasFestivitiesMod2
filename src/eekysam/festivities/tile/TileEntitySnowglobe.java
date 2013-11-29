@@ -9,6 +9,7 @@ import eekysam.festivities.kringle.KringleTeleporter;
 import eekysam.festivities.network.packet.FestPacket;
 import eekysam.festivities.network.packet.PacketUpdateTile;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -77,33 +78,56 @@ public class TileEntitySnowglobe extends TileEntity
     {
     	this.ticks++;
     	
-    	if (!this.worldObj.isRemote)
+    	if (this.hasLooker)
     	{
-	    	if (this.hasLooker)
-	    	{
-	    		this.lookTicks++;
-	    	}
-	    	
-	    	if (ticks % 20 == 0)
-	    	{
-	    		boolean flag = false;
-	    		
-	    		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(this.xCoord - 16, this.yCoord - 16, this.zCoord - 16, this.xCoord + 16, this.yCoord + 16, this.zCoord + 16);
-	    		List entities = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, box);
-	    		
-	            for (int i = 0; i < entities.size(); ++i)
-	            {
-	            	EntityPlayer player = (EntityPlayer) entities.get(i);
-	            	
-            		EntityPlayerMP playermp = (EntityPlayerMP) player;
-            		
-	            	if (this.isLooking(player) && this.canSee(player))
-	            	{
-	            		if (this.hasLooker)
-	            		{
-	            			if (this.looker.equals(player.getEntityName()))
-	            			{
-	            				flag = true;
+    		this.lookTicks++;
+			if (this.worldObj.isRemote)
+			{
+				Festivities.instance.playerFovAnimation.put(this.looker, this.lookTicks);
+			}
+    	}
+    	else
+    	{
+			if (this.worldObj.isRemote && !this.looker.isEmpty())
+			{
+				Festivities.instance.playerFovAnimation.remove(this.looker);
+				this.looker = "";
+			}
+    	}
+    	
+    	if (ticks % 20 == 0)
+    	{
+    		boolean flag = false;
+    		
+    		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(this.xCoord - 16, this.yCoord - 16, this.zCoord - 16, this.xCoord + 16, this.yCoord + 16, this.zCoord + 16);
+    		List entities = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, box);
+    		
+            for (int i = 0; i < entities.size(); ++i)
+            {
+            	EntityPlayer player = (EntityPlayer) entities.get(i);
+            	
+            	EntityPlayerMP playermp = null;
+            	EntityPlayerSP playersp = null;
+            	
+            	if (this.worldObj.isRemote)
+            	{
+            		playersp = (EntityPlayerSP) player;
+            	}
+            	else
+            	{
+            		playermp = (EntityPlayerMP) player;
+            	}
+        	
+        		
+            	if (this.isLooking(player) && this.canSee(player))
+            	{
+            		if (this.hasLooker)
+            		{
+            			if (this.looker.equals(player.getEntityName()))
+            			{
+            				flag = true;
+            				if (playermp  != null)
+            				{
 	            				if (this.lookTicks > this.portalTime)
 	            				{
 	            					MinecraftServer mServer = MinecraftServer.getServer();
@@ -111,30 +135,27 @@ public class TileEntitySnowglobe extends TileEntity
 	            					
 	            					flag = false;
 	            				}
-	            				break;
-	            			}
-	            		}
-	            		else
-	            		{
-	            			this.looker = player.getEntityName();
-	            			this.lookTicks = 0;
-	            			this.hasLooker = true;
-	            			flag = true;
-	            			break;
-	            		}
-	            	}
-	            }
-	            
-	            if (!flag)
-	            {
-	            	this.hasLooker = false;
-	            	this.lookTicks = 0;
-	            }
-	            else
-	            {
-	            	
-	            }
-	    	}
+            				}
+
+            				break;
+            			}
+            		}
+            		else
+            		{
+            			this.looker = player.getEntityName();
+            			this.lookTicks = 0;
+            			this.hasLooker = true;
+            			flag = true;
+            			break;
+            		}
+            	}
+            }
+            
+            if (!flag)
+            {
+            	this.hasLooker = false;
+            	this.lookTicks = 0;
+            }
     	}
     }
     
