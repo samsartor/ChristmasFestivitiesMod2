@@ -72,4 +72,10 @@ public class TileEntitySnowMachineRenderer extends TileEntitySpecialRenderer imp
 		
 		tess.draw();
 	}
+
+	@Override
+	public int getAnimNum()
+	{
+		return 0;
+	}
 }

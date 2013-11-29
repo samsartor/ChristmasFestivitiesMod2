@@ -33,7 +33,6 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 			plane.setDoubleSided();
 			ResourceLocation loc = SnowglobeScene.list.get(globe.type).getResource();
 			plane.setTexture(loc.getResourceDomain(), loc.getResourcePath(), 98, 40);
-			GL11.glDisable(GL11.GL_LIGHTING);
 			
 			tess.startDrawingQuads();
 			
@@ -59,7 +58,6 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 			}
 
 			tess.draw();
-			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 		else
 		{
@@ -108,5 +106,11 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 	public void rendererBindTexture(ResourceLocation loc)
 	{
 		this.bindTexture(loc);
+	}
+	
+	@Override
+	public int getAnimNum()
+	{
+		return 0;
 	}
 }

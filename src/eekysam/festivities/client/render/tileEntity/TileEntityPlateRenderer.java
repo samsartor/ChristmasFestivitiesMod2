@@ -213,4 +213,10 @@ public class TileEntityPlateRenderer extends TileEntitySpecialRenderer implement
 	{
 		this.bindTexture(loc);
 	}
+	
+	@Override
+	public int getAnimNum()
+	{
+		return 0;
+	}
 }

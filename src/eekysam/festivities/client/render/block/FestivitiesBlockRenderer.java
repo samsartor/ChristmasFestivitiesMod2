@@ -47,51 +47,56 @@ public class FestivitiesBlockRenderer
 		tess.draw();
 		tess.startDrawingQuads();
 		
-		draw.setTexture(Festivities.ID, "textures/tile/burnlog.png", 8, 8);
+		draw.setTexture(Festivities.ID, "textures/tile/burnlog.png", 8, 14);
 		
-		drawLog(draw, 5, 2, 4, 2);
-		drawLog(draw, 9, 2, 4, 2);
-		drawLog(draw, 4, 4, 7, 0);
+		int a = render.getAnimNum();
+		
+		drawLog(draw, 5, 2, 4, 2, a);//(a + 1) % 4);
+		drawLog(draw, 9, 2, 4, 2, a);//(a + 2) % 4);
+		drawLog(draw, 4, 4, 7, 0, a);//(a + 0) % 4);
 		
 		tess.draw();
 	}
 	
-	private static void drawLog(BoxDrawBasic draw, int x, int y, int z, int dir)
+	private static void drawLog(BoxDrawBasic draw, int x, int y, int z, int dir, int anim)
 	{
 		dir = dir % 3;
+		int v = anim * 2;
 		if (dir == 0)
 		{
 			draw.cube(x, y, z, 8, 2, 2);
-			draw.selectUV(0, 0);
+			draw.selectUV(0, v);
 			draw.YUp();
 			draw.YDown();
 			draw.ZUp();
 			draw.ZDown();
-			draw.selectUV(8, 0);
+			draw.selectUV(8, v);
 			draw.XUp();
 			draw.XDown();
 		}
 		if (dir == 1)
 		{
 			draw.cube(x, y, z, 2, 8, 2);
-			draw.selectUV(0, 0);
+			draw.selectUV(0, v);
 			draw.XUp();
 			draw.XDown();
 			draw.ZUp();
 			draw.ZDown();
-			draw.selectUV(8, 0);
+			draw.selectUV(8, v);
 			draw.YUp();
 			draw.YDown();
 		}
 		if (dir == 2)
 		{
 			draw.cube(x, y, z, 2, 2, 8);
-			draw.selectUV(0, 0);
+			draw.selectUV(0, v);
+			draw.setRotUVWorldMapping(true);
 			draw.YUp();
 			draw.YDown();
+			draw.setRotUVWorldMapping(false);
 			draw.XUp();
 			draw.XDown();
-			draw.selectUV(8, 0);
+			draw.selectUV(8, v);
 			draw.ZUp();
 			draw.ZDown();
 		}

@@ -31,6 +31,8 @@ public abstract class BoxDraw
 	protected int itextureU;
 	protected int itextureV;
 	
+	protected boolean rotUVWorldMapping = false;
+	
 	protected IRenderer parent;
 	
 	protected boolean inside = false;
@@ -41,6 +43,11 @@ public abstract class BoxDraw
 	{
 		this.parent = parent;
 		this.tess = Tessellator.instance;
+	}
+	
+	public void setRotUVWorldMapping(boolean rot)
+	{
+		this.rotUVWorldMapping = rot;
 	}
 	
 	public void faceOut()
