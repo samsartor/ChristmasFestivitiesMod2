@@ -52,6 +52,11 @@ public class BlockSnowGlobe extends BlockContainer
 	{
 		return false;
 	}
+	
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)

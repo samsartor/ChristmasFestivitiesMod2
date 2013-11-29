@@ -26,6 +26,7 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		TileEntitySnowglobe globe = (TileEntitySnowglobe) tile;
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_LIGHTING);
 		
 		if (globe.type >= 0 && globe.type < SnowglobeScene.list.size())
 		{
