@@ -18,7 +18,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemOrnament extends Item
+public class ItemOrnament extends ItemFestive
 {
 	private int spawnID;
 	private boolean clear;

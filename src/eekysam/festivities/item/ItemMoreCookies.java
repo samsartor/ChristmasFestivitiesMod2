@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 
-public class ItemMoreCookies extends ItemFood
+public class ItemMoreCookies extends ItemFoodFestive
 {
 	public static final String[] names = new String[] { "sugar", "choc", "sprink", "candy" };
 
