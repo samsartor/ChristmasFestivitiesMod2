@@ -8,11 +8,11 @@ public class UserType
 	public static List<UserType> list = new ArrayList<UserType>();
 	
 	public static UserType sam = new UserType().setMembers("eekysam").setMsg("Welcome Back Sam!");
-	public static UserType bonez = new UserType().setMembers("BoneZa5").setMsg("Nice to see that you have stopped slacking off :P JK LOL");
+	public static UserType bonez = new UserType().setMembers("BoneZa5").setMsg("Cool Blocks Bro!");
 	public static UserType lily = new UserType().setMembers("catinabukkit").setMsg("What do you think?");
 	public static UserType contributer  = new UserType().setMembers("zeklo").setMsg("Thank You!");
-	public static UserType youtuber = new UserType().setMembers("captainsparklez", "xisumavoid", "xisuma", "Antvenom", "Skydoesminecraft", "Sethbling", "Ethoslab", "ScorpioDan", "Setosorcerer").setMsg("Thank You for Playing the Christmas Festivities Mod!");
-	public static UserType forums = new UserType().setMembers("triplehex", "XtremelyNooby").setMsg("Christmas Festivities Mod!");
+	public static UserType crafted = new UserType().setMembers("setosorcerer", "deadlox").setMsg("Thank You for Trying out the Mod!");
+	public static UserType youtuber = new UserType().setMembers("captainsparklez", "xisumavoid", "xisuma", "Antvenom", "Skydoesminecraft", "Sethbling", "Ethoslab", "ScorpioDan").setMsg("Thank You for Playing the Christmas Festivities Mod!");
 	public static UserType mojang  = new UserType().setMembers("notch", "dinnerbone", "grum").setMsg("Minecraft is Christmas!");
 	
 	private String[] included = new String[0];

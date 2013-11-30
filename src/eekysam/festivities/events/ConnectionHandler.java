@@ -26,6 +26,12 @@ public class ConnectionHandler implements IConnectionHandler
 		{
 			entity.entityDropItem(new ItemStack(Festivities.figgy, 16), 0.7F);
 		}
+		if (UserType.crafted.equals(type))
+		{
+			ItemStack stack = new ItemStack(Festivities.magicCandy, 1);
+			stack.setItemName("Candy Cane of YouTube");
+			entity.entityDropItem(stack, 0.7F);
+		}
 		if (entity.isClientWorld())
 		{
 			if (type != null && !type.msg.isEmpty())
