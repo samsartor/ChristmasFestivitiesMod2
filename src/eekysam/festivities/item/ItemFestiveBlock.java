@@ -1,10 +1,15 @@
 package eekysam.festivities.item;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.Festivities;
 import eekysam.festivities.ITipItem;
+import eekysam.utils.Toolbox;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -23,11 +28,10 @@ public class ItemFestiveBlock extends ItemBlock
 	 */
 	public void addInformation(ItemStack stack, EntityPlayer player, List info, boolean advanced)
 	{
-		Block b = Block.blocksList[this.getBlockID()];
-		if (b instanceof ITipItem)
+		Block block = Block.blocksList[this.getBlockID()];
+		if (block instanceof ITipItem)
 		{
-			ITipItem tipItem = (ITipItem) b;
-			info.add(tipItem.getTip(player, stack));
+			Festivities.addInformation((ITipItem) block, stack, player, info, advanced);
 		}
 	}
 }

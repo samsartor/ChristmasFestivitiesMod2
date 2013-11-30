@@ -104,8 +104,14 @@ public class BlockSnowMachine extends BlockContainer implements ITipItem
         return false;
     }
 
-	public String[] getTip(EntityPlayer player, ItemStack stack)
+	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] {"Fill with Ice, Snow, or Snowballs", "Activate with redstone signal"};
+	}
+
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] {"Cover your house in snow!"};
 	}
 }

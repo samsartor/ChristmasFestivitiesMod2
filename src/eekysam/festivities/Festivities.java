@@ -2,8 +2,12 @@ package eekysam.festivities;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
+
+import org.lwjgl.input.Keyboard;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.block.Block;
@@ -103,6 +107,7 @@ public class Festivities
 	public static Item figgy;
 	public static Item coloredOrnament;
 	public static Item clearOrnament;
+	public static Item flake;
 	//public static Item WeWishYouAMerryChristmas;
 	
 	public static Block candyLog;
@@ -126,6 +131,8 @@ public class Festivities
 	public static FestivitiesTab miscTab = new FestivitiesTab(CreativeTabs.getNextID(), "Festive Misc");
 	
 	public static Class blockItem = ItemFestiveBlock.class;
+	
+	public static final String shiftInfo = "\u00A7" + "o" + "Hold Shift For More...";
 	
 	@SidedProxy(modId = Festivities.ID, clientSide = "eekysam.festivities.client.ClientProxy", serverSide = "eekysam.festivities.CommonProxy")
 	public static CommonProxy proxy;
@@ -201,6 +208,9 @@ public class Festivities
 		this.registerBlock(snowMachine, "snowMachine");
 		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
 		
+		flake = new Item(nextItemID()).setUnlocalizedName("flake").setTextureName(Festivities.ID + ":flake").setCreativeTab(Festivities.matTab);
+		this.registerItem(flake, "flake");
+		
 		//WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(), "WeWishYouAMerryChristmas").setUnlocalizedName("record");
 		//GameRegistry.registerItem(WeWishYouAMerryChristmas, "WeWishYouAMerryChristmas");
 		
@@ -269,6 +279,8 @@ public class Festivities
 		LanguageRegistry.addName(cobbleIce, "Cobbled Ice");
 		
 		LanguageRegistry.addName(snowMachine, "Snow Machine");
+		
+		LanguageRegistry.addName(flake, "Snow Flake");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });
@@ -297,6 +309,12 @@ public class Festivities
 		}
 		
 		GameRegistry.addRecipe(new ItemStack(this.snowMachine, 2), new Object[] { "I I", " P ", "SDS", 'I', Item.ingotIron, 'P', Block.pistonBase, 'S', new ItemStack(Block.stoneSingleSlab, 1, 0), 'D', Block.dropper});
+		
+		GameRegistry.addRecipe(new ItemStack(this.fireplace, 1), new Object[] {"   ", "I I", "BWB", 'I', Block.fenceIron, 'B', Block.brick, 'W', Block.wood});
+		
+		GameRegistry.addRecipe(new ItemStack(this.flake, 4), new Object[] {" S ", "S S", " S ", 'S', Item.snowball});
+		GameRegistry.addRecipe(new ItemStack(this.snowglobe), new Object[] {"GGG", "GSG", "WIW", 'S', this.flake, 'G', Block.glass, 'I', Item.ingotGold, 'W', Block.wood});
+		
 		
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
@@ -476,5 +494,69 @@ public class Festivities
 	public static PlayerData getPlayerData(EntityPlayerMP player)
 	{
 		return (PlayerData) player.getExtendedProperties(PLAYERDATA);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	/**
+	 * allows items to add custom lines of information to the mouseover description
+	 */
+	public static void addInformation(ITipItem tipItem, ItemStack stack, EntityPlayer player, List info, boolean advanced)
+	{
+		String[] tips;
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+		{
+			tips = tipItem.getShiftTip(player, stack);
+			if (tips == null)
+			{
+				tips = tipItem.getTip(player, stack);
+			}
+		}
+		else
+		{
+			tips = tipItem.getTip(player, stack);
+			String[] shifttips = tipItem.getShiftTip(player, stack);
+			if (shifttips != null && shifttips.length != 0)
+			{
+				List<String> moretips = new ArrayList<String>();
+				for (int i = 0; i < tips.length; i++)
+				{
+					moretips.add(tips[i]);
+				}
+				if (!tips[tips.length - 1].isEmpty())
+				{
+					moretips.add("");
+				}
+				moretips.add(Festivities.shiftInfo);
+				
+				tips = moretips.toArray(tips);
+			}
+		}
+		if (tips == null)
+		{
+			return;
+		}
+		boolean flag = false;
+		for (int i = 0; i < tips.length; i++)
+		{
+			String tip = tips[i];
+			String[] tiplines = Toolbox.wrapString(tip, 40);
+			if (tiplines.length > 1 && flag)
+			{
+				info.add("");
+			}
+			for (int j = 0; j < tiplines.length; j++)
+			{
+				info.add(tiplines[j]);
+			}
+			if (tiplines.length > 1 && i < tips.length - 1)
+			{
+				info.add("");
+				flag = false;
+			}
+			else
+			{
+				flag = true;
+			}
+		}
 	}
 }

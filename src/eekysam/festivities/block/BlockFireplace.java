@@ -12,15 +12,18 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
+import eekysam.festivities.ITipItem;
 import eekysam.festivities.tile.TileEntityFireplace;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFireplace extends BlockContainer
+public class BlockFireplace extends BlockContainer implements ITipItem
 {
 	public BlockFireplace(int par1, Material par2Material)
 	{
@@ -76,4 +79,16 @@ public class BlockFireplace extends BlockContainer
             par1World.spawnParticle("smoke", fx, fy, fz, 0.0D, 0.0D, 0.0D);
         }
     }
+
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] {"Nice, warm, and safe"};
+	}
+
+	@Override
+	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
+	{
+		return null;
+	}
 }

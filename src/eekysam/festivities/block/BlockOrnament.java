@@ -5,10 +5,12 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
+import eekysam.festivities.ITipItem;
 import eekysam.festivities.tile.TileEntityOrnament;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +19,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BlockOrnament extends BlockContainer
+public class BlockOrnament extends BlockContainer implements ITipItem
 {
 	private boolean clear;
 	public static boolean canSit = false;
@@ -206,5 +208,17 @@ public class BlockOrnament extends BlockContainer
 	public TileEntity createNewTileEntity(World world)
 	{
 		return new TileEntityOrnament();
+	}
+
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] {"Oops...", "Use the ornament item", "This is a technical block"};
+	}
+
+	@Override
+	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
+	{
+		return null;
 	}
 }

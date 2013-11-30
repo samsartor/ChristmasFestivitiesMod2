@@ -2,14 +2,17 @@ package eekysam.festivities.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.ITipItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class BlockCandyLog extends Block
+public class BlockCandyLog extends Block implements ITipItem
 {    
     @SideOnly(Side.CLIENT)
 	private Icon dlSide;
@@ -184,4 +187,16 @@ public class BlockCandyLog extends Block
 		this.rEnd = reg.registerIcon(this.getTextureName() + "_Rend");
 		this.lEnd = reg.registerIcon(this.getTextureName() + "_Lend");
     }
+
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] {"Strong and delicious!"};
+	}
+
+	@Override
+	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
+	{
+		return null;
+	}
 }

@@ -94,8 +94,14 @@ public class BlockSnowGlobe extends BlockContainer implements ITipItem
     }
 
 	@Override
-	public String[] getTip(EntityPlayer player, ItemStack stack)
+	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] {"Look into snowglobe to go to the Kringle!", "Right-Click to randomise the globe's interior"};
+	}
+
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] {"A magical snowglobe..."};
 	}
 }
