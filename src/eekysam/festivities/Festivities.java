@@ -90,7 +90,7 @@ public class Festivities
 	public static final boolean TESTVERSION = false;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
 	public static final String[] TESTMSGDATED = new String[] { "This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
-	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD };
+	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "", "Try with \"Not Enough Items\""};
 	public static final String[] MSGDATED = new String[] {};
 	
 	public static final int kringleId = 3;
@@ -111,6 +111,7 @@ public class Festivities
 	public static Item coloredOrnament;
 	public static Item clearOrnament;
 	public static Item flake;
+	public static Item peppermintStick;
 	//public static Item WeWishYouAMerryChristmas;
 	
 	public static Block candyLog;
@@ -124,6 +125,7 @@ public class Festivities
 	public static Block iceBrickCracked;//icebrick_cracked
 	public static Block cobbleIce;//cobbleice
 	public static Block snowMachine;
+	public static Block candyPlanks;
 	
 	public static int blockItemRenderId;
 	
@@ -168,10 +170,10 @@ public class Festivities
 		figgy = new ItemFoodFestive(nextItemID(), 4, 0.6F, false).setTip("Never tried it").setShiftTip("Can be displayed on a treat plate", "Stacks on plate twice").setUnlocalizedName("figgy").setTextureName(Festivities.ID + ":figgy").setCreativeTab(Festivities.foodTab);
 		this.registerItem(figgy, "figgy");
 		
-		holly = new ItemFestive(nextItemID()).setTip("Pretty...but spiky too").setUnlocalizedName("holly").setTextureName(Festivities.ID + ":holly").setCreativeTab(Festivities.matTab);
+		holly = new ItemFestive(nextItemID()).setTip("Pretty...but spiky too").setShiftTip("Dropped by grass blocks, tall grass, and other plants").setUnlocalizedName("holly").setTextureName(Festivities.ID + ":holly").setCreativeTab(Festivities.matTab);
 		this.registerItem(holly, "holly");
 		
-		berries = new ItemFestive(nextItemID()).setTip("Not this season").setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(Festivities.matTab);
+		berries = new ItemFestive(nextItemID()).setTip("Not this season").setShiftTip("Dropped by grass blocks, tall grass, and other plants").setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(Festivities.matTab);
 		this.registerItem(berries, "berries");
 		
 		bluePie = new ItemFoodFestive(nextItemID(), 8, 0.3F, false).setTip("Mmmm, sweet").setShiftTip("Can be displayed on a treat plate", "Pumpkin pies also work").setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(Festivities.foodTab);
@@ -204,7 +206,7 @@ public class Festivities
 		iceBrickCracked = new BlockFestive(nextBlockID(), Material.ice).setTip("Maybe it does shatter...").setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(iceBrickCracked, "iceBrickCracked");
 		
-		cobbleIce = new BlockFestive(nextBlockID(), Material.ice).setTip("Not as slippery").setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.blockTab);
+		cobbleIce = new BlockFestive(nextBlockID(), Material.ice).setTip("Not as slippery").setUnlocalizedName("cobbleIce").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(cobbleIce, "cobbleIce");
 		
 		snowMachine = new BlockSnowMachine(nextBlockID(), Material.rock).setUnlocalizedName("snowMachine").setTextureName(Festivities.ID + ":snowMachine").setCreativeTab(Festivities.blockTab);
@@ -213,6 +215,12 @@ public class Festivities
 		
 		flake = new ItemFestive(nextItemID()).setTip("Catch one on your tongue!").setUnlocalizedName("flake").setTextureName(Festivities.ID + ":flake").setCreativeTab(Festivities.matTab);
 		this.registerItem(flake, "flake");
+		
+		peppermintStick = new ItemFoodFestive(nextItemID(), 1, 0.1F, false).setTip("Not as bendy").setUnlocalizedName("peppermintStick").setTextureName(Festivities.ID + ":peppermintStick").setCreativeTab(Festivities.foodTab);
+		this.registerItem(peppermintStick, "peppermintStick");
+		
+		candyPlanks= new BlockFestive(nextBlockID(), Material.wood).setTip("Sugary boards").setUnlocalizedName("candyPlanks").setTextureName(Festivities.ID + ":candyPlanks").setCreativeTab(Festivities.blockTab);
+		this.registerBlock(candyPlanks, "candyPlanks");
 		
 		//WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(), "WeWishYouAMerryChristmas").setUnlocalizedName("record");
 		//GameRegistry.registerItem(WeWishYouAMerryChristmas, "WeWishYouAMerryChristmas");
@@ -284,6 +292,9 @@ public class Festivities
 		LanguageRegistry.addName(snowMachine, "Snow Machine");
 		
 		LanguageRegistry.addName(flake, "Snow Flake");
+		LanguageRegistry.addName(peppermintStick, "Peppermint Stick");
+		
+		LanguageRegistry.addName(candyPlanks, "Candy Planks");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });
@@ -303,12 +314,10 @@ public class Festivities
 		GameRegistry.addRecipe(new ItemStack(this.treatplate, 2), new Object[] { "CCC", 'C', Block.glass});
 		
 		GameRegistry.addRecipe(new ItemStack(this.clearOrnament, 6), new Object[] { " N ", "G G", " G ", 'N', Item.goldNugget, 'G', Block.glass});
+		
 		for (int i = 0; i < 16; i++)
 		{
-			if (i != 0 && i != 3 && i != 15)
-			{
 				GameRegistry.addShapelessRecipe(new ItemStack(this.coloredOrnament, 1, i), new Object[] {new ItemStack(Item.dyePowder, 1, i), this.clearOrnament});
-			}
 		}
 		
 		GameRegistry.addRecipe(new ItemStack(this.snowMachine, 2), new Object[] { "I I", " P ", "SDS", 'I', Item.ingotIron, 'P', Block.pistonBase, 'S', new ItemStack(Block.stoneSingleSlab, 1, 0), 'D', Block.dropper});
@@ -318,6 +327,19 @@ public class Festivities
 		GameRegistry.addRecipe(new ItemStack(this.flake, 4), new Object[] {" S ", "S S", " S ", 'S', Item.snowball});
 		GameRegistry.addRecipe(new ItemStack(this.snowglobe), new Object[] {"GGG", "GSG", "WIW", 'S', this.flake, 'G', Block.glass, 'I', Item.ingotGold, 'W', Block.wood});
 		
+		GameRegistry.addRecipe(new ItemStack(this.iceBrick), new Object[] {"##", "##", '#', Block.ice});
+		GameRegistry.addRecipe(new ItemStack(this.iceBrickCarved), new Object[] {"##", "##", '#', this.iceBrick});
+		GameRegistry.addRecipe(new ItemStack(this.iceBrickCracked), new Object[] {"##", "##", '#', this.cobbleIce});
+		GameRegistry.addRecipe(new ItemStack(this.cobbleIce), new Object[] {"#", '#', Block.ice});
+		
+		GameRegistry.addRecipe(new ItemStack(this.candyCane, 4), new Object[] {"#", '#', this.candyLog});
+		GameRegistry.addRecipe(new ItemStack(this.candyLog), new Object[] {"##", "##", '#', this.candyCane});
+		
+		GameRegistry.addRecipe(new ItemStack(this.candyCane), new Object[] {"#", "#", '#', this.peppermintStick});
+		GameRegistry.addRecipe(new ItemStack(this.peppermintStick, 2), new Object[] {"#", '#', this.candyCane});
+		
+		GameRegistry.addRecipe(new ItemStack(this.peppermintStick, 4), new Object[] {"#", "#", '#', this.candyPlanks});
+		GameRegistry.addRecipe(new ItemStack(this.candyPlanks, 2), new Object[] {"##", "##", '#', this.peppermintStick});
 		
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
