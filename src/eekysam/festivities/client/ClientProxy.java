@@ -5,10 +5,12 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import eekysam.festivities.CommonProxy;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.client.render.block.BlockItemRenderer;
+import eekysam.festivities.client.render.entity.RenderCandyCreeper;
 import eekysam.festivities.client.render.tileEntity.TileEntityPlateRenderer;
 import eekysam.festivities.client.render.tileEntity.TileEntitySimpleRenderer;
 import eekysam.festivities.client.render.tileEntity.TileEntitySnowMachineRenderer;
 import eekysam.festivities.client.render.tileEntity.TileEntitySnowglobeRenderer;
+import eekysam.festivities.entity.EntityCandyCreeper;
 import eekysam.festivities.tile.TileEntityFireplace;
 import eekysam.festivities.tile.TileEntityOrnament;
 import eekysam.festivities.tile.TileEntityPlate;
@@ -27,5 +29,7 @@ public class ClientProxy extends CommonProxy
     	
     	Festivities.blockItemRenderId = RenderingRegistry.getNextAvailableRenderId();
     	RenderingRegistry.registerBlockHandler(Festivities.blockItemRenderId, new BlockItemRenderer());
+    	
+    	RenderingRegistry.registerEntityRenderingHandler(EntityCandyCreeper.class, new RenderCandyCreeper());
     }
 }

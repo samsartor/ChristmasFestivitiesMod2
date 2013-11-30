@@ -7,6 +7,8 @@ import eekysam.festivities.kringle.biome.WorldChunkManagerKringle;
 import eekysam.festivities.kringle.gen.ChunkProviderKringle;
 import net.minecraft.block.Block;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderEnd;
+import net.minecraft.world.WorldProviderHell;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderKringle extends WorldProvider
@@ -60,4 +62,9 @@ public class WorldProviderKringle extends WorldProvider
 	{
 		return 1.0F;
 	}
+	
+    public String getWelcomeMessage()
+    {
+    	return "Entering the Kringle ... This will take a while";
+    }
 }
