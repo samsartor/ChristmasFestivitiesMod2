@@ -37,16 +37,6 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
         return null;
     }
     
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item)
-	{
-		super.onBlockPlacedBy(world, x, y, z, entity, item);
-		if (entity instanceof EntityPlayer && !entity.worldObj.isRemote && givetip)
-		{
-			givetip = false;
-			Festivities.SendChat((EntityPlayer) entity, this.getTip());
-		}
-	}
-    
     public void onBlockClicked(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
     {
     	TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
@@ -146,7 +136,8 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
 		return false;
 	}
 
-	public String[] getTip()
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] {"Right-Click to add the treat you are holding to the plate", "If the treat isn't added, then it might not fit on the plate", "Remove treats from the plate by Right-Clicking while holding nothing"};
 	}

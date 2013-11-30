@@ -5,6 +5,7 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
+import eekysam.festivities.ITipItem;
 import eekysam.festivities.client.particle.EntitySnowFX;
 import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
@@ -18,7 +19,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSnowGlobe extends BlockContainer
+public class BlockSnowGlobe extends BlockContainer implements ITipItem
 {
 	public BlockSnowGlobe(int par1, Material par2Material)
 	{
@@ -91,4 +92,10 @@ public class BlockSnowGlobe extends BlockContainer
     		EntitySnowFX.spawn(new EntitySnowFX(world, X, Y, Z).setSize(0.004F));
     	}
     }
+
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] {"Look into snowglobe to go to the Kringle!", "Right-Click to randomise the globe's interior"};
+	}
 }

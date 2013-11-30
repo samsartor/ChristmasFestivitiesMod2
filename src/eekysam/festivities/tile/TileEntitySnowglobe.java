@@ -35,7 +35,7 @@ public class TileEntitySnowglobe extends TileEntity
 	
 	private long ticks;
 	
-	protected boolean isPortal = false;
+	protected boolean isPortal = true;
 	
 	public static final int portalTime = 120;
 	public static final int lookTick = 10;

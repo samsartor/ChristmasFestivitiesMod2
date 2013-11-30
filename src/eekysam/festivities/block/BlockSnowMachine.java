@@ -42,16 +42,6 @@ public class BlockSnowMachine extends BlockContainer implements ITipItem
     {
         return Festivities.blockItemRenderId;
     }
-    
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item)
-	{
-		super.onBlockPlacedBy(world, x, y, z, entity, item);
-		if (entity instanceof EntityPlayer && !entity.worldObj.isRemote && givetip)
-		{
-			givetip = false;
-			Festivities.SendChat((EntityPlayer) entity, this.getTip());
-		}
-	}
 	
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
@@ -114,7 +104,7 @@ public class BlockSnowMachine extends BlockContainer implements ITipItem
         return false;
     }
 
-	public String[] getTip()
+	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] {"Fill with Ice, Snow, or Snowballs", "Activate with redstone signal"};
 	}
