@@ -8,14 +8,17 @@ import java.util.Random;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.entity.EntityCandyCreeper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.terraingen.DeferredBiomeDecorator;
@@ -70,6 +73,8 @@ public abstract class BiomeGenKringle extends BiomeGenBase
         this.fillerBlock = Block.blockSnow.blockID;
         
         this.kringleBiomes.add(this);
+        
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityCandyCreeper.class, 10, 4, 4));
 	}
 	
 	public KringleDecorator getDecorator()

@@ -183,35 +183,38 @@ public class TileEntitySnowMachine extends TileEntity
 			x = (int) ((randy.nextFloat() + randy.nextFloat() - 1) * snowDistance) + this.xCoord;
 			z = (int) ((randy.nextFloat() + randy.nextFloat() - 1) * snowDistance) + this.zCoord;
 			y = getFirstUncoveredBlockHeight(x, z);
-			int id = this.worldObj.getBlockId(x, y, z);
-			if (id == Block.snow.blockID && randy.nextFloat() < 0.1F)
+			if (y >= 0)
 			{
-				int meta = this.worldObj.getBlockMetadata(x, y, z);
-				if (meta < 7)
+				int id = this.worldObj.getBlockId(x, y, z);
+				if (id == Block.snow.blockID && randy.nextFloat() < 0.1F)
 				{
-					float m = meta / 8.0F;
-					m = MathHelper.sqrt_float(m);
-					if (randy.nextFloat() > m)
+					int meta = this.worldObj.getBlockMetadata(x, y, z);
+					if (meta < 7)
 					{
-						if (meta + 1 == 7)
+						float m = meta / 8.0F;
+						m = MathHelper.sqrt_float(m);
+						if (randy.nextFloat() > m)
 						{
-							this.worldObj.setBlock(x, y, z, Block.blockSnow.blockID);
+							if (meta + 1 == 7)
+							{
+								this.worldObj.setBlock(x, y, z, Block.blockSnow.blockID);
+							}
+							else
+							{
+								this.worldObj.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+							}
+							break;
 						}
-						else
-						{
-							this.worldObj.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
-						}
-						break;
 					}
 				}
-			}
-			else
-			{
-				y++;
-				if (Block.snow.canPlaceBlockAt(this.worldObj, x, y, z))
+				else
 				{
-					this.worldObj.setBlock(x, y, z, Block.snow.blockID);
-					break;
+					y++;
+					if (Block.snow.canPlaceBlockAt(this.worldObj, x, y, z))
+					{
+						this.worldObj.setBlock(x, y, z, Block.snow.blockID);
+						break;
+					}
 				}
 			}
 		}
@@ -242,9 +245,16 @@ public class TileEntitySnowMachine extends TileEntity
 
 	public int getFirstUncoveredBlockHeight(int x, int z)
 	{
-		int y;
-		for (y = 128; this.worldObj.isAirBlock(x, y + 1, z); --y);
-		return y + 1;
+		int y = 128;
+		while (this.worldObj.isAirBlock(x, y, z))
+		{
+			y--;
+			if (y < 0)
+			{
+				return -1;
+			}
+		}
+		return y;
 	}
 
 	public void spawnFX(Random rand)
