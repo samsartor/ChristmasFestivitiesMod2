@@ -447,6 +447,9 @@ public class Festivities
 
 		GameRegistry.addRecipe(new ItemStack(this.peppermintStick, 4), new Object[] { "#", "#", '#', this.candyPlanks });
 		GameRegistry.addRecipe(new ItemStack(this.candyPlanks, 2), new Object[] { "##", "##", '#', this.peppermintStick });
+		
+		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 0), new Object[] { "CCC", 'C', Block.leaves });
+		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 1), new Object[] { "CCC", 'C', Item.goldNugget });
 
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
