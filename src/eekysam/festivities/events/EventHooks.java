@@ -1,17 +1,38 @@
 package eekysam.festivities.events;
 
+import java.awt.Container;
+import java.awt.EventQueue;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.swing.JOptionPane;
+
+import org.lwjgl.opengl.Display;
+
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.MapDifference.ValueDifference;
+
+import cpw.mods.fml.client.GuiIdMismatchScreen;
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.ItemData;
 import eekysam.festivities.Festivities;
+import eekysam.festivities.client.gui.GuiMismatch;
+import eekysam.festivities.client.gui.GuiOk;
 import eekysam.festivities.client.player.PlayerClientData;
 import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -98,5 +119,34 @@ public class EventHooks
 				event.drops.add(new ItemStack(Festivities.holly, 1));
 			}
 		}
+	}
+
+	@ForgeSubscribe
+	public void onGUIOpen(GuiOpenEvent event)
+	{
+		GuiScreen gui = event.gui;
+
+		if (gui instanceof GuiIdMismatchScreen && !(Minecraft.getMinecraft().currentScreen instanceof GuiMismatch))
+		{
+			boolean isme = false;
+			Map<Integer, ItemData> diffs = GameData.gateWorldLoadingForValidation().entriesOnlyOnLeft();
+			Iterator<Integer> keys = diffs.keySet().iterator();
+			while (keys.hasNext())
+			{
+				ItemData item = diffs.get(keys.next());
+				isme |= item.getModId().equals(Festivities.ID);
+			}
+
+			if (isme)
+			{
+				GuiScreen sc = new GuiMismatch(this.validationMessage(), gui);
+				event.gui = sc;
+			}
+		}
+	}
+
+	private String validationMessage()
+	{
+		return "The Christmas Festivities Mod is being yelled at by Forge :(\nForge is upset because your world has blocks or items that\n   are different from what the mod has told Forge\n\nIt could be that:\n\nA. You just updated the mod\n   During Version 2.3.x.x I was forced to change all the item Ids\n\nB. You just changed back to an old version\n\nC. You have changed the Config file\n\nThis will result in some blocks/items that you placed or have stored\n   changing, disappearing, or becoming bugged.\nSorry D:";
 	}
 }
