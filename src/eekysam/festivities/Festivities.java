@@ -55,6 +55,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockFestive;
 import eekysam.festivities.block.BlockFireplace;
+import eekysam.festivities.block.BlockGarland;
 import eekysam.festivities.block.BlockOrnament;
 import eekysam.festivities.block.BlockSnowGlobe;
 import eekysam.festivities.block.BlockSnowMachine;
@@ -70,6 +71,7 @@ import eekysam.festivities.item.ChristmasRecord;
 import eekysam.festivities.item.ItemFestive;
 import eekysam.festivities.item.ItemFestiveBlock;
 import eekysam.festivities.item.ItemFoodFestive;
+import eekysam.festivities.item.ItemGarland;
 import eekysam.festivities.item.ItemMoreCookies;
 import eekysam.festivities.item.ItemOrnament;
 import eekysam.festivities.kringle.WorldProviderKringle;
@@ -77,6 +79,7 @@ import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import eekysam.festivities.network.PacketHandler;
 import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.tile.TileEntityFireplace;
+import eekysam.festivities.tile.TileEntityGarland;
 import eekysam.festivities.tile.TileEntityOrnament;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowMachine;
@@ -135,6 +138,7 @@ public class Festivities
 	public static Item clearOrnament;
 	public static Item flake;
 	public static Item peppermintStick;
+	public static Item garland;
 	// public static Item WeWishYouAMerryChristmas;
 
 	public static Block candyLog;
@@ -149,6 +153,7 @@ public class Festivities
 	public static Block cobbleIce;// cobbleice
 	public static Block snowMachine;
 	public static Block candyPlanks;
+	public static Block garlandBlock;
 
 	public static int blockItemRenderId;
 
@@ -269,6 +274,13 @@ public class Festivities
 
 		candyPlanks = new BlockFestive(nextBlockID("candyPlanks"), Material.wood).setTip("Sugary boards").setUnlocalizedName("candyPlanks").setTextureName(Festivities.ID + ":candyPlanks").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(candyPlanks, "candyPlanks");
+		
+		garlandBlock = new BlockGarland(nextBlockID("garlandBlock"), Material.circuits).setUnlocalizedName("garlandBlock");
+		this.registerBlock(garlandBlock, "garlandBlock");
+		GameRegistry.registerTileEntity(TileEntityGarland.class, "garland");
+		
+		garland = new ItemGarland(nextItemID("garland"), garlandBlock).setTip("Hang it high!").setShiftTip("Right-Click to place").setUnlocalizedName("garland").setCreativeTab(Festivities.decorTab);
+		this.registerItem(garland, "garland");
 
 		// WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(),
 		// "WeWishYouAMerryChristmas").setUnlocalizedName("record");

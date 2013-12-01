@@ -19,7 +19,114 @@ public class FestivitiesBlockRenderer
 			case 2:
 				renderFireplace(render, id, meta, x, y, z);
 				return;
+			case 3:
+				renderGarland(render, id, meta, x, y, z);
+				return;
 		}
+	}
+	
+	public static void renderGarland(IRenderer render, int id, int meta, int x, int y, int z)
+	{
+		Tessellator tess = Tessellator.instance;
+		
+		BoxDrawBasic draw = new BoxDrawFakeShade(render);
+		draw.setTexture(Festivities.ID, "textures/tile/garland.png", 16, 16);
+		
+		tess.startDrawingQuads();
+		
+		int style = meta / 8;
+		meta %= 8;
+		
+		int thick = 6;
+		
+		int xpos = 8;
+		int ypos = 8;
+		int zpos = 8;
+		
+		int dir;
+		
+		if (meta < 4)
+		{
+			int side = meta % 4;
+			dir = side / 2;
+			switch (side)
+			{
+				case 0:
+					xpos = thick / 2;
+					break;
+				case 1:
+					xpos = 16 - thick / 2;
+					break;
+				case 2:
+					zpos = thick / 2;
+					break;
+				case 3:
+					zpos = 16 - thick / 2;
+					break;
+			}
+		}
+		else
+		{
+			meta = meta % 4;
+			dir = meta % 2;
+			if (meta < 2)
+			{
+				ypos = thick / 2;
+			}
+			else
+			{
+				ypos = 16 - thick / 2;
+			}
+		}
+		
+		int boxx = xpos;
+		int boxy = ypos;
+		int boxz = zpos;
+		
+		if (dir == 0)
+		{
+			boxz = 2;
+		}
+		if (dir == 1)
+		{
+			boxx = 2;
+		}
+		
+		int[] offx = new int[] {0, 1, -1, 0};
+		int[] offy = new int[] {-1, 0, -1, 1};
+		int[] offz = new int[] {1, -1, 0, 0};
+		for (int i = 0; i < 4; i++)
+		{
+			if (dir == 0)
+			{
+				renderGarlandCube(draw, boxx + offx[i], boxy + offy[i], boxz, 4, style);
+				boxz += 4;
+			}
+			if (dir == 1)
+			{
+				renderGarlandCube(draw, boxx, boxy + offy[i], boxz + offz[i], 4, style);
+				boxx += 4;
+			}
+		}
+		
+		tess.draw();
+	}
+	
+	public static void renderGarlandCube(BoxDrawBasic draw, int x, int y, int z, int thick, int style)
+	{
+		Tessellator tess = Tessellator.instance;
+		draw.cube(x - thick / 2, y - thick / 2, z - thick / 2, thick, thick, thick);
+		
+		if (style == 0)
+		{
+			draw.selectUV(0, 0);
+		}
+		if (style == 1)
+		{
+			draw.selectUV(0, 8);
+		}
+		
+		draw.drawAllNormalTextureShape();
 	}
 	
 	public static void renderFireplace(IRenderer render, int id, int meta, int x, int y, int z)
