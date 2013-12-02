@@ -4,31 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import eekysam.utils.LocationRandom;
+
 public class PerlinLayer implements IPerlinLayer
 {
 	protected IPerlinLayer parent;
+	protected LocationRandom rand;
 	protected long seed;
+
 	public PerlinLayer[] list = new PerlinLayer[4];
+	protected boolean[] removed = new boolean[4];
+	
 	public Perlin perlin;
 	public boolean isLast;
 	public int layer;
 	public byte corner;
-	
-	public int worldxpos = -1;
-	public int worldypos = -1;
-	
-	protected float[] ownGrid = new float[256];
-	protected float[] grid = new float[256];
-	
-	private boolean builtThisGrid = false;
-	private boolean builtGrid = false;
-	
-	public PerlinLayer(IPerlinLayer parent, Perlin perlin, int layer, byte corner, long seed) throws Exception
+
+	public int xpos;
+	public int ypos;
+
+	protected float[] grid;
+
+	public PerlinLayer(PerlinWorld parent, Perlin perlin, long seed, int xpos, int ypos)
 	{
-		this(parent, perlin, layer, corner, seed, true);
+		this.parent = parent;
+		this.perlin = perlin;
+		this.layer = 1;
+		this.corner = -1;
+		this.xpos = xpos;
+		this.ypos = ypos;
+		this.isLast = this.layer == perlin.numLayers();
+		this.seed = seed;
+		this.rand = new LocationRandom(seed);
+		this.buildGrid();
 	}
-	
-	public PerlinLayer(IPerlinLayer parent, Perlin perlin, int layer, byte corner, long seed, boolean build) throws Exception
+
+	public PerlinLayer(PerlinLayer parent, Perlin perlin, int layer, byte corner, long seed, int xpos, int ypos) throws Exception
 	{
 		this.parent = parent;
 		this.perlin = perlin;
@@ -46,39 +57,14 @@ public class PerlinLayer implements IPerlinLayer
 		{
 			throw new Exception("Perlin layer number to large");
 		}
+		this.xpos = xpos;
+		this.ypos = ypos;
 		this.isLast = this.layer == perlin.numLayers();
-		this.newSeed(seed, corner);
+		this.seed = seed;
+		this.rand = new LocationRandom(seed);
 		this.buildGrid();
 	}
-	
-	public PerlinLayer(PerlinWorld parent, Perlin perlin, int xpos, int ypos, long seed)
-	{
-		this(parent, perlin, xpos, ypos, seed, true);
-	}
-	
-	public PerlinLayer(PerlinWorld parent, Perlin perlin, int xpos, int ypos, long seed, boolean build)
-	{
-		this.worldxpos = xpos;
-		this.worldypos = ypos;
-		this.parent = parent;
-		this.perlin = perlin;
-		this.layer = 1;
-		this.corner = -1;
-		this.isLast = this.layer == perlin.numLayers();
-		this.newSeed(seed, xpos, ypos);
-		this.buildGrid();
-	}
-	
-	public void buildOwnGrid()
-	{
-		Random r = new Random(this.seed);
-		for (int i = 0; i < 256; i++)
-		{
-			this.ownGrid[i] = this.perlin.rand(r.nextFloat(), i, this.layer, this.seed);
-		}
-		this.builtThisGrid = true;
-	}
-	
+
 	public float getValue(int x, int y, byte corner)
 	{
 		switch (corner)
@@ -107,56 +93,66 @@ public class PerlinLayer implements IPerlinLayer
 		}
 		return this.blur((x / 2), (y / 2), c);
 	}
-	
+
 	public float blur(int x, int y, byte corner)
 	{
 		if (corner == 0)
 		{
-			return this.getAnyValue(x, y);
+			return this.getOwnValue(x, y);
 		}
 		if (corner == 1)
 		{
-			return (this.getAnyValue(x, y) + this.getAnyValue((x + 1), y)) / 2;
+			return (this.getOwnValue(x, y) + this.getOwnValue((x + 1), y)) / 2;
 		}
 		if (corner == 2)
 		{
-			return (this.getAnyValue(x, y) + this.getAnyValue(x, (y + 1))) / 2;
+			return (this.getOwnValue(x, y) + this.getOwnValue(x, (y + 1))) / 2;
 		}
 		if (corner == 3)
 		{
-			return (this.getAnyValue(x, y) + this.getAnyValue(x, (y + 1)) + this.getAnyValue((x + 1), y) + this.getAnyValue((x + 1), (y + 1))) / 4;
+			return (this.getOwnValue(x, y) + this.getOwnValue(x, (y + 1)) + this.getOwnValue((x + 1), y) + this.getOwnValue((x + 1), (y + 1))) / 4;
 		}
 		return 0;
 	}
-	
+
+	private float getOwnValue(int x, int y)
+	{
+		return this.grid[(x + 1) + (y + 1) * 18];
+	}
+
 	public void buildGrid()
 	{
-		if (!this.builtThisGrid)
-		{
-			this.buildOwnGrid();
-		}
-		this.builtGrid = true;
+		this.grid = new float[324];
+
 		float m = this.perlin.getMult(this.layer);
+
+		for (int i = -1; i < 17; i++)
+		{
+			for (int j = -1; j < 17; j++)
+			{
+				int x = i + this.xpos * 16;
+				int y = j + this.ypos * 16;
+				int ind = (i + 1) + (j + 1) * 18;
+				this.grid[ind] = this.perlin.rand(this.rand.nextFloat(x, y), this.layer, this.rand.getLocSeed(x, y)) * m;
+			}
+		}
+
 		if (this.parent instanceof PerlinLayer)
 		{
 			PerlinLayer l = (PerlinLayer) this.parent;
-			for (int i = 0; i < 256; i++)
+			for (int i = -1; i < 17; i++)
 			{
-				int X = i % 16;
-				int Y = i / 16;
-				this.grid[i] = l.getValue(X, Y, this.corner);
-				this.grid[i] += this.ownGrid[i] * m;
-			}
-		}
-		else
-		{
-			for (int i = 0; i < 256; i++)
-			{
-				this.grid[i] = this.ownGrid[i] * m;
+				for (int j = -1; j < 17; j++)
+				{
+					int x = i + this.xpos * 16;
+					int y = j + this.ypos * 16;
+					int ind = (i + 1) + (j + 1) * 18;
+					this.grid[ind] += l.getValue(i, j, this.corner);
+				}
 			}
 		}
 	}
-	
+
 	public void makeGrid(byte corner)
 	{
 		if (this.isLast || this.list[corner] != null)
@@ -165,216 +161,73 @@ public class PerlinLayer implements IPerlinLayer
 		}
 		try
 		{
-			this.list[corner] = new PerlinLayer(this, this.perlin, this.layer + 1, corner, this.seed, true);
+			int x = this.xpos * 2;
+			int y = this.ypos * 2;
+			switch (corner)
+			{
+				case 0:
+					break;
+				case 1:
+					x += 1;
+					break;
+				case 2:
+					y += 1;
+					break;
+				case 3:
+					x += 1;
+					y += 1;
+					break;
+			}
+			this.list[corner] = new PerlinLayer(this, this.perlin, this.layer + 1, corner, this.downSeed(), x, y);
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
-	public float[] getChunk(float u, float v)
+
+	public long downSeed()
 	{
-		if (!this.builtGrid)
-		{
-			this.buildGrid();
-		}
-		if (this.isLast)
-		{
-			return this.grid;
-		}
-		if (u < 0.5F && v < 0.5F)
-		{
-			if (this.list[0] == null)
-			{
-				this.makeGrid((byte) 0);
-			}
-			return this.list[0].getChunk(u * 2, v * 2);
-		}
-		if (u >= 0.5F && v < 0.5F)
-		{
-			if (this.list[1] == null)
-			{
-				this.makeGrid((byte) 1);
-			}
-			return this.list[1].getChunk((u - 0.5F) * 2, v * 2);
-		}
-		if (u < 0.5F && v >= 0.5F)
-		{
-			if (this.list[2] == null)
-			{
-				this.makeGrid((byte) 2);
-			}
-			return this.list[2].getChunk(u * 2, (v - 0.5F) * 2);
-		}
-		if (u >= 0.5F && v >= 0.5F)
-		{
-			if (this.list[3] == null)
-			{
-				this.makeGrid((byte) 3);
-			}
-			return this.list[3].getChunk((u - 0.5F) * 2, (v - 0.5F) * 2);
-		}
-		return null;
+		return (this.seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1);
 	}
 
-    public void newSeed(long seed, long par)
-    {
-        this.seed = seed;
-        this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-        this.seed += par;
-        this.seed *= this.seed* 6364136223846793005L + 1442695040888963407L;
-        this.seed += par;
-        this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-        this.seed += par;
-    }
-    
-	
-    public void newSeed(long seed, long par1, long par2)
-    {
-        this.seed = seed;
-        this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-        this.seed += par1;
-        this.seed *= this.seed* 6364136223846793005L + 1442695040888963407L;
-        this.seed += par2;
-        this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-        this.seed += par1;
-        this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-        this.seed += par2;
-    }
-    
-    public void newSeed(long seed, long... pars)
-    {
-        this.seed = seed;
-        for (int i = 0; i < pars.length; i++)
-        {
-            this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-            this.seed += pars[i];
-        }
-        for (int i = 0; i < pars.length; i++)
-        {
-            this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-            this.seed += pars[i];
-        }
-    }
-    
-    public float getAnyValue(int x, int y)
-    {
-    	if (x >= 0 && y >= 0 && x < 16 && y < 16)
-    	{
-    		return this.grid[x + y * 16];
-    	}
-    	else
-    	{
-    		return this.getAnyValueLayer(x, y, this.layer);
-    	}
-    }
-    
-    public float getAnyValueLayer(float x, float y, int layer)
-    {
-    	if (x >= 0 && y >= 0 && x < 16 && y < 16)
-    	{
-    		if (this.layer == layer)
-    		{
-    			return this.grid[(int) x + (int) y * 16];
-    		}
-    		else
-    		{
-    			return this.getValueUnderLayer(x / 16.0F, y / 16.0F, layer);
-    		}
-    	}
-    	else
-    	{
-    		if (this.parent instanceof PerlinLayer)
-    		{
-    			PerlinLayer p = (PerlinLayer) this.parent;
-    			switch (this.corner)
-    			{
-    				case 0:
-    					break;
-    				case 1:
-    					x += 16;
-    					break;
-    				case 2:
-    					y += 16;
-    					break;
-    				case 3:
-    					x += 16;
-    					y += 16;
-    					break;
-    			}
-    			x /= 2;
-    			y /= 2;
-    			return p.getAnyValueLayer(x, y, layer);
-    		}
-    		else
-    		{
-    			PerlinWorld w = (PerlinWorld) this.parent;
-    			int wx = this.worldxpos;
-    			int wy = this.worldypos;
-    			if (x < 0)
-    			{
-    				wx -= 1;
-    				x += 16;
-    			}
-    			else if (x >= 16)
-    			{
-    				wx += 1;
-    				x -= 16;
-    			}
-    			else if (y < 0)
-    			{
-    				wy -= 1;
-    				y += 16;
-    			}
-    			else if (y >= 16)
-    			{
-    				wy += 1;
-    				y -= 16;
-    			}
-    			PerlinLayer s = w.makeLayer(wx, wy, true);
-        		if (this.layer == layer)
-        		{
-        			return s.getAnyValueLayer(x, y, layer);
-        		}
-        		else
-        		{
-	    			return s.getValueUnderLayer(x / 16.0F, y / 16.0F, layer);
-        		}
-    		}
-    	}
-    }
-    
-    public float getAnyValueLayerF(float u, float v, int layer)
-    {
-    	return this.getAnyValueLayer(u * 16, v * 16, layer);
-    }
-    
-    public float getValueUnderLayer(float u, float v, int layer)
-    {
+	public float[] getChunk(float u, float v)
+	{
+		if (this.isLast)
+		{
+			float[] g = new float[256];
+			for (int i = 0; i < 256; i++)
+			{
+				int X = i % 16;
+				int Y = i / 16;
+				g[i] = this.getOwnValue(X, Y);
+			}
+			return g;
+		}
+		float[] dat = null;
 		if (u < 0.5F && v < 0.5F)
 		{
 			if (this.list[0] == null)
 			{
 				this.makeGrid((byte) 0);
 			}
-			return this.list[0].getAnyValueLayerF(u * 2, v * 2, layer);
+			dat = this.list[0].getChunk(u * 2, v * 2);
 		}
-		if (u >= 0.5F && v < 0.5F)
+		else if (u >= 0.5F && v < 0.5F)
 		{
 			if (this.list[1] == null)
 			{
 				this.makeGrid((byte) 1);
 			}
-			return this.list[1].getAnyValueLayerF((u - 0.5F) * 2, v * 2, layer);
+			dat = this.list[1].getChunk((u - 0.5F) * 2, v * 2);
 		}
-		if (u < 0.5F && v >= 0.5F)
+		else if (u < 0.5F && v >= 0.5F)
 		{
 			if (this.list[2] == null)
 			{
 				this.makeGrid((byte) 2);
 			}
-			return this.list[2].getAnyValueLayerF(u * 2, (v - 0.5F) * 2, layer);
+			dat = this.list[2].getChunk(u * 2, (v - 0.5F) * 2);
 		}
 		if (u >= 0.5F && v >= 0.5F)
 		{
@@ -382,8 +235,37 @@ public class PerlinLayer implements IPerlinLayer
 			{
 				this.makeGrid((byte) 3);
 			}
-			return this.list[3].getAnyValueLayerF((u - 0.5F) * 2, (v - 0.5F) * 2, layer);
+			dat = this.list[3].getChunk((u - 0.5F) * 2, (v - 0.5F) * 2);
 		}
-		return 0;
-    }
+		if (this.isDone())
+		{
+			if (this.parent instanceof PerlinLayer)
+			{
+				PerlinLayer l = (PerlinLayer) this.parent;
+				l.removeme(corner);
+			}
+			else
+			{
+				PerlinWorld w = (PerlinWorld) this.parent;
+				w.removeme(this.xpos, this.ypos);
+			}
+		}
+		return dat;
+	}
+	
+	public boolean isDone()
+	{
+		boolean flag = true;
+		for (int i = 0; i < 4; i++)
+		{
+			flag &= this.list[i] != null || this.removed[i];
+		}
+		return flag;
+	}
+	
+	public void removeme(byte corner)
+	{
+		this.removed[corner] = true;
+		this.list[corner] = null;
+	}
 }

@@ -13,6 +13,8 @@ public class PerlinWorld implements IPerlinLayer
 	protected List<Integer> xpos = new ArrayList<Integer>();
 	protected List<Integer> ypos = new ArrayList<Integer>();
 	
+	protected List<ChunkFloats> chunks = new ArrayList<ChunkFloats>();
+	
 	public PerlinWorld(Perlin perlin)
 	{
 		this.perlin = perlin;
@@ -29,18 +31,33 @@ public class PerlinWorld implements IPerlinLayer
 	public void clear()
 	{
 		layers.clear();
+		chunks.clear();
 		xpos.clear();
 		ypos.clear();
 	}
 	
 	public float[] getChunk(int chunkx, int chunky)
 	{
+		for (int i = 0; i < this.chunks.size(); i++)
+		{
+			ChunkFloats fs = this.chunks.get(i);
+			if (fs.x == chunkx && fs.y == chunky)
+			{
+				return fs.floats;
+			}
+		}
 		int xind = chunkx / layersize;
 		int yind = chunky / layersize;
 		float u = chunkx / (float) layersize - xind;
 		float v = chunky / (float) layersize - yind;
 		PerlinLayer l = this.makeLayer(xind, yind);
-		return l.getChunk(u, v);
+		ChunkFloats chunk = new ChunkFloats();
+		chunk.x = chunkx;
+		chunk.y = chunky;
+		float[] fs = l.getChunk(u, v);
+		chunk.floats = fs;
+		this.chunks.add(chunk);
+		return fs;
 	}
 	
 	protected PerlinLayer getLayer(int xind, int yind)
@@ -62,18 +79,22 @@ public class PerlinWorld implements IPerlinLayer
 		PerlinLayer l = this.getLayer(xind, yind);
 		if (l == null)
 		{
-			l = new PerlinLayer(this, this.perlin, xind, yind, this.perlin.getSeed());
+			l = new PerlinLayer(this, this.perlin, this.perlin.getSeed(), xind, yind);
 		}
 		return l;
 	}
 	
-	protected PerlinLayer makeLayer(int xind, int yind, boolean build)
+	public void removeme(int x, int y)
 	{
-		PerlinLayer l = this.getLayer(xind, yind);
-		if (l == null)
+		for (int i = 0; i < this.layers.size(); i++)
 		{
-			l = new PerlinLayer(this, this.perlin, xind, yind, this.perlin.getSeed(), build);
+			int lx = this.xpos.get(i);
+			int ly = this.ypos.get(i);
+			if (lx == x && ly == y)
+			{
+				this.layers.remove(i);
+				return;
+			}
 		}
-		return l;
 	}
 }

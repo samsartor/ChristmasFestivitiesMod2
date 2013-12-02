@@ -11,7 +11,7 @@ public abstract class Perlin
 	
 	public abstract float getMult(int layer);
 	
-	public float rand(float original, int i, int layer, long seed)
+	public float rand(float original, int layer, long seed)
 	{
 		return original;
 	}
