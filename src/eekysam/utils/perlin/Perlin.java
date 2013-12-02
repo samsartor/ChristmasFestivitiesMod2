@@ -3,9 +3,9 @@ package eekysam.utils.perlin;
 public abstract class Perlin
 {
 	protected PerlinWorld world;
-	protected float[] chunk;
-	protected int loadedx;
-	protected int loadedy;
+	private float[] chunk;
+	private int loadedx;
+	private int loadedy;
 	
 	public abstract long getSeed();
 	

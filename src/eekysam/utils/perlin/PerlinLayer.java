@@ -6,7 +6,7 @@ import java.util.Random;
 
 import eekysam.utils.LocationRandom;
 
-public class PerlinLayer implements IPerlinLayer
+class PerlinLayer implements IPerlinLayer
 {
 	protected IPerlinLayer parent;
 	protected LocationRandom rand;

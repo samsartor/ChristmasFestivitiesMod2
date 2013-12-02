@@ -365,7 +365,7 @@ public class Festivities
 		{
 			PerlinTest perlinTest = new PerlinTest(12965L, 8, 0.5F);
 			perlinTest.makeWorld();
-			perlinTest.saveImg("test.png", 256, 256);
+			perlinTest.saveImg("test.png", 750, 750);
 		}
 
 		this.registerEntity(EntityCandyCreeper.class, "candyCreeper", 0xFFFFFF, 0xFF0000, "Candy Creeper");

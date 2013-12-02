@@ -9,6 +9,10 @@ public class PerlinWorld implements IPerlinLayer
 	protected int size;
 	protected int layersize;
 	
+	protected boolean saveOld;
+	protected int maxSaveCount = -1;
+	protected int maxLayerCount = -1;
+	
 	protected List<PerlinLayer> layers = new ArrayList<PerlinLayer>();
 	protected List<Integer> xpos = new ArrayList<Integer>();
 	protected List<Integer> ypos = new ArrayList<Integer>();
@@ -28,6 +32,25 @@ public class PerlinWorld implements IPerlinLayer
 		}
 	}
 	
+	public void setMaxChunkBuffer(int size)
+	{
+		if (size <= 0)
+		{
+			this.saveOld = false;
+			size = -1;
+		}
+		this.maxSaveCount = size;
+	}
+	
+	public void setMaxLayerCount(int size)
+	{
+		if (size <= 0)
+		{
+			throw new IllegalArgumentException("layer buffer must exist");
+		}
+		this.maxLayerCount = size;
+	}
+	
 	public void clear()
 	{
 		layers.clear();
@@ -38,12 +61,15 @@ public class PerlinWorld implements IPerlinLayer
 	
 	public float[] getChunk(int chunkx, int chunky)
 	{
-		for (int i = 0; i < this.chunks.size(); i++)
+		if (this.saveOld)
 		{
-			ChunkFloats fs = this.chunks.get(i);
-			if (fs.x == chunkx && fs.y == chunky)
+			for (int i = 0; i < this.chunks.size(); i++)
 			{
-				return fs.floats;
+				ChunkFloats fs = this.chunks.get(i);
+				if (fs.x == chunkx && fs.y == chunky)
+				{
+					return fs.floats;
+				}
 			}
 		}
 		int xind = chunkx / layersize;
@@ -51,12 +77,19 @@ public class PerlinWorld implements IPerlinLayer
 		float u = chunkx / (float) layersize - xind;
 		float v = chunky / (float) layersize - yind;
 		PerlinLayer l = this.makeLayer(xind, yind);
-		ChunkFloats chunk = new ChunkFloats();
-		chunk.x = chunkx;
-		chunk.y = chunky;
 		float[] fs = l.getChunk(u, v);
-		chunk.floats = fs;
-		this.chunks.add(chunk);
+		if (this.saveOld)
+		{
+			ChunkFloats chunk = new ChunkFloats();
+			chunk.x = chunkx;
+			chunk.y = chunky;
+			chunk.floats = fs;
+			this.chunks.add(chunk);
+			if (this.maxSaveCount > 0 && this.chunks.size() > this.maxSaveCount)
+			{
+				this.chunks.remove(0);
+			}
+		}
 		return fs;
 	}
 	
@@ -96,5 +129,12 @@ public class PerlinWorld implements IPerlinLayer
 				return;
 			}
 		}
+	}
+	
+	private class ChunkFloats
+	{
+		public int x;
+		public int y;
+		public float[] floats;
 	}
 }

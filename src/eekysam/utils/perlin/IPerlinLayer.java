@@ -1,6 +1,6 @@
 package eekysam.utils.perlin;
 
-public interface IPerlinLayer
+interface IPerlinLayer
 {
 	
 }
