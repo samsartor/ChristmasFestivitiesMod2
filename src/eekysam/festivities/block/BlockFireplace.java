@@ -91,4 +91,32 @@ public class BlockFireplace extends BlockContainer implements ITipItem
 	{
 		return null;
 	}
+	
+    public boolean canPlaceBlockAt(World world, int x, int y, int z)
+    {
+    	return super.canPlaceBlockAt(world, x, y, z) && this.canSitAt(world, x, y, z);
+    }
+    
+    public boolean canSitAt(World world, int x, int y, int z)
+    {
+    	int id = world.getBlockId(x, y - 1, z);
+    	if (id == 0)
+    	{
+    		return false;
+    	}
+    	if (id == this.blockID)
+    	{
+    		return false;
+    	}
+    	return world.doesBlockHaveSolidTopSurface(x, y - 1, z);
+    }
+    
+    public void onNeighborBlockChange(World world, int x, int y, int z, int changeId)
+    {
+        if (!this.canSitAt(world, x, y, z))
+        {
+            this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+            world.setBlockToAir(x, y, z);
+        }
+    }
 }

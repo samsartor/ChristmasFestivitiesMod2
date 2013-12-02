@@ -250,16 +250,16 @@ public class Festivities
 		this.registerBlock(fireplace, "fireplace");
 		GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplace");
 
-		iceBrick = new BlockFestive(nextBlockID("iceBrick"), Material.ice).setTip("Doesn't shatter!").setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":icebrick").setCreativeTab(Festivities.blockTab);
+		iceBrick = new BlockFestive(nextBlockID("iceBrick"), Material.rock).setTip("Doesn't shatter!").setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":icebrick").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(iceBrick, "iceBrick");
 
-		iceBrickCarved = new BlockFestive(nextBlockID("iceBrickCarved"), Material.ice).setTip("Oooh, pretty...").setUnlocalizedName("iceBrickCarved").setTextureName(Festivities.ID + ":iceBrick_carved").setCreativeTab(Festivities.blockTab);
+		iceBrickCarved = new BlockFestive(nextBlockID("iceBrickCarved"), Material.rock).setTip("Oooh, pretty...").setUnlocalizedName("iceBrickCarved").setTextureName(Festivities.ID + ":iceBrick_carved").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(iceBrickCarved, "iceBrickCarved");
 
-		iceBrickCracked = new BlockFestive(nextBlockID("iceBrickCracked"), Material.ice).setTip("Maybe it does shatter...").setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(Festivities.blockTab);
+		iceBrickCracked = new BlockFestive(nextBlockID("iceBrickCracked"), Material.rock).setTip("Maybe it does shatter...").setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(iceBrickCracked, "iceBrickCracked");
 
-		cobbleIce = new BlockFestive(nextBlockID("cobbleIce"), Material.ice).setTip("Not as slippery").setUnlocalizedName("cobbleIce").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.blockTab);
+		cobbleIce = new BlockFestive(nextBlockID("cobbleIce"), Material.rock).setTip("Not as slippery").setUnlocalizedName("cobbleIce").setTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(cobbleIce, "cobbleIce");
 
 		snowMachine = new BlockSnowMachine(nextBlockID("snowMachine"), Material.rock).setUnlocalizedName("snowMachine").setTextureName(Festivities.ID + ":snowMachine").setCreativeTab(Festivities.blockTab);
