@@ -3,7 +3,7 @@ package eekysam.utils.perlin;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerlinWorld implements IPerlinLayer
+public class PerlinWorld implements IPerlinGroup
 {
 	protected Perlin perlin;
 	protected int size;
@@ -13,7 +13,7 @@ public class PerlinWorld implements IPerlinLayer
 	protected int maxSaveCount = -1;
 	protected int maxLayerCount = -1;
 	
-	protected List<PerlinLayer> layers = new ArrayList<PerlinLayer>();
+	protected List<IPerlinLayer> layers = new ArrayList<IPerlinLayer>();
 	protected List<Integer> xpos = new ArrayList<Integer>();
 	protected List<Integer> ypos = new ArrayList<Integer>();
 	
@@ -76,7 +76,7 @@ public class PerlinWorld implements IPerlinLayer
 		int yind = chunky / layersize;
 		float u = chunkx / (float) layersize - xind;
 		float v = chunky / (float) layersize - yind;
-		PerlinLayer l = this.makeLayer(xind, yind);
+		IPerlinLayer l = this.makeLayer(xind, yind);
 		float[] fs = l.getChunk(u, v);
 		if (this.saveOld)
 		{
@@ -93,7 +93,7 @@ public class PerlinWorld implements IPerlinLayer
 		return fs;
 	}
 	
-	protected PerlinLayer getLayer(int xind, int yind)
+	protected IPerlinLayer getLayer(int xind, int yind)
 	{
 		for (int i = 0; i < this.layers.size(); i++)
 		{
@@ -107,12 +107,12 @@ public class PerlinWorld implements IPerlinLayer
 		return null;
 	}
 	
-	protected PerlinLayer makeLayer(int xind, int yind)
+	protected IPerlinLayer makeLayer(int xind, int yind)
 	{
-		PerlinLayer l = this.getLayer(xind, yind);
+		IPerlinLayer l = this.getLayer(xind, yind);
 		if (l == null)
 		{
-			l = new PerlinLayer(this, this.perlin, this.perlin.getSeed(), xind, yind);
+			l = new PerlinLayerLinear(this, this.perlin, this.perlin.getSeed(), xind, yind);
 		}
 		return l;
 	}
