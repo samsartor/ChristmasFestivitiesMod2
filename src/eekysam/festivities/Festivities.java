@@ -28,6 +28,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ConfigCategory;
@@ -468,7 +469,15 @@ public class Festivities
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if (side == Side.SERVER)
 		{
-			this.SendGloabalChat(Minecraft.getMinecraft().getIntegratedServer().getConfigurationManager(), this.getUpdateWarning());
+			String[] warn = this.getUpdateWarning();
+			if (warn != null)
+			{
+				this.SendGloabalChat(MinecraftServer.getServer().getConfigurationManager(), warn);
+			}
+			else
+			{
+				this.SendGloabalChat(MinecraftServer.getServer().getConfigurationManager(), this.MSG);
+			}
 		}
 	}
 
@@ -518,8 +527,8 @@ public class Festivities
 					s += "\n";
 				}
 			}
+			SendGlobalChat(server, s);
 		}
-		SendGlobalChat(server, s);
 	}
 
 	public String[] getUpdateWarning()

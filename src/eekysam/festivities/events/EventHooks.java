@@ -16,6 +16,8 @@ import com.google.common.collect.MapDifference.ValueDifference;
 import cpw.mods.fml.client.GuiIdMismatchScreen;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.client.gui.GuiMismatch;
 import eekysam.festivities.client.gui.GuiOk;
@@ -55,13 +57,14 @@ public class EventHooks
 			EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			player.registerExtendedProperties(Festivities.PLAYERDATA, new PlayerData());
 		}
-		if (event.entity instanceof EntityPlayerSP)
+		else if (event.entity instanceof EntityPlayer)
 		{
-			EntityPlayerSP player = (EntityPlayerSP) event.entity;
+			EntityPlayer player = (EntityPlayer) event.entity;
 			player.registerExtendedProperties(Festivities.PLAYERDATA, new PlayerClientData());
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@ForgeSubscribe
 	public void getOffsetFOV(FOVUpdateEvent event)
 	{
@@ -121,6 +124,7 @@ public class EventHooks
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@ForgeSubscribe
 	public void onGUIOpen(GuiOpenEvent event)
 	{
@@ -145,6 +149,7 @@ public class EventHooks
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String validationMessage()
 	{
 		return "The Christmas Festivities Mod is being yelled at by Forge :(\nForge is upset because your world has blocks or items that\n   are different from what the mod has told Forge\n\nIt could be that:\n\nA. You just updated the mod\n   During Version 2.3.x.x I was forced to change all the item Ids\n\nB. You just changed back to an old version\n\nC. You have changed the Config file\n\nThis will result in some blocks/items that you placed or have stored\n   changing, disappearing, or becoming bugged.\nSorry D:";

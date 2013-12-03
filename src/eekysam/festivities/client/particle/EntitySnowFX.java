@@ -1,5 +1,7 @@
 package eekysam.festivities.client.particle;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import eekysam.festivities.Festivities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
@@ -9,6 +11,7 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+@SideOnly(Side.CLIENT)
 public class EntitySnowFX extends EntityFX
 {
 	public float velmult = 0.98F;
