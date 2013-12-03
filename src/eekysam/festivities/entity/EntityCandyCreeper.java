@@ -286,11 +286,10 @@ public class EntityCandyCreeper extends EntityMob implements ICandyMob
     		int n = 1 + this.rand.nextInt(2);
     		item = new ItemStack(Festivities.candyCane, n);
     	}
-    	float velx = (this.rand.nextFloat() * 2 - 1) * vel;
-    	float vely = (this.rand.nextFloat() * 2 - 1) * vel;
-    	float velz = (this.rand.nextFloat() * 2 - 1) * vel;
     	EntityStrongItem entityitem = new EntityStrongItem(this.worldObj, x, y, z, item);
-    	entityitem.setVelocity(velx, vely, velz);
+    	entityitem.motionX = (this.rand.nextFloat() * 2 - 1) * vel;
+    	entityitem.motionY = (this.rand.nextFloat() * 2 - 1) * vel;
+    	entityitem.motionZ = (this.rand.nextFloat() * 2 - 1) * vel;
     	this.worldObj.spawnEntityInWorld(entityitem);
     	return entityitem;
     }

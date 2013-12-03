@@ -29,7 +29,7 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntitySnowglobe extends TileEntity
+public class TileEntitySnowglobe extends TileEntityFestive
 {
 	public int type = -1;
 	
@@ -39,14 +39,6 @@ public class TileEntitySnowglobe extends TileEntity
 	
 	public static final int portalTime = 120;
 	public static final int lookTick = 10;
-	
-	public void onChange()
-	{
-		NBTTagCompound compound = new NBTTagCompound();
-		this.writeToNBT(compound);
-		PacketUpdateTile pk = new PacketUpdateTile(this.xCoord, this.yCoord, this.zCoord, compound);
-		PacketDispatcher.sendPacketToServer(FestPacket.buildPacket(pk));
-	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tag)
@@ -62,21 +54,6 @@ public class TileEntitySnowglobe extends TileEntity
 		this.type = tag.getShort("scene");
 	}
 
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound compound = new NBTTagCompound();
-		this.writeToNBT(compound);
-		return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 0, compound);
-	}
-
-	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
-	{
-		super.onDataPacket(net, pkt);
-		this.readFromNBT(pkt.data);
-	}
-	
     public void updateEntity() 
     {
     	this.ticks++;

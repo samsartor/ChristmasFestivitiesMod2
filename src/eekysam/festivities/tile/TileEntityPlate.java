@@ -19,7 +19,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityPlate extends TileEntity
+public class TileEntityPlate extends TileEntityFestive
 {
 	public List<PlateFoods> onPlate = new ArrayList<PlateFoods>();
 	public static int maxCookie = 20;
@@ -245,14 +245,6 @@ public class TileEntityPlate extends TileEntity
 		}
 	}
 
-	public void onChange()
-	{
-		NBTTagCompound compound = new NBTTagCompound();
-		this.writeToNBT(compound);
-		PacketUpdateTile pk = new PacketUpdateTile(this.xCoord, this.yCoord, this.zCoord, compound);
-		PacketDispatcher.sendPacketToServer(FestPacket.buildPacket(pk));
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound tag)
 	{
@@ -267,20 +259,5 @@ public class TileEntityPlate extends TileEntity
 		super.readFromNBT(tag);
 		int[] cont = tag.getIntArray("contents");
 		this.readContents(cont);
-	}
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound compound = new NBTTagCompound();
-		this.writeToNBT(compound);
-		return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 0, compound);
-	}
-
-	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
-	{
-		super.onDataPacket(net, pkt);
-		this.readFromNBT(pkt.data);
 	}
 }

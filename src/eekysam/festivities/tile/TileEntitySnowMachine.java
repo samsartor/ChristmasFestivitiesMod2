@@ -18,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntitySnowMachine extends TileEntity
+public class TileEntitySnowMachine extends TileEntityFestive
 {
 	private boolean powered;
 	
@@ -218,29 +218,6 @@ public class TileEntitySnowMachine extends TileEntity
 				}
 			}
 		}
-	}
-
-	public void onChange()
-	{
-		NBTTagCompound compound = new NBTTagCompound();
-		this.writeToNBT(compound);
-		PacketUpdateTile pk = new PacketUpdateTile(this.xCoord, this.yCoord, this.zCoord, compound);
-		PacketDispatcher.sendPacketToServer(FestPacket.buildPacket(pk));
-	}
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound compound = new NBTTagCompound();
-		this.writeToNBT(compound);
-		return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 0, compound);
-	}
-
-	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
-	{
-		super.onDataPacket(net, pkt);
-		this.readFromNBT(pkt.data);
 	}
 
 	public int getFirstUncoveredBlockHeight(int x, int z)
