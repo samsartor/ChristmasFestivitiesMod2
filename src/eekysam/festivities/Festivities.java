@@ -100,7 +100,7 @@ public class Festivities
 	public static final String PLAYERDATA = "festivities";
 
 	public static final int MAJOR = 3;
-	public static final int MINOR = 2;
+	public static final int MINOR = 3;
 	public static final int BUILD = 1;
 
 	public static final boolean DEBUG = false;
