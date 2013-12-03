@@ -102,7 +102,7 @@ public class Festivities
 	public static final int MINOR = 2;
 	public static final int BUILD = 1;
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static final boolean TESTVERSION = false;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
@@ -253,7 +253,7 @@ public class Festivities
 		iceBrick = new BlockFestive(nextBlockID("iceBrick"), Material.rock).setTip("Doesn't shatter!").setUnlocalizedName("iceBrick").setTextureName(Festivities.ID + ":icebrick").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(iceBrick, "iceBrick");
 
-		iceBrickCarved = new BlockFestive(nextBlockID("iceBrickCarved"), Material.rock).setTip("Oooh, pretty...").setUnlocalizedName("iceBrickCarved").setTextureName(Festivities.ID + ":iceBrick_carved").setCreativeTab(Festivities.blockTab);
+		iceBrickCarved = new BlockFestive(nextBlockID("iceBrickCarved"), Material.rock).setTip("Oooh, pretty...").setUnlocalizedName("iceBrickCarved").setTextureName(Festivities.ID + ":icebrick_carved").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(iceBrickCarved, "iceBrickCarved");
 
 		iceBrickCracked = new BlockFestive(nextBlockID("iceBrickCracked"), Material.rock).setTip("Maybe it does shatter...").setUnlocalizedName("iceBrickCracked").setTextureName(Festivities.ID + ":icebrick_cracked").setCreativeTab(Festivities.blockTab);
@@ -275,7 +275,7 @@ public class Festivities
 		candyPlanks = new BlockFestive(nextBlockID("candyPlanks"), Material.wood).setTip("Sugary boards").setUnlocalizedName("candyPlanks").setTextureName(Festivities.ID + ":candyPlanks").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(candyPlanks, "candyPlanks");
 		
-		garlandBlock = new BlockGarland(nextBlockID("garlandBlock"), Material.circuits).setUnlocalizedName("garlandBlock");
+		garlandBlock = new BlockGarland(nextBlockID("garlandBlock"), Material.circuits).setUnlocalizedName("garlandBlock").setTextureName(Festivities.ID + ":garland");
 		this.registerBlock(garlandBlock, "garlandBlock");
 		GameRegistry.registerTileEntity(TileEntityGarland.class, "garland");
 		
@@ -363,7 +363,7 @@ public class Festivities
 	{
 		if (this.DEBUG)
 		{
-			PerlinTest perlinTest = new PerlinTest(12965L, 8, 0.5F);
+			PerlinTest perlinTest = new PerlinTest(System.currentTimeMillis(), 8, 0.5F);
 			perlinTest.makeWorld();
 			perlinTest.saveImg("test.png", 750, 750);
 		}
