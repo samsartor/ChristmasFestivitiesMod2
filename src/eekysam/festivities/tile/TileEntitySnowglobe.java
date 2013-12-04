@@ -73,12 +73,11 @@ public class TileEntitySnowglobe extends TileEntityFestive
 		        	
 		        	EntityPlayerMP playermp = null;
 		        	EntityPlayerSP playersp = null;
-		        	
-		        	if (this.worldObj.isRemote)
+		        	if (player instanceof EntityPlayerSP)
 		        	{
 		        		playersp = (EntityPlayerSP) player;
 		        	}
-		        	else
+		        	if (player instanceof EntityPlayerMP)
 		        	{
 		        		playermp = (EntityPlayerMP) player;
 		        	}
@@ -86,7 +85,7 @@ public class TileEntitySnowglobe extends TileEntityFestive
 		        	if (this.isLooking(player) && this.canSee(player))
 		        	{
 		        		long worldtime = this.worldObj.getWorldTime();
-		            	if (this.worldObj.isRemote)
+		            	if (playersp != null)
 		            	{
 		            		PlayerClientData data = (PlayerClientData) playersp.getExtendedProperties(Festivities.PLAYERDATA);
 		            		data.testTimeOut(worldtime);
@@ -98,7 +97,7 @@ public class TileEntitySnowglobe extends TileEntityFestive
 		            			data.resetSnowglobePortal();
 		            		}
 		            	}
-		            	else
+		            	if (playermp != null)
 		            	{
 		            		PlayerData data = (PlayerData) playermp.getExtendedProperties(Festivities.PLAYERDATA);
 		            		data.testTimeOut(worldtime);
