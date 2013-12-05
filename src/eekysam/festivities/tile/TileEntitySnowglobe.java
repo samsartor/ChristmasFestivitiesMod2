@@ -70,24 +70,13 @@ public class TileEntitySnowglobe extends TileEntityFestive
 		        for (int i = 0; i < entities.size(); ++i)
 		        {
 		        	EntityPlayer player = (EntityPlayer) entities.get(i);
-		        	
-		        	EntityPlayerMP playermp = null;
-		        	EntityPlayerSP playersp = null;
-		        	if (player instanceof EntityPlayerSP)
-		        	{
-		        		playersp = (EntityPlayerSP) player;
-		        	}
-		        	if (player instanceof EntityPlayerMP)
-		        	{
-		        		playermp = (EntityPlayerMP) player;
-		        	}
 		    		
 		        	if (this.isLooking(player) && this.canSee(player))
 		        	{
 		        		long worldtime = this.worldObj.getWorldTime();
-		            	if (playersp != null)
+		            	if (this.worldObj.isRemote)
 		            	{
-		            		PlayerClientData data = (PlayerClientData) playersp.getExtendedProperties(Festivities.PLAYERDATA);
+		            		PlayerClientData data = (PlayerClientData) player.getExtendedProperties(Festivities.PLAYERDATA);
 		            		data.testTimeOut(worldtime);
 		            		
 		            		int portaltime = data.incrementSnowglobe(worldtime);
@@ -97,9 +86,9 @@ public class TileEntitySnowglobe extends TileEntityFestive
 		            			data.resetSnowglobePortal();
 		            		}
 		            	}
-		            	if (playermp != null)
+		            	else
 		            	{
-		            		PlayerData data = (PlayerData) playermp.getExtendedProperties(Festivities.PLAYERDATA);
+		            		PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
 		            		data.testTimeOut(worldtime);
 		            		
 		            		int portaltime = data.incrementSnowglobe(worldtime);
@@ -108,6 +97,7 @@ public class TileEntitySnowglobe extends TileEntityFestive
 		            		{
 		            			data.resetSnowglobePortal();
 		            			MinecraftServer mServer = MinecraftServer.getServer();
+		            			EntityPlayerMP playermp = (EntityPlayerMP) player;
 		            			if (playermp.dimension == Festivities.kringleId)
 		            			{
 		            				playermp.mcServer.getConfigurationManager().transferPlayerToDimension(playermp, 0, new KringleTeleporter(mServer.worldServerForDimension(0)));
