@@ -15,10 +15,11 @@ public class FestiveSantaServlet extends HttpServlet
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException
 	{
 		System.out.println("Get");
-		res.getWriter().println("Testing...");
-		res.getWriter().println("1");
-		res.getWriter().println("2");
-		res.getWriter().println("3");
+		res.getWriter().println("Christmas Festivities Mod 2");
+		res.getWriter().println("by eekysam");
+		res.getWriter().println("");
+		res.getWriter().println("Secret Santa Item Server");
+		res.getWriter().println("on Google App Engine");
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class FestiveSantaServlet extends HttpServlet
 			int i = input.read();
 			if (i >= 0)
 			{
-				 output.write(i);
+				output.write(i);
 			}
 			else
 			{
