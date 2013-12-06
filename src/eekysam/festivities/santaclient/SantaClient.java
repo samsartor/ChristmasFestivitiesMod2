@@ -10,6 +10,8 @@ import java.io.InputStream;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 
 public abstract class SantaClient
 {
@@ -40,9 +42,30 @@ public abstract class SantaClient
 		return null;
 	}
 
+	protected ItemStack doSendAndReceiveItem(ItemStack item, String url, String username) throws IOException
+	{
+		NBTTagCompound tags = item.getTagCompound();
+		if (tags == null)
+		{
+			tags = new NBTTagCompound();
+		}
+		
+		tags.setString("santaname", username);
+		
+		NBTTagCompound disp = tags.getCompoundTag("display");
+		NBTTagList lore = disp.getTagList("Lore");
+		lore.appendTag(new NBTTagString("", "From: " + username));
+		disp.setTag("Lore", lore);
+		tags.setTag("display", disp);
+		
+		item.setTagCompound(tags);
+		
+		return this.doSendAndReceiveItem(item, url);
+	}
+	
 	protected ItemStack doSendAndReceiveItem(ItemStack item, String url) throws IOException
 	{
-		NBTTagCompound compound = new NBTTagCompound();
+		NBTTagCompound compound = new NBTTagCompound();		
 		item.writeToNBT(compound);
 		NBTTagCompound ret = this.sendAndReceiveNBT(compound, url);
 		if (ret != null)
@@ -52,6 +75,19 @@ public abstract class SantaClient
 		return null;
 	}
 
+	public ItemStack sendAndReceiveItem(ItemStack item, String url, String username)
+	{
+		try
+		{
+			return this.doSendAndReceiveItem(item, url, username);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public ItemStack sendAndReceiveItem(ItemStack item, String url)
 	{
 		try

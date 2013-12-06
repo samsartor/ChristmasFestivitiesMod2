@@ -44,10 +44,14 @@ public class CommandSanta extends CommandBase
 		if (stack != null)
 		{
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
-			ItemStack rec = SantaClient.getClient().sendAndReceiveItem(stack, this.url);
+			ItemStack rec = SantaClient.getClient().sendAndReceiveItem(stack, this.url, username);
 			if (rec != null)
 			{
 				player.dropPlayerItem(rec);
+			}
+			else
+			{
+				player.dropPlayerItem(stack);
 			}
 		}
 		return true;
