@@ -63,6 +63,7 @@ import eekysam.festivities.block.BlockSnowMachine;
 import eekysam.festivities.block.BlockTreatPlate;
 import eekysam.festivities.command.CommandHome;
 import eekysam.festivities.command.CommandKringle;
+import eekysam.festivities.command.CommandSanta;
 import eekysam.festivities.debugutils.PerlinTest;
 import eekysam.festivities.entity.CandyMapping;
 import eekysam.festivities.entity.EntityCandyCreeper;
@@ -461,6 +462,7 @@ public class Festivities
 	{
 		event.registerServerCommand(new CommandKringle());
 		event.registerServerCommand(new CommandHome());
+		event.registerServerCommand(new CommandSanta());
 	}
 
 	@EventHandler

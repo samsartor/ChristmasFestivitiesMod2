@@ -12,14 +12,14 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class SantaClient
-{	
+{
 	public static SantaClient getClient()
 	{
 		return SantaHttpClient.getHttpClient();
 	}
-	
+
 	protected abstract DataInput postData(byte[] data, String url) throws IOException;
-	
+
 	public NBTTagCompound sendAndReceiveNBT(NBTTagCompound item, String url) throws IOException
 	{
 		DataInput instream;
@@ -29,10 +29,13 @@ public abstract class SantaClient
 		byte[] bytes = bytestream.toByteArray();
 		instream = this.postData(bytes, url);
 
-		NBTBase base = NBTBase.readNamedTag(instream);
-		if (base instanceof NBTTagCompound)
+		if (instream != null)
 		{
-			return (NBTTagCompound) base;
+			NBTBase base = NBTBase.readNamedTag(instream);
+			if (base instanceof NBTTagCompound)
+			{
+				return (NBTTagCompound) base;
+			}
 		}
 		return null;
 	}
@@ -42,9 +45,13 @@ public abstract class SantaClient
 		NBTTagCompound compound = new NBTTagCompound();
 		item.writeToNBT(compound);
 		NBTTagCompound ret = this.sendAndReceiveNBT(compound, url);
-		return ItemStack.loadItemStackFromNBT(ret);
+		if (ret != null)
+		{
+			return ItemStack.loadItemStackFromNBT(ret);
+		}
+		return null;
 	}
-	
+
 	public ItemStack sendAndReceiveItem(ItemStack item, String url)
 	{
 		try
