@@ -28,7 +28,7 @@ public class FestiveSantaServlet extends HttpServlet
 	/**
 	 * Default number of shards.
 	 */
-	private static final int NUM_SHARDS = 20;
+	private static final int NUM_SHARDS = 10;
 
 	/**
 	 * A random number generator, for distributing writes across shards.
@@ -58,7 +58,7 @@ public class FestiveSantaServlet extends HttpServlet
 		res.setContentType("application/gzip");
 
 		byte[] reqbytes = this.readInput(input);
-		int shard = this.generator.nextInt(this.NUM_SHARDS);
+		int shard = this.generator.nextInt(NUM_SHARDS);
 		this.increment(shard);
 		byte[] lastitem = this.getData(shard);
 
@@ -84,6 +84,7 @@ public class FestiveSantaServlet extends HttpServlet
 		dataentity.setProperty("data", blob);
 
 		datastore.put(tx, dataentity);
+
 		tx.commit();
 	}
 
@@ -102,22 +103,21 @@ public class FestiveSantaServlet extends HttpServlet
 		}
 		catch (EntityNotFoundException e)
 		{
-			dataentity = null;
+			tx.rollback();
+			return data;
 		}
 
-		if (dataentity != null)
+		Object rawdata = dataentity.getProperty("data");
+
+		if (rawdata instanceof Blob)
 		{
-			Object rawdata = dataentity.getProperty("data");
-
-			if (rawdata instanceof Blob)
-			{
-				Blob blob = (Blob) rawdata;
-				return blob.getBytes();
-			}
+			Blob blob = (Blob) rawdata;
+			tx.commit();
+			return blob.getBytes();
 		}
-
-		tx.commit();
-
+		
+		tx.rollback();
+		
 		return data;
 	}
 
