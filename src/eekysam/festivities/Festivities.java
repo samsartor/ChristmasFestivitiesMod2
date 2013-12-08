@@ -105,14 +105,14 @@ public class Festivities
 
 	public static final int MAJOR = 4;
 	public static final int MINOR = 1;
-	public static final int BUILD = 2;
+	public static final int BUILD = 3;
 
 	public static final boolean DEBUG = false;
 
 	public static final boolean TESTVERSION = false;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
 	public static final String[] TESTMSGDATED = new String[] { "This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
-	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "", "Try with \"Not Enough Items\"" };
+	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "", "Try with \"Not Enough Items\"", "", "Use \"/santa\" to exchange the item you are holding with someone else across the world!"};
 	public static final String[] MSGDATED = new String[] {};
 
 	public static final int kringleId = 3;
