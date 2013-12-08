@@ -15,8 +15,6 @@ import eekysam.festivities.santaclient.SantaClient;
 
 public class CommandSanta extends CommandBase
 {
-	public final static String url = "http://localhost:8888/festivesanta";
-
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
 		return "/" + this.getCommandName();
@@ -51,7 +49,7 @@ public class CommandSanta extends CommandBase
 		if (stack != null)
 		{
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
-			ItemStack rec = SantaClient.getClient().sendAndReceiveItem(stack, this.url, username);
+			ItemStack rec = SantaClient.getClient().sendAndReceiveItem(stack, Festivities.getSantaUrl(), username);
 			if (rec != null)
 			{
 				player.dropPlayerItem(rec);

@@ -99,6 +99,9 @@ public class Festivities
 	public static final String CHATNAME = "Festivities";
 
 	public static final String PLAYERDATA = "festivities";
+	
+	public static final String SANTADEBUGURL = "http://localhost:8888/festivesanta";
+	public static final String SANTAURL = "http://localhost:8888/festivesanta";
 
 	public static final int MAJOR = 3;
 	public static final int MINOR = 3;
@@ -767,5 +770,17 @@ public class Festivities
 			return item;
 		}
 		return null;
+	}
+	
+	public static final String getSantaUrl()
+	{
+		if (DEBUG)
+		{
+			return SANTADEBUGURL;
+		}
+		else
+		{
+			return SANTAURL;
+		}
 	}
 }
