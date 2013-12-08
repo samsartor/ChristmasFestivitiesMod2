@@ -6,6 +6,8 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +16,7 @@ import java.net.URL;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import eekysam.festivities.Festivities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,6 +47,13 @@ class SantaHttpClient extends SantaClient
 		gz.write(data);
 		gz.close();
 		byte[] bytes = ba.toByteArray();
+		
+		if (Festivities.DEBUG)
+		{
+			FileOutputStream testout = new FileOutputStream(new File("santaItem.dat"));
+			testout.write(bytes);
+			testout.close();
+		}
 
 		connection.setRequestProperty("Content-Length", "" + Integer.toString(bytes.length));
 

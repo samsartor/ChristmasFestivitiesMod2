@@ -104,7 +104,7 @@ public class Festivities
 	public static final int MINOR = 3;
 	public static final int BUILD = 1;
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 
 	public static final boolean TESTVERSION = false;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
@@ -113,6 +113,8 @@ public class Festivities
 	public static final String[] MSGDATED = new String[] {};
 
 	public static final int kringleId = 3;
+	
+	public static final int santacooldowntime = 200;
 
 	private int itemId = 7600;
 	private int blockId = 2400;
@@ -125,6 +127,9 @@ public class Festivities
 	private boolean advancedItemConfig = false;
 
 	private List<String> usedversions = new ArrayList<String>();
+
+	protected static HashMap<Integer, Integer> oldidsmap = new HashMap<Integer, Integer>();
+	protected static HashMap<Integer, Integer> newidsmap = new HashMap<Integer, Integer>();
 
 	@Instance("Festivities")
 	public static Festivities instance;
@@ -276,11 +281,11 @@ public class Festivities
 
 		candyPlanks = new BlockFestive(nextBlockID("candyPlanks"), Material.wood).setTip("Sugary boards").setUnlocalizedName("candyPlanks").setTextureName(Festivities.ID + ":candyPlanks").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(candyPlanks, "candyPlanks");
-		
+
 		garlandBlock = new BlockGarland(nextBlockID("garlandBlock"), Material.circuits).setUnlocalizedName("garlandBlock").setTextureName(Festivities.ID + ":garland");
 		this.registerBlock(garlandBlock, "garlandBlock");
 		GameRegistry.registerTileEntity(TileEntityGarland.class, "garland");
-		
+
 		garland = new ItemGarland(nextItemID("garland"), garlandBlock).setTip("Hang it high!").setShiftTip("Right-Click to place").setUnlocalizedName("garland").setCreativeTab(Festivities.decorTab);
 		this.registerItem(garland, "garland");
 
@@ -329,11 +334,18 @@ public class Festivities
 	{
 		if (this.advancedItemConfig)
 		{
-			return this.config.getItem(name, this.nextItemID()).getInt();
+			int oldid = this.nextItemID();
+			int newid = this.config.getItem(name, oldid).getInt();
+			this.oldidsmap.put(newid, oldid);
+			this.newidsmap.put(oldid, newid);
+			return newid;
 		}
 		else
 		{
-			return this.nextItemID();
+			int oldid = this.nextItemID();
+			this.oldidsmap.put(oldid, oldid);
+			this.newidsmap.put(oldid, oldid);
+			return oldid;
 		}
 	}
 
@@ -341,11 +353,18 @@ public class Festivities
 	{
 		if (this.advancedBlockConfig)
 		{
-			return this.config.getBlock(name, this.nextBlockID()).getInt();
+			int oldid = this.nextBlockID();
+			int newid = this.config.getBlock(name, oldid).getInt();
+			this.oldidsmap.put(newid, oldid);
+			this.newidsmap.put(oldid, newid);
+			return newid;
 		}
 		else
 		{
-			return this.nextBlockID();
+			int oldid = this.nextBlockID();
+			this.oldidsmap.put(oldid, oldid);
+			this.newidsmap.put(oldid, oldid);
+			return oldid;
 		}
 	}
 
@@ -449,7 +468,7 @@ public class Festivities
 
 		GameRegistry.addRecipe(new ItemStack(this.peppermintStick, 4), new Object[] { "#", "#", '#', this.candyPlanks });
 		GameRegistry.addRecipe(new ItemStack(this.candyPlanks, 2), new Object[] { "##", "##", '#', this.peppermintStick });
-		
+
 		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 0), new Object[] { "CCC", 'C', Block.leaves });
 		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 1), new Object[] { "CCC", 'C', Item.goldNugget });
 
@@ -718,5 +737,35 @@ public class Festivities
 	public void registerEntity(Class<? extends Entity> entityClass, String entityName)
 	{
 		EntityRegistry.registerModEntity(entityClass, entityName, this.nextEntityID(), this, 80, 3, true);
+	}
+
+	public ItemStack convertToConfiged(ItemStack item)
+	{
+		if (item != null)
+		{
+			int id = item.itemID;
+			if (this.newidsmap.containsKey(id))
+			{
+				int newid = this.newidsmap.get(id);
+				item.itemID = newid;
+			}
+			return item;
+		}
+		return null;
+	}
+
+	public ItemStack convertFromConfiged(ItemStack item)
+	{
+		if (item != null)
+		{
+			int id = item.itemID;
+			if (this.oldidsmap.containsKey(id))
+			{
+				int newid = this.oldidsmap.get(id);
+				item.itemID = newid;
+			}
+			return item;
+		}
+		return null;
 	}
 }

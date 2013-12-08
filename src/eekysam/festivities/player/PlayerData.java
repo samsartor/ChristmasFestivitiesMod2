@@ -12,6 +12,8 @@ public class PlayerData implements IExtendedEntityProperties
 	public int globey;
 	public int globez;
 	
+	public long santaCooldown = 0;
+	
 	protected int snowgobePortalTime = 0;
 	protected long lastWorldTime = -1;
 	protected boolean snowglobe = false;

@@ -93,6 +93,11 @@ public class EventHooks
 
 			PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
 
+			if (data.santaCooldown > 0)
+			{
+				data.santaCooldown--;
+			}
+			
 			data.testTimeOut(player.worldObj.getWorldTime());
 		}
 	}

@@ -7,6 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import eekysam.festivities.Festivities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -65,12 +66,13 @@ public abstract class SantaClient
 	
 	protected ItemStack doSendAndReceiveItem(ItemStack item, String url) throws IOException
 	{
-		NBTTagCompound compound = new NBTTagCompound();		
+		item = Festivities.instance.convertFromConfiged(item);
+		NBTTagCompound compound = new NBTTagCompound();
 		item.writeToNBT(compound);
 		NBTTagCompound ret = this.sendAndReceiveNBT(compound, url);
 		if (ret != null)
 		{
-			return ItemStack.loadItemStackFromNBT(ret);
+			return Festivities.instance.convertToConfiged(ItemStack.loadItemStackFromNBT(ret));
 		}
 		return null;
 	}

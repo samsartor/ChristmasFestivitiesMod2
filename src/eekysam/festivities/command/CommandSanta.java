@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.kringle.KringleTeleporter;
+import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.santaclient.SantaClient;
 
 public class CommandSanta extends CommandBase
@@ -40,6 +41,12 @@ public class CommandSanta extends CommandBase
 		{
 			return false;
 		}
+		PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
+		if (data.santaCooldown > 0)
+		{
+			icommandsender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Please wait before sending another Item"}));
+			return false;
+		}
 		ItemStack stack = player.inventory.getCurrentItem();
 		if (stack != null)
 		{
@@ -48,6 +55,7 @@ public class CommandSanta extends CommandBase
 			if (rec != null)
 			{
 				player.dropPlayerItem(rec);
+				data.santaCooldown = Festivities.santacooldowntime;
 			}
 			else
 			{
