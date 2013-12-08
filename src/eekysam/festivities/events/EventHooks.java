@@ -95,7 +95,7 @@ public class EventHooks
 
 			if (data.santaCooldown > 0)
 			{
-				data.santaCooldown--;
+				data.santaCooldown -= 5;
 			}
 			
 			data.testTimeOut(player.worldObj.getWorldTime());

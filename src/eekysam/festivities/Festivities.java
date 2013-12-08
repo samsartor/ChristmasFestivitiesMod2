@@ -101,13 +101,13 @@ public class Festivities
 	public static final String PLAYERDATA = "festivities";
 	
 	public static final String SANTADEBUGURL = "http://localhost:8888/festivesanta";
-	public static final String SANTAURL = "http://localhost:8888/festivesanta";
+	public static final String SANTAURL = "http://festivesanta.appspot.com/festivesanta";
 
-	public static final int MAJOR = 3;
-	public static final int MINOR = 3;
-	public static final int BUILD = 1;
+	public static final int MAJOR = 4;
+	public static final int MINOR = 1;
+	public static final int BUILD = 2;
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static final boolean TESTVERSION = false;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
