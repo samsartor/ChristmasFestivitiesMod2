@@ -117,7 +117,7 @@ public class Festivities
 
 	public static final int kringleId = 3;
 	
-	public static final int santacooldowntime = 200;
+	public static final int santacooldowntime = 100;
 
 	private int itemId = 7600;
 	private int blockId = 2400;
