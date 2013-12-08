@@ -12,6 +12,7 @@ import eekysam.festivities.Festivities;
 import eekysam.festivities.kringle.KringleTeleporter;
 import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.santaclient.SantaClient;
+import eekysam.festivities.users.UserType;
 
 public class CommandSanta extends CommandBase
 {
@@ -40,7 +41,7 @@ public class CommandSanta extends CommandBase
 			return false;
 		}
 		PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
-		if (data.santaCooldown > 0)
+		if (data.santaCooldown > 0 && !UserType.getUserType(player.username).isCreator())
 		{
 			icommandsender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Please wait before sending another Item"}));
 			return false;
