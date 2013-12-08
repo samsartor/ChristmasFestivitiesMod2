@@ -29,11 +29,22 @@ public class FestiveSantaServlet extends HttpServlet
 		InputStream input = req.getInputStream();
 		OutputStream output = res.getOutputStream();
 		res.setContentType("application/gzip");
+		String dat = "";
+		boolean comma = false;
 		while (true)
 		{
 			int i = input.read();
 			if (i >= 0)
 			{
+				if (comma)
+				{
+					dat += ", ";
+				}
+				else
+				{
+					comma = true;
+				}
+				dat += i;
 				output.write(i);
 			}
 			else
@@ -41,5 +52,6 @@ public class FestiveSantaServlet extends HttpServlet
 				break;
 			}
 		}
+		System.out.println(dat);
 	}
 }
