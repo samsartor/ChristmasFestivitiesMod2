@@ -156,6 +156,7 @@ public class Festivities
 	public static Block snowMachine;
 	public static Block candyPlanks;
 	public static Block garlandBlock;
+	public static Block gingerbreadBlock;
 
 	public static int blockItemRenderId;
 
@@ -283,7 +284,10 @@ public class Festivities
 
 		garland = new ItemGarland(nextItemID("garland"), garlandBlock).setTip("Hang it high!").setShiftTip("Right-Click to place").setUnlocalizedName("garland").setCreativeTab(Festivities.decorTab);
 		this.registerItem(garland, "garland");
-
+		
+		gingerbreadBlock = new BlockFestive(nextBlockID("gingerbreadBlock"), Material.wood).setTip("Perfect for a house!").setUnlocalizedName("gingerbreadBlock").setTextureName(Festivities.ID + ":gingerbreadBlock").setCreativeTab(Festivities.blockTab);
+		this.registerBlock(gingerbreadBlock, "gingerbreadBlock");
+		
 		// WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(),
 		// "WeWishYouAMerryChristmas").setUnlocalizedName("record");
 		// GameRegistry.registerItem(WeWishYouAMerryChristmas,
@@ -418,6 +422,8 @@ public class Festivities
 		LanguageRegistry.addName(peppermintStick, "Peppermint Stick");
 
 		LanguageRegistry.addName(candyPlanks, "Candy Planks");
+		
+		LanguageRegistry.addName(gingerbreadBlock, "Gingerbread");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });
