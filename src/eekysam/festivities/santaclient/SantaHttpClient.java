@@ -33,9 +33,9 @@ class SantaHttpClient extends SantaClient
 		return new SantaHttpClient();
 	}
 
-	private InputStream doPostData(byte[] data, String url) throws IOException
+	private InputStream doPostData(byte[] data, String url, String username) throws IOException
 	{
-		URL u = new URL(url);
+		URL u = new URL(url + "?user=" + username);
 		HttpURLConnection connection = (HttpURLConnection) u.openConnection();
 
 		connection.setRequestMethod("POST");
@@ -72,9 +72,9 @@ class SantaHttpClient extends SantaClient
 
 	}
 
-	protected DataInput postData(byte[] data, String url) throws IOException
+	protected DataInput postData(byte[] data, String url, String username) throws IOException
 	{
-		InputStream input = this.doPostData(data, url);
+		InputStream input = this.doPostData(data, url, username);
 		if (input != null)
 		{
 			return new DataInputStream(input);
