@@ -1,5 +1,6 @@
 package eekysam.festivities;
 
+@Deprecated
 public enum EnumTheme
 {
 	Snow,
