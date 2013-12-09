@@ -2,10 +2,10 @@ package eekysam.festivities.kringle.gen.feature;
 
 import java.util.Random;
 
-import eekysam.festivities.Festivities;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import eekysam.festivities.Festivities;
 
 public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFestive
 {
@@ -24,6 +24,7 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 		this.runs = runs;
 	}
 
+	@Override
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
 		for (int t = 0; t < this.runs; t++)

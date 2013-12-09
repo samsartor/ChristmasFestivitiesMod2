@@ -2,15 +2,14 @@ package eekysam.festivities.item;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.Festivities;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.Festivities;
 
 public class ItemMoreCookies extends ItemFoodFestive
 {
@@ -22,10 +21,11 @@ public class ItemMoreCookies extends ItemFoodFestive
 	public ItemMoreCookies(int par1, int par2, float par3)
 	{
 		super(par1, par2, par3, false);
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
+		this.setHasSubtypes(true);
+		this.setMaxDamage(0);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * Gets an icon index based on an item's damage value
@@ -41,6 +41,7 @@ public class ItemMoreCookies extends ItemFoodFestive
 	 * ItemStack so different stacks can have different names based on their
 	 * damage or NBT.
 	 */
+	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack)
 	{
 		int i = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
@@ -51,6 +52,7 @@ public class ItemMoreCookies extends ItemFoodFestive
 	 * returns a list of items with the same ID, but different meta (eg: dye
 	 * returns 16 items)
 	 */
+	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
 		for (int j = 0; j < 4; ++j)
@@ -59,6 +61,7 @@ public class ItemMoreCookies extends ItemFoodFestive
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{

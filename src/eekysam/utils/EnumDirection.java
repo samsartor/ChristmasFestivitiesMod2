@@ -10,7 +10,7 @@ public enum EnumDirection
 	YDown,
 	ZUp,
 	ZDown;
-	
+
 	public EnumDirection getOpposite()
 	{
 		switch (this)
@@ -30,7 +30,7 @@ public enum EnumDirection
 		}
 		return null;
 	}
-	
+
 	public EnumDirection getUp()
 	{
 		switch (this)
@@ -50,7 +50,7 @@ public enum EnumDirection
 		}
 		return null;
 	}
-	
+
 	public EnumDirection getDown()
 	{
 		switch (this)
@@ -70,7 +70,7 @@ public enum EnumDirection
 		}
 		return null;
 	}
-	
+
 	public Vector3f getVector(float mag)
 	{
 		switch (this)
@@ -90,7 +90,7 @@ public enum EnumDirection
 		}
 		return new Vector3f(0.0F, 0.0F, 0.0F);
 	}
-	
+
 	public Vector3f getBadPlaneVector(float u, float v)
 	{
 		switch (this)

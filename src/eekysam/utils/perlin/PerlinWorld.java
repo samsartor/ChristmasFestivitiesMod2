@@ -8,17 +8,17 @@ public class PerlinWorld implements IPerlinGroup
 	protected Perlin perlin;
 	protected int size;
 	protected int layersize;
-	
+
 	protected boolean saveOld;
 	protected int maxSaveCount = -1;
 	protected int maxLayerCount = -1;
-	
+
 	protected List<IPerlinLayer> layers = new ArrayList<IPerlinLayer>();
 	protected List<Integer> xpos = new ArrayList<Integer>();
 	protected List<Integer> ypos = new ArrayList<Integer>();
-	
+
 	protected List<ChunkFloats> chunks = new ArrayList<ChunkFloats>();
-	
+
 	public PerlinWorld(Perlin perlin)
 	{
 		this.perlin = perlin;
@@ -31,7 +31,7 @@ public class PerlinWorld implements IPerlinGroup
 			this.layersize *= 2;
 		}
 	}
-	
+
 	public void setMaxChunkBuffer(int size)
 	{
 		if (size <= 0)
@@ -41,7 +41,7 @@ public class PerlinWorld implements IPerlinGroup
 		}
 		this.maxSaveCount = size;
 	}
-	
+
 	public void setMaxLayerCount(int size)
 	{
 		if (size <= 0)
@@ -50,7 +50,7 @@ public class PerlinWorld implements IPerlinGroup
 		}
 		this.maxLayerCount = size;
 	}
-	
+
 	public void clear()
 	{
 		layers.clear();
@@ -58,7 +58,7 @@ public class PerlinWorld implements IPerlinGroup
 		xpos.clear();
 		ypos.clear();
 	}
-	
+
 	public float[] getChunk(int chunkx, int chunky)
 	{
 		if (this.saveOld)
@@ -92,7 +92,7 @@ public class PerlinWorld implements IPerlinGroup
 		}
 		return fs;
 	}
-	
+
 	protected IPerlinLayer getLayer(int xind, int yind)
 	{
 		for (int i = 0; i < this.layers.size(); i++)
@@ -106,7 +106,7 @@ public class PerlinWorld implements IPerlinGroup
 		}
 		return null;
 	}
-	
+
 	protected IPerlinLayer makeLayer(int xind, int yind)
 	{
 		IPerlinLayer l = this.getLayer(xind, yind);
@@ -116,7 +116,7 @@ public class PerlinWorld implements IPerlinGroup
 		}
 		return l;
 	}
-	
+
 	public void removeme(int x, int y)
 	{
 		for (int i = 0; i < this.layers.size(); i++)
@@ -130,7 +130,7 @@ public class PerlinWorld implements IPerlinGroup
 			}
 		}
 	}
-	
+
 	private class ChunkFloats
 	{
 		public int x;

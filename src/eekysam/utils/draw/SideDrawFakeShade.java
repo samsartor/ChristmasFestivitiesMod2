@@ -6,7 +6,8 @@ public class SideDrawFakeShade extends SideDrawBasic
 	{
 		super(parent);
 	}
-	
+
+	@Override
 	protected void XUp()
 	{
 		if (!this.doubleSided)
@@ -21,6 +22,7 @@ public class SideDrawFakeShade extends SideDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	protected void XDown()
 	{
 		if (!this.doubleSided)
@@ -35,6 +37,7 @@ public class SideDrawFakeShade extends SideDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	protected void YUp()
 	{
 		if (!this.doubleSided)
@@ -49,6 +52,7 @@ public class SideDrawFakeShade extends SideDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	protected void YDown()
 	{
 		if (!this.doubleSided)
@@ -63,6 +67,7 @@ public class SideDrawFakeShade extends SideDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	protected void ZUp()
 	{
 		if (!this.doubleSided)
@@ -77,6 +82,7 @@ public class SideDrawFakeShade extends SideDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	protected void ZDown()
 	{
 		if (!this.doubleSided)
@@ -90,7 +96,7 @@ public class SideDrawFakeShade extends SideDrawBasic
 		super.ZDown();
 		this.reTess();
 	}
-	
+
 	protected void setBrightnessF(float f)
 	{
 		this.tess.setColorOpaque_F(f, f, f);

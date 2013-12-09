@@ -1,21 +1,13 @@
 package eekysam.festivities.kringle.gen;
 
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.CAVE;
-import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.MINESHAFT;
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.RAVINE;
-import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.SCATTERED_FEATURE;
-import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.STRONGHOLD;
-import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.VILLAGE;
-import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.DUNGEON;
 import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ICE;
 import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE;
-import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAVA;
 
 import java.util.List;
 import java.util.Random;
 
-import eekysam.festivities.kringle.Kringle;
-import eekysam.festivities.kringle.biome.BiomeGenKringle;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSand;
 import net.minecraft.entity.EnumCreatureType;
@@ -27,22 +19,18 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderGenerate;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraft.world.gen.MapGenCaves;
 import net.minecraft.world.gen.MapGenRavine;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
-import net.minecraft.world.gen.feature.MapGenScatteredFeature;
-import net.minecraft.world.gen.feature.WorldGenDungeons;
 import net.minecraft.world.gen.feature.WorldGenLakes;
-import net.minecraft.world.gen.structure.MapGenMineshaft;
-import net.minecraft.world.gen.structure.MapGenStronghold;
-import net.minecraft.world.gen.structure.MapGenVillage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.terraingen.ChunkProviderEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
+import eekysam.festivities.kringle.Kringle;
+import eekysam.festivities.kringle.biome.BiomeGenKringle;
 
 public class ChunkProviderKringle implements IChunkProvider
 {
@@ -138,76 +126,76 @@ public class ChunkProviderKringle implements IChunkProvider
 	 */
 	public void generateTerrain(int par1, int par2, short[] ids)
 	{
-        byte b0 = 4;
-        byte b1 = 16;
-        byte b2 = 63;
-        int k = b0 + 1;
-        byte b3 = 17;
-        int l = b0 + 1;
-        this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, par1 * 4 - 2, par2 * 4 - 2, k + 5, l + 5);
-        this.noiseArray = this.initializeNoiseField(this.noiseArray, par1 * b0, 0, par2 * b0, k, b3, l);
+		byte b0 = 4;
+		byte b1 = 16;
+		byte b2 = 63;
+		int k = b0 + 1;
+		byte b3 = 17;
+		int l = b0 + 1;
+		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, par1 * 4 - 2, par2 * 4 - 2, k + 5, l + 5);
+		this.noiseArray = this.initializeNoiseField(this.noiseArray, par1 * b0, 0, par2 * b0, k, b3, l);
 
-        for (int i1 = 0; i1 < b0; ++i1)
-        {
-            for (int j1 = 0; j1 < b0; ++j1)
-            {
-                for (int k1 = 0; k1 < b1; ++k1)
-                {
-                    double d0 = 0.125D;
-                    double d1 = this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 0];
-                    double d2 = this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 0];
-                    double d3 = this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 0];
-                    double d4 = this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 0];
-                    double d5 = (this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 1] - d1) * d0;
-                    double d6 = (this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 1] - d2) * d0;
-                    double d7 = (this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 1] - d3) * d0;
-                    double d8 = (this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 1] - d4) * d0;
+		for (int i1 = 0; i1 < b0; ++i1)
+		{
+			for (int j1 = 0; j1 < b0; ++j1)
+			{
+				for (int k1 = 0; k1 < b1; ++k1)
+				{
+					double d0 = 0.125D;
+					double d1 = this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 0];
+					double d2 = this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 0];
+					double d3 = this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 0];
+					double d4 = this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 0];
+					double d5 = (this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 1] - d1) * d0;
+					double d6 = (this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 1] - d2) * d0;
+					double d7 = (this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 1] - d3) * d0;
+					double d8 = (this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 1] - d4) * d0;
 
-                    for (int l1 = 0; l1 < 8; ++l1)
-                    {
-                        double d9 = 0.25D;
-                        double d10 = d1;
-                        double d11 = d2;
-                        double d12 = (d3 - d1) * d9;
-                        double d13 = (d4 - d2) * d9;
+					for (int l1 = 0; l1 < 8; ++l1)
+					{
+						double d9 = 0.25D;
+						double d10 = d1;
+						double d11 = d2;
+						double d12 = (d3 - d1) * d9;
+						double d13 = (d4 - d2) * d9;
 
-                        for (int i2 = 0; i2 < 4; ++i2)
-                        {
-                            int j2 = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
-                            short short1 = 128;
-                            j2 -= short1;
-                            double d14 = 0.25D;
-                            double d15 = (d11 - d10) * d14;
-                            double d16 = d10 - d15;
+						for (int i2 = 0; i2 < 4; ++i2)
+						{
+							int j2 = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
+							short short1 = 128;
+							j2 -= short1;
+							double d14 = 0.25D;
+							double d15 = (d11 - d10) * d14;
+							double d16 = d10 - d15;
 
-                            for (int k2 = 0; k2 < 4; ++k2)
-                            {
-                                if ((d16 += d15) > 0.0D)
-                                {
-                                    ids[j2 += short1] = (short) Kringle.getStone();
-                                }
-                                else if (k1 * 8 + l1 < b2)
-                                {
-                                	ids[j2 += short1] = (short) Block.ice.blockID;
-                                }
-                                else
-                                {
-                                	ids[j2 += short1] = 0;
-                                }
-                            }
+							for (int k2 = 0; k2 < 4; ++k2)
+							{
+								if ((d16 += d15) > 0.0D)
+								{
+									ids[j2 += short1] = (short) Kringle.getStone();
+								}
+								else if (k1 * 8 + l1 < b2)
+								{
+									ids[j2 += short1] = (short) Block.ice.blockID;
+								}
+								else
+								{
+									ids[j2 += short1] = 0;
+								}
+							}
 
-                            d10 += d12;
-                            d11 += d13;
-                        }
+							d10 += d12;
+							d11 += d13;
+						}
 
-                        d1 += d5;
-                        d2 += d6;
-                        d3 += d7;
-                        d4 += d8;
-                    }
-                }
-            }
-        }
+						d1 += d5;
+						d2 += d6;
+						d3 += d7;
+						d4 += d8;
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -219,7 +207,9 @@ public class ChunkProviderKringle implements IChunkProvider
 		ChunkProviderEvent.InitNoiseField event = new ChunkProviderEvent.InitNoiseField(this, par1ArrayOfDouble, par2, par3, par4, par5, par6, par7);
 		MinecraftForge.EVENT_BUS.post(event);
 		if (event.getResult() == Result.DENY)
+		{
 			return event.noisefield;
+		}
 
 		if (par1ArrayOfDouble == null)
 		{
@@ -366,6 +356,7 @@ public class ChunkProviderKringle implements IChunkProvider
 		return par1ArrayOfDouble;
 	}
 
+	@Override
 	public boolean chunkExists(int i, int j)
 	{
 		return true;
@@ -374,6 +365,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	/**
 	 * loads or generates the chunk at the chunk location specified
 	 */
+	@Override
 	public Chunk loadChunk(int par1, int par2)
 	{
 		return this.provideChunk(par1, par2);
@@ -384,6 +376,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	 * will generates all the blocks for the specified chunk from the map seed
 	 * and chunk seed
 	 */
+	@Override
 	public Chunk provideChunk(int x, int z)
 	{
 		this.rand.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
@@ -439,7 +432,7 @@ public class ChunkProviderKringle implements IChunkProvider
 
 				for (int setY = 127; setY >= 0; --setY)
 				{
-					
+
 					int index = setY << 8 | setZ << 4 | setX;
 
 					if (setY <= 0 + this.rand.nextInt(5))
@@ -495,6 +488,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	/**
 	 * Populates chunk with ores etc etc
 	 */
+	@Override
 	public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
 	{
 		BlockSand.fallInstantly = true;
@@ -555,6 +549,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	 * passed false, save up to two chunks. Return true if all chunks have been
 	 * saved.
 	 */
+	@Override
 	public boolean saveChunks(boolean par1, IProgressUpdate par2IProgressUpdate)
 	{
 		return true;
@@ -564,6 +559,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	 * Save extra data not associated with any Chunk. Not saved during autosave,
 	 * only during world unload. Currently unimplemented.
 	 */
+	@Override
 	public void saveExtraData()
 	{
 	}
@@ -572,6 +568,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	 * Unloads chunks that are marked to be unloaded. This is not guaranteed to
 	 * unload every such chunk.
 	 */
+	@Override
 	public boolean unloadQueuedChunks()
 	{
 		return false;
@@ -580,6 +577,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	/**
 	 * Returns if the IChunkProvider supports saving.
 	 */
+	@Override
 	public boolean canSave()
 	{
 		return true;
@@ -588,6 +586,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	/**
 	 * Converts the instance data to a readable string.
 	 */
+	@Override
 	public String makeString()
 	{
 		return "KringleRandomLevelSource";
@@ -597,6 +596,7 @@ public class ChunkProviderKringle implements IChunkProvider
 	 * Returns a list of creatures of the specified type that can spawn at the
 	 * given location.
 	 */
+	@Override
 	public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
 	{
 		BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(par2, par4);
@@ -607,16 +607,19 @@ public class ChunkProviderKringle implements IChunkProvider
 	 * Returns the location of the closest structure of the specified type. If
 	 * not found returns null.
 	 */
+	@Override
 	public ChunkPosition findClosestStructure(World par1World, String par2Str, int par3, int par4, int par5)
 	{
 		return null;
 	}
 
+	@Override
 	public int getLoadedChunkCount()
 	{
 		return 0;
 	}
 
+	@Override
 	public void recreateStructures(int par1, int par2)
 	{
 

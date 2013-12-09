@@ -10,18 +10,18 @@ public class BlockFestive extends Block implements ITipItem
 {
 	private String[] tip = null;
 	private String[] shifttip = null;
-	
+
 	public BlockFestive(int par1, Material par2Material)
 	{
 		super(par1, par2Material);
 	}
-	
+
 	public BlockFestive setTip(String... tip)
 	{
 		this.tip = tip;
 		return this;
 	}
-	
+
 	public BlockFestive setShiftTip(String... tip)
 	{
 		this.shifttip = tip;

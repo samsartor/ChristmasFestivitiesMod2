@@ -6,7 +6,8 @@ public class BoxDrawFakeShade extends BoxDrawBasic
 	{
 		super(parent);
 	}
-	
+
+	@Override
 	public void XUp()
 	{
 		if (!this.inside)
@@ -21,6 +22,7 @@ public class BoxDrawFakeShade extends BoxDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	public void XDown()
 	{
 		if (this.inside)
@@ -35,6 +37,7 @@ public class BoxDrawFakeShade extends BoxDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	public void YUp()
 	{
 		if (!this.inside)
@@ -49,6 +52,7 @@ public class BoxDrawFakeShade extends BoxDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	public void YDown()
 	{
 		if (this.inside)
@@ -63,6 +67,7 @@ public class BoxDrawFakeShade extends BoxDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	public void ZUp()
 	{
 		if (!this.inside)
@@ -77,6 +82,7 @@ public class BoxDrawFakeShade extends BoxDrawBasic
 		this.reTess();
 	}
 
+	@Override
 	public void ZDown()
 	{
 		if (this.inside)
@@ -90,7 +96,7 @@ public class BoxDrawFakeShade extends BoxDrawBasic
 		super.ZDown();
 		this.reTess();
 	}
-	
+
 	public void setBrightnessF(float f)
 	{
 		this.tess.setColorOpaque_F(f, f, f);

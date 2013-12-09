@@ -1,9 +1,5 @@
 package eekysam.utils.perlin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import eekysam.utils.LocationRandom;
 
 class PerlinLayerLinear extends PerlinLayer
@@ -13,7 +9,7 @@ class PerlinLayerLinear extends PerlinLayer
 
 	public PerlinLayer[] list = new PerlinLayer[4];
 	protected boolean[] removed = new boolean[4];
-	
+
 	public boolean isLast;
 
 	protected float[] grid;
@@ -60,6 +56,7 @@ class PerlinLayerLinear extends PerlinLayer
 		this.buildGrid();
 	}
 
+	@Override
 	public float getValue(int x, int y, byte corner)
 	{
 		switch (corner)
@@ -115,6 +112,7 @@ class PerlinLayerLinear extends PerlinLayer
 		return this.grid[(x + 1) + (y + 1) * 18];
 	}
 
+	@Override
 	public void buildGrid()
 	{
 		this.grid = new float[324];
@@ -186,6 +184,7 @@ class PerlinLayerLinear extends PerlinLayer
 		return (this.seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1);
 	}
 
+	@Override
 	public float[] getChunk(float u, float v)
 	{
 		if (this.isLast)
@@ -247,7 +246,7 @@ class PerlinLayerLinear extends PerlinLayer
 		}
 		return dat;
 	}
-	
+
 	public boolean isDone()
 	{
 		boolean flag = true;
@@ -257,7 +256,8 @@ class PerlinLayerLinear extends PerlinLayer
 		}
 		return flag;
 	}
-	
+
+	@Override
 	public void removeme(byte corner)
 	{
 		this.removed[corner] = true;

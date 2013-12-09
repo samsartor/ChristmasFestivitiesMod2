@@ -1,28 +1,29 @@
 package eekysam.festivities.command;
 
-import eekysam.festivities.Festivities;
-import eekysam.festivities.kringle.KringleTeleporter;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.ChatMessageComponent;
+import eekysam.festivities.Festivities;
+import eekysam.festivities.kringle.KringleTeleporter;
 
 public class CommandKringle extends CommandBase
 {
+	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
 		return "/" + this.getCommandName();
 	}
 
+	@Override
 	public String getCommandName()
 	{
 		return "gotokringle";
 	}
 
+	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
 		if (astring.length > 0)
@@ -88,7 +89,7 @@ public class CommandKringle extends CommandBase
 		}
 		MinecraftServer mServer = MinecraftServer.getServer();
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
-		icommandsender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Use \\gohome to return to the overworld"}));
+		icommandsender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Use \\gohome to return to the overworld" }));
 		return true;
 	}
 }

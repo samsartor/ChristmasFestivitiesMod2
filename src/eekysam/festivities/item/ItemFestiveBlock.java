@@ -1,19 +1,15 @@
 package eekysam.festivities.item;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.Festivities;
-import eekysam.festivities.ITipItem;
-import eekysam.utils.Toolbox;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.Festivities;
+import eekysam.festivities.ITipItem;
 
 public class ItemFestiveBlock extends ItemBlock
 {
@@ -22,6 +18,7 @@ public class ItemFestiveBlock extends ItemBlock
 		super(par1);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * allows items to add custom lines of information to the mouseover description

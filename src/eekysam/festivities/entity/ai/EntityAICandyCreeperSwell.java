@@ -1,9 +1,8 @@
 package eekysam.festivities.entity.ai;
 
-import eekysam.festivities.entity.EntityCandyCreeper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.monster.EntityCreeper;
+import eekysam.festivities.entity.EntityCandyCreeper;
 
 public class EntityAICandyCreeperSwell extends EntityAIBase
 {
@@ -25,6 +24,7 @@ public class EntityAICandyCreeperSwell extends EntityAIBase
 	/**
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
+	@Override
 	public boolean shouldExecute()
 	{
 		EntityLivingBase entitylivingbase = this.swellingCreeper.getAttackTarget();
@@ -34,6 +34,7 @@ public class EntityAICandyCreeperSwell extends EntityAIBase
 	/**
 	 * Execute a one shot task or start executing a continuous task
 	 */
+	@Override
 	public void startExecuting()
 	{
 		this.swellingCreeper.getNavigator().clearPathEntity();
@@ -43,6 +44,7 @@ public class EntityAICandyCreeperSwell extends EntityAIBase
 	/**
 	 * Resets the task
 	 */
+	@Override
 	public void resetTask()
 	{
 		this.creeperAttackTarget = null;
@@ -51,6 +53,7 @@ public class EntityAICandyCreeperSwell extends EntityAIBase
 	/**
 	 * Updates the task
 	 */
+	@Override
 	public void updateTask()
 	{
 		if (this.creeperAttackTarget == null)

@@ -5,14 +5,13 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
-import eekysam.festivities.Festivities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import eekysam.festivities.Festivities;
 
 public abstract class SantaClient
 {
@@ -50,20 +49,20 @@ public abstract class SantaClient
 		{
 			tags = new NBTTagCompound();
 		}
-		
+
 		tags.setString("santaname", username);
-		
+
 		NBTTagCompound disp = tags.getCompoundTag("display");
 		NBTTagList lore = disp.getTagList("Lore");
 		lore.appendTag(new NBTTagString("", "From: " + username));
 		disp.setTag("Lore", lore);
 		tags.setTag("display", disp);
-		
+
 		item.setTagCompound(tags);
-		
+
 		return this.doSendAndReceiveItem(item, url, username);
 	}
-	
+
 	protected ItemStack doSendAndReceiveItem(ItemStack item, String url, String username) throws IOException
 	{
 		item = Festivities.instance.convertFromConfiged(item);
@@ -89,7 +88,7 @@ public abstract class SantaClient
 			return null;
 		}
 	}
-	
+
 	public ItemStack sendAndReceiveItem(ItemStack item, String url, String username)
 	{
 		try

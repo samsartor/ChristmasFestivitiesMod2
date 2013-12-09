@@ -22,11 +22,11 @@ public class TileEntityFestive extends TileEntity
 		}
 		else
 		{
-			//PacketDispatcher.sendPacketToAllPlayers(FestPacket.buildPacket(pk));
+			// PacketDispatcher.sendPacketToAllPlayers(FestPacket.buildPacket(pk));
 			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 		}
 	}
-	
+
 	@Override
 	public Packet getDescriptionPacket()
 	{

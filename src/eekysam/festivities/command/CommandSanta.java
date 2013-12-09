@@ -1,31 +1,30 @@
 package eekysam.festivities.command;
 
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
 import eekysam.festivities.Festivities;
-import eekysam.festivities.kringle.KringleTeleporter;
 import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.santaclient.SantaClient;
 import eekysam.festivities.users.UserType;
 
 public class CommandSanta extends CommandBase
 {
+	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
 		return "/" + this.getCommandName();
 	}
 
+	@Override
 	public String getCommandName()
 	{
 		return "santa";
 	}
 
+	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
 
@@ -43,7 +42,7 @@ public class CommandSanta extends CommandBase
 		PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
 		if (data.santaCooldown > 0 && !UserType.getUserType(player.username).isCreator())
 		{
-			icommandsender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Please wait before sending another Item"}));
+			icommandsender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Please wait before sending another Item" }));
 			return false;
 		}
 		ItemStack stack = player.inventory.getCurrentItem();

@@ -1,6 +1,5 @@
 package eekysam.festivities;
 
-import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,14 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
-import org.lwjgl.input.Keyboard;
-
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityEggInfo;
@@ -25,8 +18,6 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
@@ -34,9 +25,11 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ConfigCategory;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
+
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -69,7 +62,6 @@ import eekysam.festivities.entity.CandyMapping;
 import eekysam.festivities.entity.EntityCandyCreeper;
 import eekysam.festivities.events.ConnectionHandler;
 import eekysam.festivities.events.EventHooks;
-import eekysam.festivities.item.ChristmasRecord;
 import eekysam.festivities.item.ItemFestive;
 import eekysam.festivities.item.ItemFestiveBlock;
 import eekysam.festivities.item.ItemFoodFestive;
@@ -99,7 +91,7 @@ public class Festivities
 	public static final String CHATNAME = "Festivities";
 
 	public static final String PLAYERDATA = "festivities";
-	
+
 	public static final String SANTADEBUGURL = "http://localhost:8888/festivesanta";
 	public static final String SANTAURL = "http://festivesanta.appspot.com/festivesanta";
 
@@ -112,11 +104,11 @@ public class Festivities
 	public static final boolean TESTVERSION = false;
 	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
 	public static final String[] TESTMSGDATED = new String[] { "This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
-	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "", "Try with \"Not Enough Items\"", "", "Use \"/santa\" to exchange the item you are holding with someone else across the world!"};
+	public static final String[] MSG = new String[] { "Christmas Festivities Mod 2", "Version " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "", "Try with \"Not Enough Items\"", "", "Use \"/santa\" to exchange the item you are holding with someone else across the world!" };
 	public static final String[] MSGDATED = new String[] {};
 
 	public static final int kringleId = 3;
-	
+
 	public static final int santacooldowntime = 100;
 
 	private int itemId = 7600;
@@ -771,7 +763,7 @@ public class Festivities
 		}
 		return null;
 	}
-	
+
 	public static final String getSantaUrl()
 	{
 		if (DEBUG)

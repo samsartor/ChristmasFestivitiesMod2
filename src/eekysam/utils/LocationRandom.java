@@ -1,6 +1,5 @@
 package eekysam.utils;
 
-import java.util.Random;
 
 public class LocationRandom
 {
@@ -60,7 +59,7 @@ public class LocationRandom
 		}
 
 		this.lastseed = this.posSeed(x, y);
-		
+
 		int bits, val;
 		do
 		{
@@ -75,7 +74,7 @@ public class LocationRandom
 	{
 		return next(24, x, y) / ((float) (1 << 24));
 	}
-	
+
 	public long getLocSeed(int x, int y)
 	{
 		return this.posSeed(x, y);

@@ -7,6 +7,7 @@ public class BoxDrawBasic extends BoxDraw
 		super(parent);
 	}
 
+	@Override
 	public void XUp()
 	{
 		float u;
@@ -31,6 +32,7 @@ public class BoxDrawBasic extends BoxDraw
 		}
 	}
 
+	@Override
 	public void XDown()
 	{
 		float u;
@@ -55,6 +57,7 @@ public class BoxDrawBasic extends BoxDraw
 		}
 	}
 
+	@Override
 	public void YUp()
 	{
 		float u;
@@ -79,6 +82,7 @@ public class BoxDrawBasic extends BoxDraw
 		}
 	}
 
+	@Override
 	public void YDown()
 	{
 		float u;
@@ -103,6 +107,7 @@ public class BoxDrawBasic extends BoxDraw
 		}
 	}
 
+	@Override
 	public void ZUp()
 	{
 		float u;
@@ -127,6 +132,7 @@ public class BoxDrawBasic extends BoxDraw
 		}
 	}
 
+	@Override
 	public void ZDown()
 	{
 		float u;

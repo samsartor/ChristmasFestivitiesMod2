@@ -1,5 +1,10 @@
 package eekysam.festivities.client.render.tileEntity;
 
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import eekysam.festivities.Festivities;
@@ -8,16 +13,11 @@ import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.utils.EnumDirection;
 import eekysam.utils.draw.BoxDrawBasic;
 import eekysam.utils.draw.IRenderer;
-import eekysam.utils.draw.PlaneDrawBasic;
 import eekysam.utils.draw.SideDrawFakeShade;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer implements IRenderer
 {
+	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f)
 	{
 		Tessellator tess = Tessellator.instance;
@@ -25,19 +25,19 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		GL11.glTranslated(x, y, z);
 
 		TileEntitySnowglobe globe = (TileEntitySnowglobe) tile;
-		
+
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
-		
+
 		if (globe.type >= 0 && globe.type < SnowglobeScene.list.size())
 		{
 			SideDrawFakeShade side = new SideDrawFakeShade(this);
 			side.setDoubleSided();
 			ResourceLocation loc = SnowglobeScene.list.get(globe.type).getResource();
 			side.setTexture(loc.getResourceDomain(), loc.getResourcePath(), 98, 40);
-			
+
 			tess.startDrawingQuads();
-			
+
 			for (int i = 0; i < 7; i++)
 			{
 				side.side(EnumDirection.YUp, 14, 14, 1, i * 2 + 2, 1);
@@ -69,14 +69,14 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 			SideDrawFakeShade side = new SideDrawFakeShade(this);
 			side.setTexture(Festivities.ID, "textures/snowglobe/base.png", 14, 14);
 			tess.startDrawingQuads();
-			
+
 			side.side(EnumDirection.YUp, 14, 14, 1, 2, 1);
 			side.selectUV(0, 0);
 			side.draw();
-			
+
 			tess.draw();
 		}
-		
+
 		BoxDrawBasic draw = new BoxDrawBasic(this);
 		draw.setTexture(Festivities.ID, "textures/snowglobe/globe.png", 64, 32);
 		tess.startDrawingQuads();
@@ -107,12 +107,13 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		tess.draw();
 		GL11.glPopMatrix();
 	}
-	
+
+	@Override
 	public void rendererBindTexture(ResourceLocation loc)
 	{
 		this.bindTexture(loc);
 	}
-	
+
 	@Override
 	public int getAnimNum()
 	{

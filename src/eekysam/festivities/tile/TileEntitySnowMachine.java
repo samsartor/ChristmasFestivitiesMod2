@@ -2,26 +2,21 @@ package eekysam.festivities.tile;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import eekysam.festivities.client.particle.EntitySnowFX;
-import eekysam.festivities.network.packet.FestPacket;
-import eekysam.festivities.network.packet.PacketUpdateTile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.client.particle.EntitySnowFX;
 
 public class TileEntitySnowMachine extends TileEntityFestive
 {
 	private boolean powered;
-	
+
 	public int snowCount;
 
 	private long tickCount;
@@ -49,12 +44,14 @@ public class TileEntitySnowMachine extends TileEntityFestive
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound myTag)
 	{
 		super.readFromNBT(myTag);
 		snowCount = myTag.getInteger("iceCount");
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound myTag)
 	{
 		super.writeToNBT(myTag);
@@ -92,12 +89,13 @@ public class TileEntitySnowMachine extends TileEntityFestive
 			this.onChange();
 		}
 	}
-	
+
 	public boolean isPowered()
 	{
 		return this.powered;
 	}
 
+	@Override
 	public void updateEntity()
 	{
 		World myWorld = this.worldObj;
@@ -144,19 +142,22 @@ public class TileEntitySnowMachine extends TileEntityFestive
 					snowDensity = 1;
 				}
 
-				float sp = snowDensity / 4;
+				if (!this.worldObj.isRemote)
+				{
+					float sp = snowDensity / 4;
 
-				if (sp > 0.1F)
-				{
-					sp = 0.1F;
-				}
-				if (myWorld.rand.nextFloat() < sp)
-				{
-					letItSnow();
-				}
-				if (tickCount % snowConsumption == 0)
-				{
-					snowCount--;
+					if (sp > 0.1F)
+					{
+						sp = 0.1F;
+					}
+					if (myWorld.rand.nextFloat() < sp)
+					{
+						letItSnow();
+					}
+					if (tickCount % snowConsumption == 0)
+					{
+						snowCount--;
+					}
 				}
 			}
 		}
@@ -234,6 +235,7 @@ public class TileEntitySnowMachine extends TileEntityFestive
 		return y;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public void spawnFX(Random rand)
 	{
 		float den = this.getSnowDensity();

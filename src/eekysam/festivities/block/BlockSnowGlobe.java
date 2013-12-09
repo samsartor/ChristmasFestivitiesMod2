@@ -2,13 +2,6 @@ package eekysam.festivities.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.Festivities;
-import eekysam.festivities.ITipItem;
-import eekysam.festivities.client.particle.EntitySnowFX;
-import eekysam.festivities.tile.SnowglobeScene;
-import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +11,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.Festivities;
+import eekysam.festivities.ITipItem;
+import eekysam.festivities.client.particle.EntitySnowFX;
+import eekysam.festivities.tile.SnowglobeScene;
+import eekysam.festivities.tile.TileEntitySnowglobe;
 
 public class BlockSnowGlobe extends BlockContainer implements ITipItem
 {
@@ -31,12 +31,14 @@ public class BlockSnowGlobe extends BlockContainer implements ITipItem
 	{
 		return new TileEntitySnowglobe();
 	}
-	
-    public int getRenderType()
-    {
-        return Festivities.blockItemRenderId;
-    }
 
+	@Override
+	public int getRenderType()
+	{
+		return Festivities.blockItemRenderId;
+	}
+
+	@Override
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
 		if (world.isRemote)
@@ -53,11 +55,12 @@ public class BlockSnowGlobe extends BlockContainer implements ITipItem
 	{
 		return false;
 	}
-	
-    public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
@@ -71,37 +74,38 @@ public class BlockSnowGlobe extends BlockContainer implements ITipItem
 		return l == 0 ? 2 : (l == 1 ? 5 : (l == 2 ? 3 : (l == 3 ? 4 : 0)));
 	}
 
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item)
 	{
 		int l = determineOrientation(world, x, y, z, entity);
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 	}
-	
-    @SideOnly(Side.CLIENT)
 
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
-    	for (int i = 0; i < 4; i++)
-    	{
-    		double X = x + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
-    		double Z = z + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
-    		double Y = y + (15 / 16.0F);
-    		EntitySnowFX.spawn(new EntitySnowFX(world, X, Y, Z).setSize(0.004F));
-    	}
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	/**
+	 * A randomly called display update to be able to add particles or other items for display
+	 */
+	public void randomDisplayTick(World world, int x, int y, int z, Random random)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			double X = x + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
+			double Z = z + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
+			double Y = y + (15 / 16.0F);
+			EntitySnowFX.spawn(new EntitySnowFX(world, X, Y, Z).setSize(0.004F));
+		}
+	}
 
 	@Override
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
-		return new String[] {"Look into snowglobe to go to the Kringle!", "Right-Click to randomise the globe's interior"};
+		return new String[] { "Look into snowglobe to go to the Kringle!", "Right-Click to randomise the globe's interior" };
 	}
 
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
-		return new String[] {"A magical snowglobe..."};
+		return new String[] { "A magical snowglobe..." };
 	}
 }

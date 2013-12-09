@@ -5,22 +5,23 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.Teleporter;
-import eekysam.festivities.Festivities;
 import eekysam.festivities.kringle.KringleTeleporter;
 
 public class CommandHome extends CommandBase
 {
+	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
 		return "/" + this.getCommandName();
 	}
 
+	@Override
 	public String getCommandName()
 	{
 		return "gohome";
 	}
 
+	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
 		if (astring.length > 0)

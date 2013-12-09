@@ -20,18 +20,19 @@ import eekysam.festivities.tile.TileEntitySnowglobe;
 
 public class ClientProxy extends CommonProxy
 {
-    public void registerRenderers() 
-    {
-    	ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowglobe.class, new TileEntitySnowglobeRenderer());
-    	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlate.class, new TileEntityPlateRenderer());
-    	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOrnament.class, new TileEntitySimpleRenderer(1));
-    	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntitySimpleRenderer(2));
-    	ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowMachine.class, new TileEntitySnowMachineRenderer());
-    	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGarland.class, new TileEntitySimpleRenderer(3));
-    	
-    	Festivities.blockItemRenderId = RenderingRegistry.getNextAvailableRenderId();
-    	RenderingRegistry.registerBlockHandler(Festivities.blockItemRenderId, new BlockItemRenderer());
-    	
-    	RenderingRegistry.registerEntityRenderingHandler(EntityCandyCreeper.class, new RenderCandyCreeper());
-    }
+	@Override
+	public void registerRenderers()
+	{
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowglobe.class, new TileEntitySnowglobeRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlate.class, new TileEntityPlateRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOrnament.class, new TileEntitySimpleRenderer(1));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntitySimpleRenderer(2));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowMachine.class, new TileEntitySnowMachineRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGarland.class, new TileEntitySimpleRenderer(3));
+
+		Festivities.blockItemRenderId = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(Festivities.blockItemRenderId, new BlockItemRenderer());
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityCandyCreeper.class, new RenderCandyCreeper());
+	}
 }

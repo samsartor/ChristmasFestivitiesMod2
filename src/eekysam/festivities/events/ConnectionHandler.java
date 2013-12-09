@@ -14,6 +14,7 @@ import eekysam.festivities.users.UserType;
 
 public class ConnectionHandler implements IConnectionHandler
 {
+	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager)
 	{
 		EntityPlayer entity = (EntityPlayer) player;
@@ -42,51 +43,56 @@ public class ConnectionHandler implements IConnectionHandler
 			if (updates != null)
 			{
 				Festivities.SendChat(entity, updates);
-		    	if (Festivities.TESTVERSION)
-		    	{
-		    		Festivities.SendChat(entity, Festivities.TESTMSGDATED);
-		    	}
-		    	else
-		    	{
-		    		Festivities.SendChat(entity, Festivities.MSGDATED);
-		    	}
+				if (Festivities.TESTVERSION)
+				{
+					Festivities.SendChat(entity, Festivities.TESTMSGDATED);
+				}
+				else
+				{
+					Festivities.SendChat(entity, Festivities.MSGDATED);
+				}
 			}
 			else
 			{
-		    	if (Festivities.TESTVERSION)
-		    	{
-		    		Festivities.SendChat(entity, Festivities.TESTMSG);
-		    	}
-		    	else
-		    	{
-		    		Festivities.SendChat(entity, Festivities.MSG);
-		    	}
+				if (Festivities.TESTVERSION)
+				{
+					Festivities.SendChat(entity, Festivities.TESTMSG);
+				}
+				else
+				{
+					Festivities.SendChat(entity, Festivities.MSG);
+				}
 			}
 		}
 	}
 
+	@Override
 	public String connectionReceived(NetLoginHandler netHandler, INetworkManager manager)
 	{
 		return null;
 	}
 
+	@Override
 	public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager)
 	{
-		
+
 	}
 
+	@Override
 	public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager)
 	{
-		
+
 	}
 
+	@Override
 	public void connectionClosed(INetworkManager manager)
 	{
-		
+
 	}
 
+	@Override
 	public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login)
 	{
-		
+
 	}
 }

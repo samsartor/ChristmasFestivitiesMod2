@@ -2,22 +2,11 @@ package eekysam.festivities.tile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import eekysam.festivities.Festivities;
-import eekysam.festivities.network.packet.FestPacket;
-import eekysam.festivities.network.packet.PacketUpdateTile;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.tileentity.TileEntity;
+import eekysam.festivities.Festivities;
 
 public class TileEntityPlate extends TileEntityFestive
 {
@@ -45,17 +34,17 @@ public class TileEntityPlate extends TileEntityFestive
 			this.item = item;
 			this.meta = meta;
 		}
-		
+
 		public ItemStack getItem()
 		{
 			return new ItemStack(this.item, 1, this.meta);
 		}
-		
+
 		public static PlateFoods getFood(ItemStack item)
 		{
 			return getFood(item.itemID, item.getItemDamage());
 		}
-		
+
 		public static PlateFoods getFood(int id, int meta)
 		{
 			for (int i = 0; i < PlateFoods.values().length; i++)
@@ -74,7 +63,7 @@ public class TileEntityPlate extends TileEntityFestive
 	{
 		return PlateFoods.getFood(item);
 	}
-	
+
 	public ItemStack doDropOneItem()
 	{
 		int j = this.onPlate.size() - 1;
@@ -86,14 +75,14 @@ public class TileEntityPlate extends TileEntityFestive
 		}
 		return null;
 	}
-	
+
 	public ItemStack dropOneItem()
 	{
 		ItemStack i = this.doDropOneItem();
 		this.onChange();
 		return i;
 	}
-	
+
 	public ItemStack[] onClear()
 	{
 		ItemStack[] drop = new ItemStack[this.onPlate.size()];
@@ -110,7 +99,7 @@ public class TileEntityPlate extends TileEntityFestive
 		this.onChange();
 		return drop;
 	}
-	
+
 	public boolean addItem(PlateFoods food)
 	{
 		if (this.canAdd(food))
@@ -174,7 +163,7 @@ public class TileEntityPlate extends TileEntityFestive
 		}
 		return sum;
 	}
-	
+
 	public int getTotalofTypes(PlateFoods... foods)
 	{
 		int sum = 0;
@@ -192,7 +181,7 @@ public class TileEntityPlate extends TileEntityFestive
 		}
 		return sum;
 	}
-	
+
 	public int getTotalCookies()
 	{
 		int sum = 0;

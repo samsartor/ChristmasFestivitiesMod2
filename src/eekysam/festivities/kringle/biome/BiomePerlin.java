@@ -7,25 +7,25 @@ public class BiomePerlin extends Perlin
 	public long seed;
 	public int num;
 	public float mult;
-	
+
 	public BiomePerlin(long seed, int par, int num, float mult)
 	{
 		this.newSeed(seed, par);
 		this.num = num;
 		this.mult = mult;
 	}
-	
-    public void newSeed(long seed, long par)
-    {
-        this.seed = seed;
-        this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-        this.seed += par;
-        this.seed *= this.seed* 6364136223846793005L + 1442695040888963407L;
-        this.seed += par;
-        this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
-        this.seed += par;
-    }
-	
+
+	public void newSeed(long seed, long par)
+	{
+		this.seed = seed;
+		this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
+		this.seed += par;
+		this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
+		this.seed += par;
+		this.seed *= this.seed * 6364136223846793005L + 1442695040888963407L;
+		this.seed += par;
+	}
+
 	@Override
 	public long getSeed()
 	{

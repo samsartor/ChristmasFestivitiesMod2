@@ -1,29 +1,8 @@
 package eekysam.festivities.events;
 
-import java.awt.Container;
-import java.awt.EventQueue;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import javax.swing.JOptionPane;
-
-import org.lwjgl.opengl.Display;
-
-import com.google.common.collect.MapDifference;
-import com.google.common.collect.MapDifference.ValueDifference;
-
-import cpw.mods.fml.client.GuiIdMismatchScreen;
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.ItemData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.Festivities;
-import eekysam.festivities.client.gui.GuiMismatch;
-import eekysam.festivities.client.gui.GuiOk;
-import eekysam.festivities.client.player.PlayerClientData;
-import eekysam.festivities.player.PlayerData;
-import eekysam.festivities.tile.TileEntitySnowglobe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.client.Minecraft;
@@ -40,6 +19,15 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import cpw.mods.fml.client.GuiIdMismatchScreen;
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.ItemData;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.Festivities;
+import eekysam.festivities.client.gui.GuiMismatch;
+import eekysam.festivities.client.player.PlayerClientData;
+import eekysam.festivities.player.PlayerData;
 
 public class EventHooks
 {
@@ -97,7 +85,7 @@ public class EventHooks
 			{
 				data.santaCooldown -= 5;
 			}
-			
+
 			data.testTimeOut(player.worldObj.getWorldTime());
 		}
 	}

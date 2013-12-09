@@ -2,9 +2,6 @@ package eekysam.festivities.item;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.Festivities;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import eekysam.festivities.Festivities;
 
 public class ItemGarland extends ItemFestive
 {
@@ -25,15 +25,17 @@ public class ItemGarland extends ItemFestive
 	{
 		super(par1);
 		this.spawnID = block.blockID;
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
+		this.setHasSubtypes(true);
+		this.setMaxDamage(0);
 	}
 
+	@Override
 	public String getItemDisplayName(ItemStack stack)
 	{
 		return "Garland";
 	}
-	
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * Gets an icon index based on an item's damage value
@@ -44,6 +46,7 @@ public class ItemGarland extends ItemFestive
 		return this.icons[j];
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	/**
 	 * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
@@ -56,6 +59,7 @@ public class ItemGarland extends ItemFestive
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
@@ -63,6 +67,7 @@ public class ItemGarland extends ItemFestive
 		this.icons[1] = par1IconRegister.registerIcon(Festivities.ID + ":garland" + "_" + "bell");
 	}
 
+	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
 		int atId = world.getBlockId(x, y, z);

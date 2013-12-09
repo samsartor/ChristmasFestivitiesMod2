@@ -15,19 +15,19 @@ public class PerlinTest extends Perlin
 	public long seed;
 	public int num;
 	public float mult;
-	
+
 	public Timer timer;
 	public int chunks = 0;
-	
+
 	public PerlinTest(long seed, int num, float mult)
 	{
 		this.seed = seed;
 		this.num = num;
 		this.mult = mult;
-		
+
 		this.timer = new Timer();
 	}
-	
+
 	@Override
 	public long getSeed()
 	{
@@ -50,39 +50,42 @@ public class PerlinTest extends Perlin
 	{
 		return this.num;
 	}
-	
+
 	public void saveImg(String file, int w, int h)
 	{
-	    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-	    float[] grid = this.getGrid(null, 100, 100, w, h);
-	    long nano = this.timer.end();
-	    System.out.printf("Made %d chunks in %.2fms%n", this.chunks, nano * 0.000001D);
-	    for (int i = 0; i < w; i++)
-	    {
-		    for (int j = 0; j < h; j++)
-		    {
-		    	float v = grid[i + j * w];
-		    	v /= 2;
-		    	if (v > 1.0F)
-		    	{
-		    		v = 1.0F;
-		    	}
-		    	if (v < 0.0F)
-		    	{
-		    		v = 0.0F;
-		    	}
-		    	Color c = new Color(v, v, v);
-		    	bi.setRGB(i, j, c.getRGB());
-		    }
-	    }
-		try 
+		BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		float[] grid = this.getGrid(null, 100, 100, w, h);
+		long nano = this.timer.end();
+		System.out.printf("Made %d chunks in %.2fms%n", this.chunks, nano * 0.000001D);
+		for (int i = 0; i < w; i++)
 		{
-		    File outputfile = new File(file);
-		    ImageIO.write(bi, "png", outputfile);
-		} 
-		catch (IOException e) {}
+			for (int j = 0; j < h; j++)
+			{
+				float v = grid[i + j * w];
+				v /= 2;
+				if (v > 1.0F)
+				{
+					v = 1.0F;
+				}
+				if (v < 0.0F)
+				{
+					v = 0.0F;
+				}
+				Color c = new Color(v, v, v);
+				bi.setRGB(i, j, c.getRGB());
+			}
+		}
+		try
+		{
+			File outputfile = new File(file);
+			ImageIO.write(bi, "png", outputfile);
+		}
+		catch (IOException e)
+		{
+		}
 	}
-	
+
+	@Override
 	public float[] getGrid(float[] array, int x, int y, int width, int height)
 	{
 		this.chunks = 0;

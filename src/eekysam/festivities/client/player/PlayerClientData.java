@@ -1,14 +1,11 @@
 package eekysam.festivities.client.player;
 
+import net.minecraft.nbt.NBTTagCompound;
 import eekysam.festivities.player.PlayerData;
 import eekysam.festivities.tile.TileEntitySnowglobe;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class PlayerClientData extends PlayerData
-{	
+{
 	public float getSnowgobePortal(long worldTime)
 	{
 		if (this.snowglobe)
@@ -21,18 +18,18 @@ public class PlayerClientData extends PlayerData
 			return 0.0F;
 		}
 	}
-	
+
 	@Override
 	public void saveNBTData(NBTTagCompound compound)
 	{
-		//super.saveNBTData(compound);
+		// super.saveNBTData(compound);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
 		super.loadNBTData(compound);
-		
+
 		this.snowgobePortalTime = compound.getInteger("snowglobePortal");
 	}
 }

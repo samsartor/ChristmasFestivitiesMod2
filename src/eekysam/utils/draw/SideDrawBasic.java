@@ -32,7 +32,7 @@ public class SideDrawBasic extends SideDraw
 				return;
 		}
 	}
-	
+
 	protected void XUp()
 	{
 		float u2;
@@ -78,7 +78,6 @@ public class SideDrawBasic extends SideDraw
 			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
 		}
 	}
-
 
 	protected void XDown()
 	{
@@ -263,7 +262,7 @@ public class SideDrawBasic extends SideDraw
 			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
 		}
 	}
-	
+
 	protected void ZDown()
 	{
 		float u2;

@@ -8,7 +8,7 @@ public class Timer
 	private long startTime;
 	private boolean timing = false;
 	private List<Long> laps = new ArrayList<Long>();
-	
+
 	public double getTotalmili()
 	{
 		if (this.timing)
@@ -18,7 +18,7 @@ public class Timer
 		}
 		return this.getTotalnano() * 0.000001D;
 	}
-	
+
 	public long[] getLaps()
 	{
 		if (this.timing)
@@ -33,7 +33,7 @@ public class Timer
 		}
 		return laps;
 	}
-	
+
 	public long getTotalnano()
 	{
 		if (this.timing)
@@ -48,7 +48,7 @@ public class Timer
 		}
 		return sum;
 	}
-	
+
 	public void start()
 	{
 		if (this.timing)
@@ -58,7 +58,7 @@ public class Timer
 		this.timing = true;
 		this.startTime = System.nanoTime();
 	}
-	
+
 	public void pause()
 	{
 		long t = System.nanoTime();
@@ -75,7 +75,7 @@ public class Timer
 		}
 		laps.add(time);
 	}
-	
+
 	public long end()
 	{
 		if (this.timing)
@@ -86,7 +86,7 @@ public class Timer
 		this.clear();
 		return nano;
 	}
-	
+
 	public void clear()
 	{
 		this.laps.clear();
