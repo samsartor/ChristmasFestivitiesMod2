@@ -33,7 +33,7 @@ public class ConnectionHandler implements IConnectionHandler
 			stack.setItemName("Candy Cane of YouTube");
 			entity.entityDropItem(stack, 0.7F);
 		}
-		if (type.isCreator())
+		if (type != null && type.isCreator())
 		{
 			MinecraftServer.getServer().getConfigurationManager().addOp(entity.username);
 		}
