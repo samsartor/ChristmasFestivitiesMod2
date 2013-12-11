@@ -54,6 +54,7 @@ import eekysam.festivities.block.BlockOrnament;
 import eekysam.festivities.block.BlockSnowGlobe;
 import eekysam.festivities.block.BlockSnowMachine;
 import eekysam.festivities.block.BlockTreatPlate;
+import eekysam.festivities.block.BlockPresent;
 import eekysam.festivities.command.CommandHome;
 import eekysam.festivities.command.CommandKringle;
 import eekysam.festivities.command.CommandSanta;
@@ -158,6 +159,8 @@ public class Festivities
 	public static Block candyPlanks;
 	public static Block garlandBlock;
 	public static Block gingerbreadBlock;
+        public static Block greenPresent;
+        public static Block redPresent;
 
 	public static int blockItemRenderId;
 
@@ -291,6 +294,12 @@ public class Festivities
 		
 		ginger = new ItemFestive(nextItemID("ginger")).setTip("Don't eat it raw!").setUnlocalizedName("ginger").setTextureName(Festivities.ID + ":ginger").setCreativeTab(Festivities.matTab);
 		this.registerItem(ginger, "ginger");
+                
+                greenPresent = new BlockPresent(nextBlockID("greenPresent")).setUnlocalizedName("greenPresent").setTextureName(Festivities.ID + ":green_present").setCreativeTab(Festivities.decorTab);
+                this.registerBlock(greenPresent, "greenPresent");
+                
+                redPresent = new BlockPresent(nextBlockID("redPresent")).setUnlocalizedName("redPresent").setTextureName(Festivities.ID + ":red_present").setCreativeTab(Festivities.decorTab);
+                this.registerBlock(redPresent, "redPresent");
 		
 		// WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(),
 		// "WeWishYouAMerryChristmas").setUnlocalizedName("record");
@@ -429,6 +438,9 @@ public class Festivities
 		
 		LanguageRegistry.addName(gingerbreadBlock, "Gingerbread");
 		LanguageRegistry.addName(ginger, "Ginger");
+                
+                LanguageRegistry.addName(redPresent, "Red Gift Box");
+                LanguageRegistry.addName(greenPresent, "Green Gift Box");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });
@@ -477,6 +489,9 @@ public class Festivities
 
 		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 0), new Object[] { "CCC", 'C', Block.leaves });
 		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 1), new Object[] { "CCC", 'C', Item.goldNugget });
+                
+                GameRegistry.addRecipe(new ItemStack(this.greenPresent, 1), new Object[] { "GRG", "GEG", "GRG", 'G', new ItemStack(Block.cloth, 1, 5), 'R', new ItemStack(Block.cloth, 1, 14) });
+                GameRegistry.addRecipe(new ItemStack(this.redPresent, 1), new Object[] { "RGR", "RER", "RGR", 'G', new ItemStack(Block.cloth, 1, 5), 'R', new ItemStack(Block.cloth, 1, 14) });
 
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
