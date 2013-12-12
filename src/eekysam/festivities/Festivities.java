@@ -50,6 +50,7 @@ import eekysam.festivities.block.BlockCandyLog;
 import eekysam.festivities.block.BlockFestive;
 import eekysam.festivities.block.BlockFireplace;
 import eekysam.festivities.block.BlockGarland;
+import eekysam.festivities.block.BlockMintPlant;
 import eekysam.festivities.block.BlockOrnament;
 import eekysam.festivities.block.BlockSnowGlobe;
 import eekysam.festivities.block.BlockSnowMachine;
@@ -67,6 +68,7 @@ import eekysam.festivities.item.ItemFestive;
 import eekysam.festivities.item.ItemFestiveBlock;
 import eekysam.festivities.item.ItemFoodFestive;
 import eekysam.festivities.item.ItemGarland;
+import eekysam.festivities.item.ItemMintPlant;
 import eekysam.festivities.item.ItemMoreCookies;
 import eekysam.festivities.item.ItemOrnament;
 import eekysam.festivities.kringle.WorldProviderKringle;
@@ -143,6 +145,8 @@ public class Festivities
 	public static Item peppermintStick;
 	public static Item garland;
 	public static Item ginger;
+	public static Item mintOil;
+	public static Item mintLeaf;
 	// public static Item WeWishYouAMerryChristmas;
 
 	public static Block candyLog;
@@ -159,8 +163,9 @@ public class Festivities
 	public static Block candyPlanks;
 	public static Block garlandBlock;
 	public static Block gingerbreadBlock;
-        public static Block greenPresent;
-        public static Block redPresent;
+	public static Block greenPresent;
+	public static Block redPresent;
+	public static Block mintPlant;
 
 	public static int blockItemRenderId;
 
@@ -288,19 +293,25 @@ public class Festivities
 
 		garland = new ItemGarland(nextItemID("garland"), garlandBlock).setTip("Hang it high!").setShiftTip("Right-Click to place").setUnlocalizedName("garland").setCreativeTab(Festivities.decorTab);
 		this.registerItem(garland, "garland");
-		
+
 		gingerbreadBlock = new BlockFestive(nextBlockID("gingerbreadBlock"), Material.wood).setTip("Perfect for a house!").setUnlocalizedName("gingerbreadBlock").setTextureName(Festivities.ID + ":gingerbreadBlock").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(gingerbreadBlock, "gingerbreadBlock");
-		
+
 		ginger = new ItemFestive(nextItemID("ginger")).setTip("Don't eat it raw!").setUnlocalizedName("ginger").setTextureName(Festivities.ID + ":ginger").setCreativeTab(Festivities.matTab);
 		this.registerItem(ginger, "ginger");
-                
-                greenPresent = new BlockPresent(nextBlockID("greenPresent")).setUnlocalizedName("greenPresent").setTextureName(Festivities.ID + ":green_present").setCreativeTab(Festivities.decorTab);
-                this.registerBlock(greenPresent, "greenPresent");
-                
-                redPresent = new BlockPresent(nextBlockID("redPresent")).setUnlocalizedName("redPresent").setTextureName(Festivities.ID + ":red_present").setCreativeTab(Festivities.decorTab);
-                this.registerBlock(redPresent, "redPresent");
+
+		greenPresent = new BlockPresent(nextBlockID("greenPresent")).setUnlocalizedName("greenPresent").setTextureName(Festivities.ID + ":green_present").setCreativeTab(Festivities.decorTab);
+		this.registerBlock(greenPresent, "greenPresent");
+
+		redPresent = new BlockPresent(nextBlockID("redPresent")).setUnlocalizedName("redPresent").setTextureName(Festivities.ID + ":red_present").setCreativeTab(Festivities.decorTab);
+		this.registerBlock(redPresent, "redPresent");
 		
+		mintLeaf = new ItemMintPlant(nextItemID("mintLeaf")).setUnlocalizedName("mintLeaf").setTextureName(Festivities.ID + ":mintLeaf").setCreativeTab(Festivities.miscTab);
+		this.registerItem(mintLeaf, "mintLeaf");
+		
+		mintPlant = new BlockMintPlant(nextBlockID("mintPlant")).setUnlocalizedName("mintPlant");
+		this.registerBlock(mintPlant, "mintPlant");
+
 		// WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(),
 		// "WeWishYouAMerryChristmas").setUnlocalizedName("record");
 		// GameRegistry.registerItem(WeWishYouAMerryChristmas,
@@ -435,12 +446,12 @@ public class Festivities
 		LanguageRegistry.addName(peppermintStick, "Peppermint Stick");
 
 		LanguageRegistry.addName(candyPlanks, "Candy Planks");
-		
+
 		LanguageRegistry.addName(gingerbreadBlock, "Gingerbread");
 		LanguageRegistry.addName(ginger, "Ginger");
-                
-                LanguageRegistry.addName(redPresent, "Red Gift Box");
-                LanguageRegistry.addName(greenPresent, "Green Gift Box");
+
+		LanguageRegistry.addName(redPresent, "Red Gift Box");
+		LanguageRegistry.addName(greenPresent, "Green Gift Box");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });
@@ -489,9 +500,9 @@ public class Festivities
 
 		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 0), new Object[] { "CCC", 'C', Block.leaves });
 		GameRegistry.addRecipe(new ItemStack(this.garland, 3, 1), new Object[] { "CCC", 'C', Item.goldNugget });
-                
-                GameRegistry.addRecipe(new ItemStack(this.greenPresent, 1), new Object[] { "GRG", "GEG", "GRG", 'G', new ItemStack(Block.cloth, 1, 5), 'R', new ItemStack(Block.cloth, 1, 14) });
-                GameRegistry.addRecipe(new ItemStack(this.redPresent, 1), new Object[] { "RGR", "RER", "RGR", 'G', new ItemStack(Block.cloth, 1, 5), 'R', new ItemStack(Block.cloth, 1, 14) });
+
+		GameRegistry.addRecipe(new ItemStack(this.greenPresent, 1), new Object[] { "GRG", "GEG", "GRG", 'G', new ItemStack(Block.cloth, 1, 5), 'R', new ItemStack(Block.cloth, 1, 14) });
+		GameRegistry.addRecipe(new ItemStack(this.redPresent, 1), new Object[] { "RGR", "RER", "RGR", 'G', new ItemStack(Block.cloth, 1, 5), 'R', new ItemStack(Block.cloth, 1, 14) });
 
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
