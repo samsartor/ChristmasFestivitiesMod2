@@ -309,7 +309,7 @@ public class Festivities
 		mintLeaf = new ItemMintPlant(nextItemID("mintLeaf")).setUnlocalizedName("mintLeaf").setTextureName(Festivities.ID + ":mintLeaf").setCreativeTab(Festivities.miscTab);
 		this.registerItem(mintLeaf, "mintLeaf");
 		
-		mintPlant = new BlockMintPlant(nextBlockID("mintPlant")).setUnlocalizedName("mintPlant");
+		mintPlant = new BlockMintPlant(nextBlockID("mintPlant")).setUnlocalizedName("mintPlant").setTextureName(Festivities.ID + ":mintPlant");
 		this.registerBlock(mintPlant, "mintPlant");
 
 		// WeWishYouAMerryChristmas = new ChristmasRecord(nextItemID(),

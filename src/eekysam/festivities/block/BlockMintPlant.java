@@ -8,18 +8,37 @@ import eekysam.festivities.Festivities;
 import eekysam.festivities.ITipItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.IconFlipped;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class BlockMintPlant extends Block implements ITipItem
 {
+	private Icon[] icons;
+
 	public BlockMintPlant(int par1)
 	{
 		super(par1, Material.plants);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister)
+	{
+		this.icons = new Icon[2];
+		this.icons[0] = par1IconRegister.registerIcon(this.getTextureName() + "_bot");
+		this.icons[1] = par1IconRegister.registerIcon(this.getTextureName() + "_top");
+	}
+
+	@SideOnly(Side.CLIENT)
+	public Icon getIcon(int side, int meta)
+	{
+		return this.icons[meta % 2];
 	}
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z)
@@ -49,22 +68,13 @@ public class BlockMintPlant extends Block implements ITipItem
 	{
 		if (!this.canBlockStay(world, x, y, z))
 		{
+			int meta = world.getBlockMetadata(x, y, z);
+			this.onPlantDestroy(world, x, y, z, meta);
+			if (meta == 0)
+			{
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Festivities.mintLeaf));				
+			}
 			world.setBlockToAir(x, y, z);
-			if (world.getBlockMetadata(x, y, z) == 0)
-			{
-				if (world.getBlockId(x, y + 1, z) == this.blockID)
-				{
-					world.setBlockToAir(x, y + 1, z);
-				}
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Festivities.mintLeaf));
-			}
-			else
-			{
-				if (world.getBlockId(x, y - 1, z) == this.blockID)
-				{
-					world.setBlockToAir(x, y - 1, z);
-				}
-			}
 		}
 	}
 
@@ -76,7 +86,6 @@ public class BlockMintPlant extends Block implements ITipItem
 			{
 				world.setBlockToAir(x, y + 1, z);
 			}
-			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Festivities.mintLeaf));
 		}
 		else
 		{
@@ -154,22 +163,6 @@ public class BlockMintPlant extends Block implements ITipItem
 
 	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player)
 	{
-		if (player.capabilities.isCreativeMode)
-		{
-			if (meta == 1 && world.getBlockId(x, y - 1, z) == this.blockID)
-			{
-				world.setBlockToAir(x, y - 1, z);
-				return;
-			}
-			if (meta == 0 && world.getBlockId(x, y + 1, z) == this.blockID)
-			{
-				world.setBlockToAir(x, y + 1, z);
-				return;
-			}
-		}
-		else
-		{
-			this.onPlantDestroy(world, x, y, z, meta);
-		}
+		this.onPlantDestroy(world, x, y, z, meta);
 	}
 }
