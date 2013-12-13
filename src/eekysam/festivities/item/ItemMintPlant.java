@@ -72,6 +72,9 @@ public class ItemMintPlant extends ItemFestive
 			{
 				world.setBlock(x, y, z, block.blockID, 0, 3);
 				world.setBlock(x, y + 1, z, block.blockID, 1, 3);
+				
+				--stack.stackSize;
+				
 				return true;
 			}
 		}

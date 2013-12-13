@@ -141,7 +141,7 @@ public class BlockMintPlant extends Block implements ITipItem
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
-		return null;
+		return new String[] { "Oops...", "Use the mint item", "This is a technical block" };
 	}
 
 	@Override

@@ -306,7 +306,7 @@ public class Festivities
 		redPresent = new BlockPresent(nextBlockID("redPresent")).setUnlocalizedName("redPresent").setTextureName(Festivities.ID + ":red_present").setCreativeTab(Festivities.decorTab);
 		this.registerBlock(redPresent, "redPresent");
 		
-		mintLeaf = new ItemMintPlant(nextItemID("mintLeaf")).setUnlocalizedName("mintLeaf").setTextureName(Festivities.ID + ":mintLeaf").setCreativeTab(Festivities.miscTab);
+		mintLeaf = new ItemMintPlant(nextItemID("mintLeaf")).setTip("Green and Minty!").setShiftTip("Right-Click to place").setUnlocalizedName("mintLeaf").setTextureName(Festivities.ID + ":mintLeaf").setCreativeTab(Festivities.miscTab);
 		this.registerItem(mintLeaf, "mintLeaf");
 		
 		mintPlant = new BlockMintPlant(nextBlockID("mintPlant")).setUnlocalizedName("mintPlant").setTextureName(Festivities.ID + ":mintPlant");
@@ -452,6 +452,8 @@ public class Festivities
 
 		LanguageRegistry.addName(redPresent, "Red Gift Box");
 		LanguageRegistry.addName(greenPresent, "Green Gift Box");
+		
+		LanguageRegistry.addName(mintLeaf, "Mint");
 
 		GameRegistry.addShapelessRecipe(new ItemStack(this.figgy, 1), new Object[] { this.holly, this.berries, this.berries, Item.sugar });
 		GameRegistry.addRecipe(new ItemStack(this.moreCookies, 8, 0), new Object[] { "#X#", 'X', Item.sugar, '#', Item.wheat });
