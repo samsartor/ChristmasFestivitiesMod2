@@ -99,8 +99,8 @@ public class Festivities
 	public static final String SANTAURL = "http://festivesanta.appspot.com/festivesanta";
 
 	public static final int MAJOR = 4;
-	public static final int MINOR = 1;
-	public static final int BUILD = 4;
+	public static final int MINOR = 2;
+	public static final int BUILD = 3;
 
 	public static final boolean DEBUG = false;
 
